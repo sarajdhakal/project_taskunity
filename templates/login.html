@@ -1,0 +1,103 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <title>Login | Task Unity</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta content="A fully featured admin theme which can be used to build CRM, CMS, etc." name="description" />
+    <meta content="coderthemes" name="author" />
+
+    <!-- App favicon -->
+     <link rel="shortcut icon" href="{% static 'assets/images/favicon.ico' %} " />
+
+    <!-- App css -->
+    <link href="{% static 'assets/css/app.min.css' %}" rel="stylesheet" type="text/css" />
+    <!-- Icons css -->
+    <link href="{% static 'assets/css/icons.min.css' %}" rel="stylesheet" type="text/css" />
+    <!-- Theme Config Js -->
+    <script src="{% static 'assets/js/config.js' %}"></script>
+</head>
+<body>
+    <div class="bg-gradient-to-r from-rose-100 to-teal-100 dark:from-gray-700 dark:via-gray-900 dark:to-black">
+        <!-- ============================================================== -->
+        <!-- Start Page Content here -->
+        <!-- ============================================================== -->
+
+        <div class="h-screen w-screen flex justify-center items-center">
+            <div class="2xl:w-1/4 lg:w-1/3 md:w-1/2 w-full">
+                <div class="card overflow-hidden sm:rounded-md rounded-none">
+                    <div class="p-6">
+                        <a href="/" class="block mb-8 flex justify-center items-center">
+                            <img class="h-12 block dark:hidden" src="{% static 'assets/images/2.png' %}" alt="" />
+                            <img class="h-12 hidden dark:block" src="{% static 'assets/images/3.png' %}" alt="" />
+                        </a>
+                    {% for message in messages %}
+                        {{ message }}
+                    {% endfor %}
+                            
+                    
+                        {% if form.errors %}
+                            <div class="bg-red-100 text-red-700 p-2 rounded">
+                                <ul>
+                                     {{ form.errors }}
+                                </ul>
+                            </div>
+                        {% endif %}
+
+                        <form action=" " method="POST">
+                            {% csrf_token %}
+                            <div class="mb-4">
+                                <label class="block text-sm font-medium text-gray-600 dark:text-gray-200 mb-2" for="LoggingEmailAddress">Username</label>
+                                {{ form.username }}
+                                {% if form.username.errors %}
+                                    <div class="text-red-600 text-sm">
+                                        {% for error in form.username.errors %}
+                                            <p>{{ error }}</p>
+                                        {% endfor %}
+                                    </div>
+                                {% endif %}
+                            </div>
+
+                            <div class="mb-4">
+                                <label class="block text-sm font-medium text-gray-600 dark:text-gray-200 mb-2" for="loggingPassword">Password</label>
+                                {{ form.password }}
+                                {% if form.password.errors %}
+                                    <div class="text-red-600 text-sm">
+                                        {% for error in form.password.errors %}
+                                            <p>{{ error }}</p>
+                                        {% endfor %}
+                                    </div>
+                                {% endif %}
+                            </div>
+
+                            <div class="flex items-center justify-between mb-4">
+                  <div class="flex items-center"></div>
+                  <a href="/forgot" class="text-sm text-primary border-b border-dashed border-primary">Forget Password ?</a>
+                </div>
+
+                            <div class="flex justify-center mb-6">
+                                <button type="submit" class="btn w-full text-white bg-primary">Log In</button>
+                            </div>
+                        </form>
+
+                        <div class="flex items-center my-6">
+                            <div class="flex-auto mt-px border-t border-dashed border-gray-200 dark:border-slate-700"></div>
+                            <div class="mx-4 text-secondary">Or</div>
+                            <div class="flex-auto mt-px border-t border-dashed border-gray-200 dark:border-slate-700"></div>
+                        </div>
+
+                        <p class="text-gray-500 dark:text-gray-400 text-center">
+                            Don't have an account?<a href="/signup" class="text-primary ms-1"><b>Register</b></a>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- ============================================================== -->
+    <!-- End Page content -->
+    <!-- ============================================================== -->
+</body>
+</html>
