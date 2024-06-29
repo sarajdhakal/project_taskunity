@@ -1,352 +1,498 @@
 {% extends 'base.html' %}
 {% load static %}
 {% block title %}
-  Kanban | Task Unity
+    Kanban | Task Unity
 {% endblock %}
 
 {% block content %}
-  <main class="flex-grow p-6">
-    <!-- Page Title Start -->
-    <div class="flex justify-between items-center mb-6">
-      <h4 class="text-slate-900 dark:text-slate-200 text-lg font-medium">Kanban</h4>
+    <main class="flex-grow p-6">
+        <!-- Page Title Start -->
+        <div class="flex justify-between items-center mb-6">
+            <h4 class="text-slate-900 dark:text-slate-200 text-lg font-medium">Kanban</h4>
 
-      <div class="md:flex hidden items-center gap-2.5 text-sm font-semibold">
-        <div class="flex items-center gap-2">
-          <a href="/" class="text-sm font-medium text-slate-700 dark:text-slate-400">Task Unity</a>
+            <div class="md:flex hidden items-center gap-2.5 text-sm font-semibold">
+                <div class="flex items-center gap-2">
+                    <a href="/" class="text-sm font-medium text-slate-700 dark:text-slate-400">Task Unity</a>
+                </div>
+
+                <div class="flex items-center gap-2">
+                    <i class="mgc_right_line text-lg flex-shrink-0 text-slate-400 rtl:rotate-180"></i>
+                    <a href="/" class="text-sm font-medium text-slate-700 dark:text-slate-400">Apps</a>
+                </div>
+
+                <div class="flex items-center gap-2">
+                    <i class="mgc_right_line text-lg flex-shrink-0 text-slate-400 rtl:rotate-180"></i>
+                    <a href="kanban" class="text-sm font-medium text-slate-700 dark:text-slate-400" aria-current="page">Kanban</a>
+                </div>
+            </div>
         </div>
+        {% for message in messages %}
+            {{ message }}
+        {% endfor %}
+    
+        <!-- Page Title End -->
 
-        <div class="flex items-center gap-2">
-          <i class="mgc_right_line text-lg flex-shrink-0 text-slate-400 rtl:rotate-180"></i>
-          <a href="#" class="text-sm font-medium text-slate-700 dark:text-slate-400">Apps</a>
+        <div class="grid h-full w-full">
+            <div class="overflow-hidden text-gray-700 dark:text-slate-400">
+                <div class="flex overflow-x-auto custom-scroll gap-6 pb-4">
+
+                    <div class="flex flex-col flex-shrink-0 w-72 border rounded-md overflow-hidden border-gray-200 dark:border-gray-700">
+                        <div class="flex items-center flex-shrink-0 h-10 p-4 bg-white dark:bg-slate-800">
+                            <span class="block text-sm font-semibold uppercase">In progress ({{ inprogress_issues|length }})</span>
+                        </div>
+                        <div class="flex flex-col gap-4 overflow-auto p-4 h-[calc(100vh-300px)] kanban-board custom-scroll"
+                             id="kanbanborad-two">
+                            {% for issue in inprogress_issues %}
+                                <div class="card p-4 cursor-pointer">
+                                    <div class="flex justify-between items-center">
+                                        <h4 class="flex justify-between items-center h-6 px-3 text-xs font-semibold text-danger bg-danger/25 rounded-full">
+                                            {{ issue.title }}</h4>
+                                        <div class="text-xs">{{ issue.date_created }}</div>
+                                    </div>
+
+                                    <h4 class="mt-3 text-sm">{{ issue.description }}</h4>
+                                    <div class="flex items-center w-full mt-3 text-xs font-medium text-gray-400">
+                                        <div class="flex items-center">
+                                            <i class="mgc_chat_3_line text-base"></i>
+                                            <span class="ms-1 leading-none">12</span>
+                                        </div>
+                                        <div class="flex items-center ms-4">
+                                            <i class="mgc_attachment_line rotate-45 text-base"></i>
+                                            <span class="ms-1 leading-none">12</span>
+                                        </div>
+                                        <img class="w-6 h-6 ms-auto rounded-full"
+                                             src="{% static 'assets/images/users/avatar-8.jpg' %}"/>
+                                    </div>
+                                </div>
+                            {% empty %}
+                                <!-- Handle case where there are no issues -->
+                                <p>No issues found for this status.</p>
+
+                            {% endfor %}
+                            <div id="app" class="w-full max-w-xs relative">
+                                <!-- Button -->
+                                <button id="createButtonInProgress" onclick="showForm('InProgress')"
+                                        class="btn border-secondary text-secondary hover:bg-secondary hover:text-white">
+                                    Create an Issue
+                                </button>
+
+                                <!-- Form (hidden by default) -->
+                                <form id="issueFormInProgress"
+                                      class="hidden bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4 absolute top-0 left-0 w-full"
+                                      method="post">
+                                    {% csrf_token %}
+                                    <div class="mb-4">
+                                        <label class="block text-gray-700 text-sm font-bold mb-2"
+                                               for="id_title_inprogress">
+                                            Issue Title
+                                        </label>
+                                        {{ forms.inprogress.title }}
+                                    </div>
+                                    <div class="mb-6">
+                                        <label class="block text-gray-700 text-sm font-bold mb-2"
+                                               for="id_description_inprogress">
+                                            Issue Description
+                                        </label>
+                                        {{ forms.inprogress.description }}
+                                    </div>
+                                    <div class="flex items-center justify-between mb-4">
+                                        <button class="btn bg-success/25 text-success hover:bg-success hover:text-white"
+                                                type="submit">
+                                            Submit
+                                        </button>
+                                        <button type="button" onclick="hideForm('InProgress')">Cancel</button>
+                                    </div>
+                                </form>
+                            </div>
+
+
+                        </div>
+                    </div>
+
+                    <div class="flex flex-col flex-shrink-0 w-72 border rounded-md overflow-hidden border-gray-200 dark:border-gray-700">
+                        <div class="flex items-center flex-shrink-0 h-10 p-4 bg-white dark:bg-slate-800">
+                            <span class="block text-sm font-semibold uppercase">Todo ({{ todo_issues|length }})</span>
+                        </div>
+                        <div class="flex flex-col gap-4 overflow-auto p-4 h-[calc(100vh-300px)] kanban-board custom-scroll"
+                             id="kanbanborad-one">
+
+                            {% for issue in todo_issues %}
+                                <div class="card p-4 cursor-pointer">
+                                    <div class="flex justify-between items-center">
+                                        <h4 class="flex justify-between items-center h-6 px-3 text-xs font-semibold text-info bg-info/25 rounded-full">{{ issue.title }}</h4>
+
+                                        <div class="text-xs">{{ issue.date_created }}</div>
+                                    </div>
+
+                                    <h4 class="mt-3 text-sm">{{ issue.description }}</h4>
+                                    <div class="flex items-center w-full mt-3 text-xs font-medium text-gray-400">
+                                        <div class="flex items-center">
+                                            <i class="mgc_chat_3_line text-base"></i>
+                                            <span class="ms-1 leading-none">6</span>
+                                        </div>
+                                        <div class="flex items-center ms-4">
+                                            <i class="mgc_attachment_line rotate-45 text-base"></i>
+                                            <span class="ms-1 leading-none">7</span>
+                                        </div>
+                                        <img class="w-6 h-6 ms-auto rounded-full"
+                                             src="{% static 'assets/images/users/avatar-4.jpg' %}"/>
+                                    </div>
+                                </div>
+                            {% empty %}
+                                <!-- Handle case where there are no issues -->
+                                <p>No issues found for this status.</p>
+                            {% endfor %}
+
+                            <div id="app" class="w-full max-w-xs relative">
+                                <!-- Button -->
+                                <button id="createButtonTodo" onclick="showForm('Todo')"
+                                        class="btn border-secondary text-secondary hover:bg-secondary hover:text-white">
+                                    Create an Issue
+                                </button>
+
+                                <!-- Form (hidden by default) -->
+                                <form id="issueFormTodo"
+                                      class="hidden bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4 absolute top-0 left-0 w-full"
+                                      method="post">
+                                    {% csrf_token %}
+                                    <div class="mb-4">
+                                        <label class="block text-gray-700 text-sm font-bold mb-2" for="id_title_todo">
+                                            Issue Title
+                                        </label>
+                                        {{ forms.todo.title }}
+                                    </div>
+                                    <div class="mb-6">
+                                        <label class="block text-gray-700 text-sm font-bold mb-2"
+                                               for="id_description_todo">
+                                            Issue Description
+                                        </label>
+                                        {{ forms.todo.description }}
+                                    </div>
+                                    <div class="flex items-center justify-between">
+                                        <button class="btn bg-success/25 text-success hover:bg-success hover:text-white"
+                                                type="submit">
+                                            Submit
+                                        </button>
+                                        <button type="button" onclick="hideForm('Todo')">Cancel</button>
+                                    </div>
+                                </form>
+                            </div>
+
+
+                        </div>
+                    </div>
+
+                    <div class="flex flex-col flex-shrink-0 w-72 border rounded-md overflow-hidden border-gray-200 dark:border-gray-700">
+                        <div class="flex items-center flex-shrink-0 h-10 p-4 bg-white dark:bg-slate-800">
+                            <span class="block text-sm font-semibold uppercase">Review ({{ review_issues|length }})</span>
+                        </div>
+                        <div class="flex flex-col gap-4 overflow-auto p-4 h-[calc(100vh-300px)] kanban-board custom-scroll"
+                             id="kanbanborad-three">
+
+                            {% for issue in review_issues %}
+                                <div class="card p-4 cursor-pointer">
+                                    <div class="flex justify-between items-center">
+                                        <h4 class="flex justify-between items-center h-6 px-3 text-xs font-semibold text-success bg-success/25 rounded-full">{{ issue.title }}</h4>
+
+                                        <div class="text-xs">{{ issue.date_created }}</div>
+                                    </div>
+
+                                    <h4 class="mt-3 text-sm">{{ issue.description }}</h4>
+                                    <div class="flex items-center w-full mt-3 text-xs font-medium text-gray-400">
+                                        <div class="flex items-center">
+                                            <i class="mgc_chat_3_line text-base"></i>
+                                            <span class="ms-1 leading-none">46</span>
+                                        </div>
+                                        <div class="flex items-center ms-4">
+                                            <i class="mgc_attachment_line rotate-45 text-base"></i>
+                                            <span class="ms-1 leading-none">17</span>
+                                        </div>
+                                        <img class="w-6 h-6 ms-auto rounded-full"
+                                             src="{% static 'assets/images/users/avatar-3.jpg' %}"/>
+                                    </div>
+                                </div>
+                            {% empty %}
+                                <!-- Handle case where there are no issues -->
+                                <p>No issues found for this status.</p>
+                            {% endfor %}
+
+
+                            <div id="app" class="w-full max-w-xs relative">
+                                <!-- Button -->
+                                <button id="createButtonReview" onclick="showForm('Review')"
+                                        class="btn border-secondary text-secondary hover:bg-secondary hover:text-white">
+                                    Create an Issue
+                                </button>
+
+                                <!-- Form (hidden by default) -->
+                                <form id="issueFormReview"
+                                      class="hidden bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4 absolute top-0 left-0 w-full"
+                                      method="post">
+                                    {% csrf_token %}
+                                    <div class="mb-4">
+                                        <label class="block text-gray-700 text-sm font-bold mb-2" for="id_title_review">
+                                            Issue Title
+                                        </label>
+                                        {{ forms.review.title }}
+                                    </div>
+                                    <div class="mb-6">
+                                        <label class="block text-gray-700 text-sm font-bold mb-2"
+                                               for="id_description_review">
+                                            Issue Description
+                                        </label>
+                                        {{ forms.review.description }}
+                                    </div>
+                                    <div class="flex items-center justify-between">
+                                        <button class="btn bg-success/25 text-success hover:bg-success hover:text-white"
+                                                type="submit">
+                                            Submit
+                                        </button>
+                                        <button type="button" onclick="hideForm('Review')">Cancel</button>
+                                    </div>
+                                </form>
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <div class="flex flex-col flex-shrink-0 w-72 border rounded-md overflow-hidden border-gray-200 dark:border-gray-700">
+                        <div class="flex items-center flex-shrink-0 h-10 p-4 bg-white dark:bg-slate-800">
+                            <span class="block text-sm font-semibold uppercase">Done ({{ done_issues|length }})</span>
+                        </div>
+                        <div class="flex flex-col gap-4 overflow-auto p-4 h-[calc(100vh-300px)] kanban-board custom-scroll"
+                             id="kanbanborad-four">
+                            {% for issue in done_issues %}
+                                <div class="card p-4 cursor-pointer">
+                                    <div class="flex justify-between items-center">
+                                        <h4 class="flex justify-between items-center h-6 px-3 text-xs font-semibold text-sky-500 bg-sky-500/25 rounded-full">
+                                            {{ issue.title }}</h4>
+
+                                        <div class="text-xs">{{ issue.date_created }}</div>
+                                    </div>
+
+                                    <h4 class="mt-3 text-sm">{{ issue.description }}</h4>
+                                    <div class="flex items-center w-full mt-3 text-xs font-medium text-gray-400">
+                                        <div class="flex items-center">
+                                            <i class="mgc_chat_3_line text-base"></i>
+                                            <span class="ms-1 leading-none">34</span>
+                                        </div>
+                                        <div class="flex items-center ms-4">
+                                            <i class="mgc_attachment_line rotate-45 text-base"></i>
+                                            <span class="ms-1 leading-none">16</span>
+                                        </div>
+                                        <img class="w-6 h-6 ms-auto rounded-full"
+                                             src="{% static 'assets/images/users/avatar-6.jpg' %}"/>
+                                    </div>
+                                </div>
+                            {% empty %}
+                                <!-- Handle case where there are no issues -->
+                                <p>No issues found for this status.</p>
+                            {% endfor %}
+
+                            <div id="app" class="w-full max-w-xs relative">
+                                <!-- Button -->
+                                <button id="createButtonDone" onclick="showForm('Done')"
+                                        class="btn border-secondary text-secondary hover:bg-secondary hover:text-white">
+                                    Create an Issue
+                                </button>
+
+                                <!-- Form (hidden by default) -->
+                                <form id="issueFormDone"
+                                      class="hidden bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4 absolute top-0 left-0 w-full"
+                                      method="post">
+                                    {% csrf_token %}
+                                    <div class="mb-4">
+                                        <label class="block text-gray-700 text-sm font-bold mb-2" for="id_title_done">
+                                            Issue Title
+                                        </label>
+                                        {{ forms.done.title }}
+                                    </div>
+                                    <div class="mb-6">
+                                        <label class="block text-gray-700 text-sm font-bold mb-2"
+                                               for="id_description_done">
+                                            Issue Description
+                                        </label>
+                                        {{ forms.done.description }}
+                                    </div>
+                                    <div class="flex items-center justify-between">
+                                        <button class="btn bg-success/25 text-success hover:bg-success hover:text-white"
+                                                type="submit">
+                                            Submit
+                                        </button>
+                                        <button type="button" onclick="hideForm('Done')">Cancel</button>
+                                    </div>
+                                </form>
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <div class="flex flex-col flex-shrink-0 w-72 border rounded-md overflow-hidden border-gray-200 dark:border-gray-700">
+                        <div class="flex items-center flex-shrink-0 h-10 p-4 bg-white dark:bg-slate-800">
+                            <span class="block text-sm font-semibold uppercase">Unassigned ({{ unassigned_issues|length }})</span>
+                        </div>
+                        <div class="flex flex-col gap-4 overflow-auto p-4 h-[calc(100vh-300px)] kanban-board custom-scroll"
+                             id="kanbanborad-five">
+                            {% for issue in unassigned_issues %}
+                                <div class="card p-4 cursor-pointer">
+                                    <div class="flex justify-between items-center">
+                                        <h4 class="flex justify-between items-center h-6 px-3 text-xs font-semibold text-success bg-success/25 rounded-full">
+                                            {{ issue.title }}</h4>
+
+                                        <div class="text-xs">{{ issue.date_created }}</div>
+                                    </div>
+
+                                    <h4 class="mt-3 text-sm">{{ issue.description }}</h4>
+                                    <div class="flex items-center w-full mt-3 text-xs font-medium text-gray-400">
+                                        <div class="flex items-center">
+                                            <i class="mgc_chat_3_line text-base"></i>
+                                            <span class="ms-1 leading-none">14</span>
+                                        </div>
+                                        <div class="flex items-center ms-4">
+                                            <i class="mgc_attachment_line rotate-45 text-base"></i>
+                                            <span class="ms-1 leading-none">5</span>
+                                        </div>
+                                        <img class="w-6 h-6 ms-auto rounded-full"
+                                             src="{% static 'assets/images/users/avatar-2.jpg' %}"/>
+                                    </div>
+                                </div>
+                            {% empty %}
+                                <p>No issues found for this status.</p>
+                            {% endfor %}
+                            <div id="app" class="w-full max-w-xs relative">
+                                <!-- Button -->
+                                <button id="createButtonUnassigned" onclick="showForm('Unassigned')"
+                                        class="btn border-secondary text-secondary hover:bg-secondary hover:text-white">
+                                    Create an Issue
+                                </button>
+
+                                <!-- Form (hidden by default) -->
+                                <form id="issueFormUnassigned"
+                                      class="hidden bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4 absolute top-0 left-0 w-full"
+                                      method="post">
+                                    {% csrf_token %}
+                                    <div class="mb-4">
+                                        <label class="block text-gray-700 text-sm font-bold mb-2"
+                                               for="id_title_unassigned">
+                                            Issue Title
+                                        </label>
+                                        {{ forms.unassigned.title }}
+                                    </div>
+                                    <div class="mb-6">
+                                        <label class="block text-gray-700 text-sm font-bold mb-2"
+                                               for="id_description_unassigned">
+                                            Issue Description
+                                        </label>
+                                        {{ forms.unassigned.description }}
+                                    </div>
+                                    <div class="flex items-center justify-between">
+                                        <button class="btn bg-success/25 text-success hover:bg-success hover:text-white"
+                                                type="submit">
+                                            Submit
+                                        </button>
+                                        <button type="button" onclick="hideForm('Unassigned')">Cancel</button>
+                                    </div>
+                                </form>
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <div class="flex flex-col flex-shrink-0 w-72 border rounded-md overflow-hidden border-gray-200 dark:border-gray-700">
+                        <div class="flex items-center flex-shrink-0 h-10 p-4 bg-white dark:bg-slate-800">
+                            <span class="block text-sm font-semibold uppercase">New ({{ new_issues|length }})</span>
+                        </div>
+                        <div class="flex flex-col gap-4 overflow-auto p-4 h-[calc(100vh-300px)] kanban-board custom-scroll"
+                             id="kanbanborad-six">
+                            {% for issue in new_issues %}
+                                <div class="card p-4 cursor-pointer">
+                                    <div class="flex justify-between items-center">
+                                        <h4 class="flex justify-between items-center h-6 px-3 text-xs font-semibold text-pink-500 bg-pink-500/25 rounded-full">{{ issue.title }}</h4>
+
+                                        <div class="text-xs">{{ issue.date_created }}</div>
+                                    </div>
+
+                                    <h4 class="mt-3 text-sm">{{ issue.description }}</h4>
+                                    <div class="flex items-center w-full mt-3 text-xs font-medium text-gray-400">
+                                        <div class="flex items-center">
+                                            <i class="mgc_chat_3_line text-base"></i>
+                                            <span class="ms-1 leading-none">14</span>
+                                        </div>
+                                        <div class="flex items-center ms-4">
+                                            <i class="mgc_attachment_line rotate-45 text-base"></i>
+                                            <span class="ms-1 leading-none">5</span>
+                                        </div>
+                                        <img class="w-6 h-6 ms-auto rounded-full"
+                                             src="{% static 'assets/images/users/avatar-4.jpg' %}"/>
+                                    </div>
+                                </div>
+                            {% empty %}
+                                <p>No issues found for this status.</p>
+                            {% endfor %}
+                            <div id="app" class="w-full max-w-xs relative">
+                                <!-- Button -->
+                                <button id="createButtonNew" onclick="showForm('New')"
+                                        class="btn border-secondary text-secondary hover:bg-secondary hover:text-white">
+                                    Create an Issue
+                                </button>
+
+                                <!-- Form (hidden by default) -->
+                                <form id="issueFormNew"
+                                      class="hidden bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4 absolute top-0 left-0 w-full"
+                                      method="post">
+                                    {% csrf_token %}
+                                    <div class="mb-4">
+                                        <label class="block text-gray-700 text-sm font-bold mb-2" for="id_title_new">
+                                            Issue Title
+                                        </label>
+                                        {{ forms.new.title }}
+                                    </div>
+                                    <div class="mb-6">
+                                        <label class="block text-gray-700 text-sm font-bold mb-2"
+                                               for="id_description_new">
+                                            Issue Description
+                                        </label>
+                                        {{ forms.new.description }}
+                                    </div>
+                                    <div class="flex items-center justify-between">
+                                        <button class="btn bg-success/25 text-success hover:bg-success hover:text-white"
+                                                type="submit">
+                                            Submit
+                                        </button>
+                                        <button type="button" onclick="hideForm('New')">Cancel</button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
         </div>
+    </main>
+    <script>
+        function showForm(column) {
+            document.getElementById('createButton' + column).style.display = 'none';
+            document.getElementById('issueForm' + column).classList.remove('hidden');
+            document.addEventListener('click', function (event) {
+                handleClickOutsideForm(event, column);
+            });
+        }
 
-        <div class="flex items-center gap-2">
-          <i class="mgc_right_line text-lg flex-shrink-0 text-slate-400 rtl:rotate-180"></i>
-          <a href="#" class="text-sm font-medium text-slate-700 dark:text-slate-400" aria-current="page">Kanban</a>
-        </div>
-      </div>
-    </div>
-      Choose Project if many
-    <!-- Page Title End -->
+        function hideForm(column) {
+            document.getElementById('createButton' + column).style.display = 'block';
+            document.getElementById('issueForm' + column).classList.add('hidden');
+            document.removeEventListener('click', function (event) {
+                handleClickOutsideForm(event, column);
+            });
+        }
 
-    <div class="grid h-full w-full">
-      <div class="overflow-hidden text-gray-700 dark:text-slate-400">
-        <div class="flex overflow-x-auto custom-scroll gap-6 pb-4">
-          <div class="flex flex-col flex-shrink-0 w-72 border rounded-md overflow-hidden border-gray-200 dark:border-gray-700">
-            <div class="flex items-center flex-shrink-0 h-10 p-4 bg-white dark:bg-slate-800">
-              <span class="block text-sm font-semibold uppercase">In progress (6)</span>
-            </div>
-            <div class="flex flex-col gap-4 overflow-auto p-4 h-[calc(100vh-300px)] kanban-board custom-scroll" id="kanbanborad-two">
-              <div class="card p-4 cursor-pointer">
-                <div class="flex justify-between items-center">
-                  <h4 class="flex justify-between items-center h-6 px-3 text-xs font-semibold text-danger bg-danger/25 rounded-full">Design</h4>
-                  <div class="text-xs">13 Jul 2023</div>
-                </div>
-
-                <h4 class="mt-3 text-sm">iOS App home page</h4>
-                <div class="flex items-center w-full mt-3 text-xs font-medium text-gray-400">
-                  <div class="flex items-center">
-                    <i class="mgc_chat_3_line text-base"></i>
-                    <span class="ms-1 leading-none">12</span>
-                  </div>
-                  <div class="flex items-center ms-4">
-                    <i class="mgc_attachment_line rotate-45 text-base"></i>
-                    <span class="ms-1 leading-none">12</span>
-                  </div>
-                  <img class="w-6 h-6 ms-auto rounded-full" src="{% static 'assets/images/users/avatar-8.jpg' %}" />
-                </div>
-              </div>
-
-              <div class="card p-4 cursor-pointer">
-                <div class="flex justify-between items-center">
-                  <h4 class="flex justify-between items-center h-6 px-3 text-xs font-semibold text-gray-400 bg-gray-400/25 rounded-full">Web</h4>
-
-                  <div class="text-xs">15 Jul 2023</div>
-                </div>
-
-                <h4 class="mt-3 text-sm">Topnav layout design</h4>
-                <div class="flex items-center w-full mt-3 text-xs font-medium text-gray-400">
-                  <div class="flex items-center">
-                    <i class="mgc_chat_3_line text-base"></i>
-                    <span class="ms-1 leading-none">4</span>
-                  </div>
-                  <div class="flex items-center ms-4">
-                    <i class="mgc_attachment_line rotate-45 text-base"></i>
-                    <span class="ms-1 leading-none">1</span>
-                  </div>
-                  <img class="w-6 h-6 ms-auto rounded-full" src="{% static 'assets/images/users/avatar-4.jpg' %}" />
-                </div>
-              </div>
-
-              <div class="card p-4 cursor-pointer">
-                <div class="flex justify-between items-center">
-                  <h4 class="flex justify-between items-center h-6 px-3 text-xs font-semibold text-success bg-success/25 rounded-full">Backend</h4>
-
-                  <div class="text-xs">12 Jul 2023</div>
-                </div>
-
-                <h4 class="mt-3 text-sm">Invite user to a project</h4>
-                <div class="flex items-center w-full mt-3 text-xs font-medium text-gray-400">
-                  <div class="flex items-center">
-                    <i class="mgc_chat_3_line text-base"></i>
-                    <span class="ms-1 leading-none">8</span>
-                  </div>
-                  <div class="flex items-center ms-4">
-                    <i class="mgc_attachment_line rotate-45 text-base"></i>
-                    <span class="ms-1 leading-none">6</span>
-                  </div>
-                  <img class="w-6 h-6 ms-auto rounded-full" src="{% static 'assets/images/users/avatar-2.jpg' %}" />
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <div class="flex flex-col flex-shrink-0 w-72 border rounded-md overflow-hidden border-gray-200 dark:border-gray-700">
-            <div class="flex items-center flex-shrink-0 h-10 p-4 bg-white dark:bg-slate-800">
-              <span class="block text-sm font-semibold uppercase">Todo (6)</span>
-            </div>
-            <div class="flex flex-col gap-4 overflow-auto p-4 h-[calc(100vh-300px)] kanban-board custom-scroll" id="kanbanborad-one">
-              <div class="card p-4 cursor-pointer">
-                <div class="flex justify-between items-center">
-                  <h4 class="flex justify-between items-center h-6 px-3 text-xs font-semibold text-info bg-info/25 rounded-full">Product</h4>
-
-                  <div class="text-xs">14 Jul 2023</div>
-                </div>
-
-                <h4 class="mt-3 text-sm">Write a release note</h4>
-                <div class="flex items-center w-full mt-3 text-xs font-medium text-gray-400">
-                  <div class="flex items-center">
-                    <i class="mgc_chat_3_line text-base"></i>
-                    <span class="ms-1 leading-none">6</span>
-                  </div>
-                  <div class="flex items-center ms-4">
-                    <i class="mgc_attachment_line rotate-45 text-base"></i>
-                    <span class="ms-1 leading-none">7</span>
-                  </div>
-                  <img class="w-6 h-6 ms-auto rounded-full" src="{% static 'assets/images/users/avatar-4.jpg' %}" />
-                </div>
-              </div>
-
-              <div class="card p-4 cursor-pointer">
-                <div class="flex justify-between items-center">
-                  <h4 class="flex justify-between items-center h-6 px-3 text-xs font-semibold text-cyan-500 bg-cyan-500/25 rounded-full">Checking</h4>
-
-                  <div class="text-xs">18 Jul 2023</div>
-                </div>
-
-                <h4 class="mt-3 text-sm">Create a Graph of Sketch</h4>
-                <div class="flex items-center w-full mt-3 text-xs font-medium text-gray-400">
-                  <div class="flex items-center">
-                    <i class="mgc_chat_3_line text-base"></i>
-                    <span class="ms-1 leading-none">8</span>
-                  </div>
-                  <div class="flex items-center ms-4">
-                    <i class="mgc_attachment_line rotate-45 text-base"></i>
-                    <span class="ms-1 leading-none">10</span>
-                  </div>
-                  <img class="w-6 h-6 ms-auto rounded-full" src="{% static 'assets/images/users/avatar-5.jpg' %}" />
-                </div>
-              </div>
-
-              <div class="card p-4 cursor-pointer">
-                <div class="flex justify-between items-center">
-                  <h4 class="flex justify-between items-center h-6 px-3 text-xs font-semibold text-warning bg-warning/25 rounded-full">Shopify</h4>
-
-                  <div class="text-xs">15 Jul 2023</div>
-                </div>
-
-                <h4 class="mt-3 text-sm">Enable analytics tracking</h4>
-                <div class="flex items-center w-full mt-3 text-xs font-medium text-gray-400">
-                  <div class="flex items-center">
-                    <i class="mgc_chat_3_line text-base"></i>
-                    <span class="ms-1 leading-none">5</span>
-                  </div>
-                  <div class="flex items-center ms-4">
-                    <i class="mgc_attachment_line rotate-45 text-base"></i>
-                    <span class="ms-1 leading-none">14</span>
-                  </div>
-                  <img class="w-6 h-6 ms-auto rounded-full" src="{% static 'assets/images/users/avatar-7.jpg' %}" />
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <div class="flex flex-col flex-shrink-0 w-72 border rounded-md overflow-hidden border-gray-200 dark:border-gray-700">
-            <div class="flex items-center flex-shrink-0 h-10 p-4 bg-white dark:bg-slate-800">
-              <span class="block text-sm font-semibold uppercase">Review (6)</span>
-            </div>
-            <div class="flex flex-col gap-4 overflow-auto p-4 h-[calc(100vh-300px)] kanban-board custom-scroll" id="kanbanborad-three">
-              <div class="card p-4 cursor-pointer">
-                <div class="flex justify-between items-center">
-                  <h4 class="flex justify-between items-center h-6 px-3 text-xs font-semibold text-success bg-success/25 rounded-full">Wordpress</h4>
-
-                  <div class="text-xs">14 Jul 2023</div>
-                </div>
-
-                <h4 class="mt-3 text-sm">Kanban board design</h4>
-                <div class="flex items-center w-full mt-3 text-xs font-medium text-gray-400">
-                  <div class="flex items-center">
-                    <i class="mgc_chat_3_line text-base"></i>
-                    <span class="ms-1 leading-none">46</span>
-                  </div>
-                  <div class="flex items-center ms-4">
-                    <i class="mgc_attachment_line rotate-45 text-base"></i>
-                    <span class="ms-1 leading-none">17</span>
-                  </div>
-                  <img class="w-6 h-6 ms-auto rounded-full" src="{% static 'assets/images/users/avatar-3.jpg' %}" />
-                </div>
-              </div>
-
-              <div class="card p-4 cursor-pointer">
-                <div class="flex justify-between items-center">
-                  <h4 class="flex justify-between items-center h-6 px-3 text-xs font-semibold text-danger bg-danger/25 rounded-full">Design</h4>
-
-                  <div class="text-xs">15 Jul 2023</div>
-                </div>
-
-                <h4 class="mt-3 text-sm">Code HTML email template</h4>
-                <div class="flex items-center w-full mt-3 text-xs font-medium text-gray-400">
-                  <div class="flex items-center">
-                    <i class="mgc_chat_3_line text-base"></i>
-                    <span class="ms-1 leading-none">24</span>
-                  </div>
-                  <div class="flex items-center ms-4">
-                    <i class="mgc_attachment_line rotate-45 text-base"></i>
-                    <span class="ms-1 leading-none">15</span>
-                  </div>
-                  <img class="w-6 h-6 ms-auto rounded-full" src="{% static 'assets/images/users/avatar-4.jpg' %}" />
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <div class="flex flex-col flex-shrink-0 w-72 border rounded-md overflow-hidden border-gray-200 dark:border-gray-700">
-            <div class="flex items-center flex-shrink-0 h-10 p-4 bg-white dark:bg-slate-800">
-              <span class="block text-sm font-semibold uppercase">Done (1)</span>
-            </div>
-            <div class="flex flex-col gap-4 overflow-auto p-4 h-[calc(100vh-300px)] kanban-board custom-scroll" id="kanbanborad-four">
-              <div class="card p-4 cursor-pointer">
-                <div class="flex justify-between items-center">
-                  <h4 class="flex justify-between items-center h-6 px-3 text-xs font-semibold text-sky-500 bg-sky-500/25 rounded-full">App</h4>
-
-                  <div class="text-xs">16 Jul 2023</div>
-                </div>
-
-                <h4 class="mt-3 text-sm">Brand logo design</h4>
-                <div class="flex items-center w-full mt-3 text-xs font-medium text-gray-400">
-                  <div class="flex items-center">
-                    <i class="mgc_chat_3_line text-base"></i>
-                    <span class="ms-1 leading-none">34</span>
-                  </div>
-                  <div class="flex items-center ms-4">
-                    <i class="mgc_attachment_line rotate-45 text-base"></i>
-                    <span class="ms-1 leading-none">16</span>
-                  </div>
-                  <img class="w-6 h-6 ms-auto rounded-full" src="{% static 'assets/images/users/avatar-6.jpg' %}" />
-                </div>
-              </div>
-
-              <div class="card p-4 cursor-pointer">
-                <div class="flex justify-between items-center">
-                  <h4 class="flex justify-between items-center h-6 px-3 text-xs font-semibold text-danger bg-danger/25 rounded-full">Design</h4>
-
-                  <div class="text-xs">15 Jul 2023</div>
-                </div>
-
-                <h4 class="mt-3 text-sm">Improve animation loader</h4>
-                <div class="flex items-center w-full mt-3 text-xs font-medium text-gray-400">
-                  <div class="flex items-center">
-                    <i class="mgc_chat_3_line text-base"></i>
-                    <span class="ms-1 leading-none">2</span>
-                  </div>
-                  <div class="flex items-center ms-4">
-                    <i class="mgc_attachment_line rotate-45 text-base"></i>
-                    <span class="ms-1 leading-none">15</span>
-                  </div>
-                  <img class="w-6 h-6 ms-auto rounded-full" src="{% static 'assets/images/users/avatar-9.jpg' %}" />
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <div class="flex flex-col flex-shrink-0 w-72 border rounded-md overflow-hidden border-gray-200 dark:border-gray-700">
-            <div class="flex items-center flex-shrink-0 h-10 p-4 bg-white dark:bg-slate-800">
-              <span class="block text-sm font-semibold uppercase">Unassigned (1)</span>
-            </div>
-            <div class="flex flex-col gap-4 overflow-auto p-4 h-[calc(100vh-300px)] kanban-board custom-scroll" id="kanbanborad-five">
-              <div class="card p-4 cursor-pointer">
-                <div class="flex justify-between items-center">
-                  <h4 class="flex justify-between items-center h-6 px-3 text-xs font-semibold text-success bg-success/25 rounded-full">Web</h4>
-
-                  <div class="text-xs">16 Jul 2023</div>
-                </div>
-
-                <h4 class="mt-3 text-sm">Dashboard design</h4>
-                <div class="flex items-center w-full mt-3 text-xs font-medium text-gray-400">
-                  <div class="flex items-center">
-                    <i class="mgc_chat_3_line text-base"></i>
-                    <span class="ms-1 leading-none">14</span>
-                  </div>
-                  <div class="flex items-center ms-4">
-                    <i class="mgc_attachment_line rotate-45 text-base"></i>
-                    <span class="ms-1 leading-none">5</span>
-                  </div>
-                  <img class="w-6 h-6 ms-auto rounded-full" src="{% static 'assets/images/users/avatar-2.jpg' %}" />
-                </div>
-              </div>
-
-              <div class="card p-4 cursor-pointer">
-                <div class="flex justify-between items-center">
-                  <h4 class="flex justify-between items-center h-6 px-3 text-xs font-semibold text-amber-500 bg-amber-500/25 rounded-full">Testing</h4>
-
-                  <div class="text-xs">17 Jul 2023</div>
-                </div>
-
-                <h4 class="mt-3 text-sm">Banner Design for FB & Twitter</h4>
-                <div class="flex items-center w-full mt-3 text-xs font-medium text-gray-400">
-                  <div class="flex items-center">
-                    <i class="mgc_chat_3_line text-base"></i>
-                    <span class="ms-1 leading-none">9</span>
-                  </div>
-                  <div class="flex items-center ms-4">
-                    <i class="mgc_attachment_line rotate-45 text-base"></i>
-                    <span class="ms-1 leading-none">41</span>
-                  </div>
-                  <img class="w-6 h-6 ms-auto rounded-full" src="{% static 'assets/images/users/avatar-7.jpg' %}" />
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <div class="flex flex-col flex-shrink-0 w-72 border rounded-md overflow-hidden border-gray-200 dark:border-gray-700">
-            <div class="flex items-center flex-shrink-0 h-10 p-4 bg-white dark:bg-slate-800">
-              <span class="block text-sm font-semibold uppercase">New (1)</span>
-            </div>
-            <div class="flex flex-col gap-4 overflow-auto p-4 h-[calc(100vh-300px)] kanban-board custom-scroll" id="kanbanborad-six">
-              <div class="card p-4 cursor-pointer">
-                <div class="flex justify-between items-center">
-                  <h4 class="flex justify-between items-center h-6 px-3 text-xs font-semibold text-pink-500 bg-pink-500/25 rounded-full">Q&A</h4>
-
-                  <div class="text-xs">17 Jul 2023</div>
-                </div>
-
-                <h4 class="mt-3 text-sm">Create a Blog Template UI</h4>
-                <div class="flex items-center w-full mt-3 text-xs font-medium text-gray-400">
-                  <div class="flex items-center">
-                    <i class="mgc_chat_3_line text-base"></i>
-                    <span class="ms-1 leading-none">14</span>
-                  </div>
-                  <div class="flex items-center ms-4">
-                    <i class="mgc_attachment_line rotate-45 text-base"></i>
-                    <span class="ms-1 leading-none">5</span>
-                  </div>
-                  <img class="w-6 h-6 ms-auto rounded-full" src="{% static 'assets/images/users/avatar-4.jpg' %}" />
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </main>
+        function handleClickOutsideForm(event, column) {
+            const form = document.getElementById('issueForm' + column);
+            const button = document.getElementById('createButton' + column);
+            if (!form.contains(event.target) && event.target !== button) {
+                hideForm(column);
+            }
+        }
+    </script>
 {% endblock %}

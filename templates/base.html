@@ -1,333 +1,357 @@
 {% load static %}
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="utf-8" />
+<head>
+    <meta charset="utf-8"/>
     <title>{% block title %} {% endblock %}</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta content="A fully featured admin theme which can be used to build CRM, CMS, etc." name="description" />
-    <meta content="coderthemes" name="author" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <meta content="A fully featured admin theme which can be used to build CRM, CMS, etc." name="description"/>
+    <meta content="coderthemes" name="author"/>
 
     <!-- App favicon -->
-    <link rel="shortcut icon" href="{% static 'assets/images/favicon.ico' %} " />
-        
-   <!-- Dropzone Plugin Css -->
+    <link rel="shortcut icon" href="{% static 'assets/images/favicon.ico' %} "/>
+
+    <!-- Dropzone Plugin Css -->
     <link href="{% static 'assets/libs/dropzone/min/dropzone.min.css' %}" rel="stylesheet" type="text/css">
-    
-      <!-- App css -->
-    <link href="{% static 'assets/css/app.min.css' %}" rel="stylesheet" type="text/css" />
+
+    <!-- App css -->
+    <link href="{% static 'assets/css/app.min.css' %}" rel="stylesheet" type="text/css"/>
 
     <!-- Icons css -->
-    <link href="{% static 'assets/css/icons.min.css' %}" rel="stylesheet" type="text/css" />
+    <link href="{% static 'assets/css/icons.min.css' %}" rel="stylesheet" type="text/css"/>
 
     <!-- Theme Config Js -->
     <script src="{% static 'assets/js/config.js' %}"></script>
-  </head>
 
-  <body>
-    <div class="flex wrapper">
-      <!-- Sidenav Menu -->
-      <div class="app-menu">
+
+</head>
+
+<body>
+<div class="flex wrapper">
+    <!-- Sidenav Menu -->
+    <div class="app-menu">
         <!-- Sidenav Brand Logo -->
         <a href="/" class="logo-box">
-          <!-- Light Brand Logo -->
-          <div class="logo-light">
-            <img src="{% static 'assets/images/1.png' %}" class="logo-lg h-10" alt="Light logo" />
-            <img src="{% static 'assets/images/3.png' %}" class="logo-sm" alt="Small logo" />
-          </div>
-
-          <!-- Dark Brand Logo -->
-          <div class="logo-dark">
-            <img src="{% static 'assets/images/2.png' %}" class="logo-lg h-10" alt="Dark logo" />
-            <img src="{% static 'assets/images/3.png' %}" class="logo-sm" alt="Small logo" />
-          </div>
-        </a>
-
-        <!-- Sidenav Menu Toggle Button -->
-        <button id="button-hover-toggle" class="absolute top-5 end-2 rounded-full p-1.5">
-          <span class="sr-only">Menu Toggle Button</span>
-          <i class="mgc_round_line text-xl"></i>
-        </button>
-
-        <!-- - Menu -->
-        <div class="srcollbar" data-simplebar>
-          <ul class="menu" data-fc-type="accordion">
-            <li class="menu-title">Menu</li>
-
-            <li class="menu-item">
-              <a href="/" class="menu-link">
-                <span class="menu-icon"><i class="mgc_home_3_line"></i></span>
-                <span class="menu-text">Dashboard</span>
-              </a>
-            </li>
-
-            <li class="menu-title">Apps</li>
-
-            <li class="menu-item">
-              <a href="apps-tickets.html" class="menu-link">
-                <span class="menu-icon"><i class="mgc_coupon_line"></i></span>
-                <span class="menu-text">Tickets</span>
-              </a>
-            </li>
-
-            <li class="menu-item">
-              <a href="/kanban" class="menu-link">
-                <span class="menu-icon"><i class="mgc_task_2_line"></i></span>
-                <span class="menu-text">Kanban</span>
-              </a>
-            </li>
-
-            <li class="menu-item">
-              <a href="javascript:void(0)" data-fc-type="collapse" class="menu-link">
-                <span class="menu-icon"><i class="mgc_building_2_line"></i></span>
-                <span class="menu-text">Project</span>
-                <span class="menu-arrow"></span>
-              </a>
-
-              <ul class="sub-menu hidden">
-                <li class="menu-item">
-                  <a href="/project_list" class="menu-link"><span class="menu-text">List</span></a>
-                </li>
-                <li class="menu-item">
-                  <a href="/project_details" class="menu-link"><span class="menu-text">Detail</span></a>
-                </li>
-                <li class="menu-item">
-                  <a href="/project_create" class="menu-link"><span class="menu-text">Create</span></a>
-                </li>
-              </ul>
-            </li>
-            <li class="menu-item">
-              <a href="javascript:void(0)" data-fc-type="collapse" class="menu-link">
-                <span class="menu-icon"><i class="mgc_user_3_line"></i></span>
-                <span class="menu-text">Auth Pages</span>
-                <span class="menu-arrow"></span>
-              </a>
-              <ul class="sub-menu hidden">
-                {% if not request.user %}
-                  <li class="menu-item">
-                    <a href="/login" class="menu-link"><span class="menu-text">Log In</span></a>
-                  </li>
-                  <li class="menu-item">
-                    <a href="/signup" class="menu-link"><span class="menu-text">Register</span></a>
-                  </li>
-                {% else %}
-                  <li class="menu-item">
-                    <a href="/logout" class="menu-link"><span class="menu-text">Logout</span></a>
-                  </li>
-                  <li class="menu-item">
-                    <a href="auth-recoverpw.html" class="menu-link"><span class="menu-text">Recover Password</span></a>
-                  </li>
-                  <li class="menu-item">
-                    <a href="auth-lock-screen.html" class="menu-link"><span class="menu-text">Lock Screen</span></a>
-                  </li>
-                {% endif %}
-              </ul>
-            </li>
-
-            <li class="menu-item">
-              <a href="javascript:void(0)" data-fc-type="collapse" class="menu-link">
-                <span class="menu-icon"><i class="mgc_layout_grid_line"></i></span>
-                <span class="menu-text">Tables</span>
-                <span class="menu-arrow"></span>
-              </a>
-
-              <ul class="sub-menu hidden">
-                <li class="menu-item">
-                  <a href="/tables-basic" class="menu-link"><span class="menu-text">Basic Tables</span></a>
-                </li>
-                <li class="menu-item">
-                  <a href="tables-datatables.html" class="menu-link"><span class="menu-text">Data Tables</span></a>
-                </li>
-              </ul>
-            </li>
-          </ul>
-        </div>
-      </div>
-
-      <!-- Sidenav Menu End -->
-
-      <!-- ============================================================== -->
-      <!-- Start Page Content here -->
-      <!-- ============================================================== -->
-
-      <div class="page-content">
-        <!-- Topbar Start -->
-        <header class="app-header flex items-center px-4 gap-3">
-          <!-- Sidenav Menu Toggle Button -->
-          <button id="button-toggle-menu" class="nav-link p-2">
-            <span class="sr-only">Menu Toggle Button</span>
-            <span class="flex items-center justify-center h-6 w-6"><i class="mgc_menu_line text-xl"></i></span>
-          </button>
-
-          <!-- Topbar Brand Logo -->
-          <a href="index.html" class="logo-box">
             <!-- Light Brand Logo -->
             <div class="logo-light">
-              <img src="{% static 'assets/images/TaskUnity.jpg' %}" class="logo-lg h-6" alt="Light logo" />
-              <img src="{% static 'assets/images/TU.jpg' %}" class="logo-sm" alt="Small logo" />
+                <img src="{% static 'assets/images/1.png' %}" class="logo-lg h-10" alt="Light logo"/>
+                <img src="{% static 'assets/images/3.png' %}" class="logo-sm" alt="Small logo"/>
             </div>
 
             <!-- Dark Brand Logo -->
             <div class="logo-dark">
-              <img src="{% static 'assets/images/logo-dark.png' %}" class="logo-lg h-6" alt="Dark logo" />
-              <img src="{% static 'assets/images/logo-sm.png' %}" class="logo-sm" alt="Small logo" />
+                <img src="{% static 'assets/images/2.png' %}" class="logo-lg h-10" alt="Dark logo"/>
+                <img src="{% static 'assets/images/3.png' %}" class="logo-sm" alt="Small logo"/>
             </div>
-          </a>
+        </a>
 
-          <!-- Topbar Search Modal Button -->
-          <button type="" class="nav-link me-auto"></button>
+        <!-- Sidenav Menu Toggle Button -->
+        <button id="button-hover-toggle" class="absolute top-5 end-2 rounded-full p-1.5">
+            <span class="sr-only">Menu Toggle Button</span>
+            <i class="mgc_round_line text-xl"></i>
+        </button>
 
-          <!-- Notification Bell Button -->
-          <div class="relative md:flex hidden">
-            <button data-fc-type="dropdown" data-fc-placement="bottom-end" type="button" class="nav-link p-2">
-              <span class="sr-only">View notifications</span>
-              <span class="flex items-center justify-center h-6 w-6"><i class="mgc_notification_line text-2xl"></i></span>
+        <!-- - Menu -->
+        <div class="srcollbar" data-simplebar>
+            <ul class="menu" data-fc-type="accordion">
+                <li class="menu-title">Menu</li>
+
+                <li class="menu-item">
+                    <a href="/" class="menu-link">
+                        <span class="menu-icon"><i class="mgc_home_3_line"></i></span>
+                        <span class="menu-text">Dashboard</span>
+                    </a>
+                </li>
+
+                <li class="menu-title">Apps</li>
+
+                <li class="menu-item">
+                    <a href="apps-tickets.html" class="menu-link">
+                        <span class="menu-icon"><i class="mgc_coupon_line"></i></span>
+                        <span class="menu-text">Tickets</span>
+                    </a>
+                </li>
+
+                <li class="menu-item">
+                    <a href="/kanban" class="menu-link">
+                        <span class="menu-icon"><i class="mgc_task_2_line"></i></span>
+                        <span class="menu-text">Kanban</span>
+                    </a>
+                </li>
+
+                <li class="menu-item">
+                    <a href="javascript:void(0)" data-fc-type="collapse" class="menu-link">
+                        <span class="menu-icon"><i class="mgc_building_2_line"></i></span>
+                        <span class="menu-text">Project</span>
+                        <span class="menu-arrow"></span>
+                    </a>
+
+                    <ul class="sub-menu hidden">
+                        <li class="menu-item">
+                            <a href="/project_list" class="menu-link"><span class="menu-text">List</span></a>
+                        </li>
+                        <li class="menu-item">
+                            <a href="/project_details" class="menu-link"><span class="menu-text">Detail</span></a>
+                        </li>
+                        <li class="menu-item">
+                            <a href="/project_create" class="menu-link"><span class="menu-text">Create</span></a>
+                        </li>
+                    </ul>
+                </li>
+                <li class="menu-item">
+                    <a href="javascript:void(0)" data-fc-type="collapse" class="menu-link">
+                        <span class="menu-icon"><i class="mgc_user_3_line"></i></span>
+                        <span class="menu-text">Auth Pages</span>
+                        <span class="menu-arrow"></span>
+                    </a>
+                    <ul class="sub-menu hidden">
+                        {% if not request.user %}
+                            <li class="menu-item">
+                                <a href="/login" class="menu-link"><span class="menu-text">Log In</span></a>
+                            </li>
+                            <li class="menu-item">
+                                <a href="/signup" class="menu-link"><span class="menu-text">Register</span></a>
+                            </li>
+                        {% else %}
+                            <li class="menu-item">
+                                <a href="/logout" class="menu-link"><span class="menu-text">Logout</span></a>
+                            </li>
+                            <li class="menu-item">
+                                <a href="auth-recoverpw.html" class="menu-link"><span
+                                        class="menu-text">Recover Password</span></a>
+                            </li>
+                            <li class="menu-item">
+                                <a href="auth-lock-screen.html" class="menu-link"><span
+                                        class="menu-text">Lock Screen</span></a>
+                            </li>
+                        {% endif %}
+                    </ul>
+                </li>
+
+                <li class="menu-item">
+                    <a href="javascript:void(0)" data-fc-type="collapse" class="menu-link">
+                        <span class="menu-icon"><i class="mgc_layout_grid_line"></i></span>
+                        <span class="menu-text">Tables</span>
+                        <span class="menu-arrow"></span>
+                    </a>
+
+                    <ul class="sub-menu hidden">
+                        <li class="menu-item">
+                            <a href="/tables-basic" class="menu-link"><span class="menu-text">Basic Tables</span></a>
+                        </li>
+                        <li class="menu-item">
+                            <a href="tables-datatables.html" class="menu-link"><span
+                                    class="menu-text">Data Tables</span></a>
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- Sidenav Menu End -->
+
+    <!-- ============================================================== -->
+    <!-- Start Page Content here -->
+    <!-- ============================================================== -->
+
+    <div class="page-content">
+        <!-- Topbar Start -->
+        <header class="app-header flex items-center px-4 gap-3">
+            <!-- Sidenav Menu Toggle Button -->
+            <button id="button-toggle-menu" class="nav-link p-2">
+                <span class="sr-only">Menu Toggle Button</span>
+                <span class="flex items-center justify-center h-6 w-6"><i class="mgc_menu_line text-xl"></i></span>
             </button>
-            <div class="fc-dropdown fc-dropdown-open:opacity-100 hidden opacity-0 w-80 z-50 mt-2 transition-[margin,opacity] duration-300 bg-white dark:bg-gray-800 shadow-lg border border-gray-200 dark:border-gray-700 rounded-lg">
-              <div class="p-2 border-b border-dashed border-gray-200 dark:border-gray-700">
-                <div class="flex items-center justify-between">
-                  <h6 class="text-sm">Notification</h6>
-                  <a href="javascript: void(0);" class="text-gray-500 underline"><small>Clear All</small></a>
+
+            <!-- Topbar Brand Logo -->
+            <a href="index.html" class="logo-box">
+                <!-- Light Brand Logo -->
+                <div class="logo-light">
+                    <img src="{% static 'assets/images/TaskUnity.jpg' %}" class="logo-lg h-6" alt="Light logo"/>
+                    <img src="{% static 'assets/images/TU.jpg' %}" class="logo-sm" alt="Small logo"/>
                 </div>
-              </div>
 
-              <div class="p-4 h-80" data-simplebar>
-                <h5 class="text-xs text-gray-500 mb-2">Today</h5>
+                <!-- Dark Brand Logo -->
+                <div class="logo-dark">
+                    <img src="{% static 'assets/images/logo-dark.png' %}" class="logo-lg h-6" alt="Dark logo"/>
+                    <img src="{% static 'assets/images/logo-sm.png' %}" class="logo-sm" alt="Small logo"/>
+                </div>
+            </a>
 
-                <a href="javascript:void(0);" class="block mb-4">
-                  <div class="card-body">
-                    <div class="flex items-center">
-                      <div class="flex-shrink-0">
-                        <div class="flex justify-center items-center h-9 w-9 rounded-full bg text-white bg-primary">
-                          <i class="mgc_message_3_line text-lg"></i>
+            <!-- Topbar Search Modal Button -->
+            <button type="" class="nav-link me-auto"></button>
+
+            <!-- Notification Bell Button -->
+            <div class="relative md:flex hidden">
+                <button data-fc-type="dropdown" data-fc-placement="bottom-end" type="button" class="nav-link p-2">
+                    <span class="sr-only">View notifications</span>
+                    <span class="flex items-center justify-center h-6 w-6"><i
+                            class="mgc_notification_line text-2xl"></i></span>
+                </button>
+                <div class="fc-dropdown fc-dropdown-open:opacity-100 hidden opacity-0 w-80 z-50 mt-2 transition-[margin,opacity] duration-300 bg-white dark:bg-gray-800 shadow-lg border border-gray-200 dark:border-gray-700 rounded-lg">
+                    <div class="p-2 border-b border-dashed border-gray-200 dark:border-gray-700">
+                        <div class="flex items-center justify-between">
+                            <h6 class="text-sm">Notification</h6>
+                            <a href="javascript: void(0);" class="text-gray-500 underline"><small>Clear All</small></a>
                         </div>
-                      </div>
-                      <div class="flex-grow truncate ms-2">
-                        <h5 class="text-sm font-semibold mb-1">Datacorp <small class="font-normal text-gray-500 ms-1">1 min ago</small></h5>
-                        <small class="noti-item-subtitle text-muted">Caleb Flakelar commented on Admin</small>
-                      </div>
                     </div>
-                  </div>
-                </a>
 
-                <a href="javascript:void(0);" class="block mb-4">
-                  <div class="card-body">
-                    <div class="flex items-center">
-                      <div class="flex-shrink-0">
-                        <div class="flex justify-center items-center h-9 w-9 rounded-full bg-info text-white">
-                          <i class="mgc_user_add_line text-lg"></i>
-                        </div>
-                      </div>
-                      <div class="flex-grow truncate ms-2">
-                        <h5 class="text-sm font-semibold mb-1">Admin <small class="font-normal text-gray-500 ms-1">1 hr ago</small></h5>
-                        <small class="noti-item-subtitle text-muted">New user registered</small>
-                      </div>
+                    <div class="p-4 h-80" data-simplebar>
+                        <h5 class="text-xs text-gray-500 mb-2">Today</h5>
+
+                        <a href="javascript:void(0);" class="block mb-4">
+                            <div class="card-body">
+                                <div class="flex items-center">
+                                    <div class="flex-shrink-0">
+                                        <div class="flex justify-center items-center h-9 w-9 rounded-full bg text-white bg-primary">
+                                            <i class="mgc_message_3_line text-lg"></i>
+                                        </div>
+                                    </div>
+                                    <div class="flex-grow truncate ms-2">
+                                        <h5 class="text-sm font-semibold mb-1">Datacorp <small
+                                                class="font-normal text-gray-500 ms-1">1 min ago</small></h5>
+                                        <small class="noti-item-subtitle text-muted">Caleb Flakelar commented on
+                                            Admin</small>
+                                    </div>
+                                </div>
+                            </div>
+                        </a>
+
+                        <a href="javascript:void(0);" class="block mb-4">
+                            <div class="card-body">
+                                <div class="flex items-center">
+                                    <div class="flex-shrink-0">
+                                        <div class="flex justify-center items-center h-9 w-9 rounded-full bg-info text-white">
+                                            <i class="mgc_user_add_line text-lg"></i>
+                                        </div>
+                                    </div>
+                                    <div class="flex-grow truncate ms-2">
+                                        <h5 class="text-sm font-semibold mb-1">Admin <small
+                                                class="font-normal text-gray-500 ms-1">1 hr ago</small></h5>
+                                        <small class="noti-item-subtitle text-muted">New user registered</small>
+                                    </div>
+                                </div>
+                            </div>
+                        </a>
+
+                        <a href="javascript:void(0);" class="block mb-4">
+                            <div class="card-body">
+                                <div class="flex items-center">
+                                    <div class="flex-shrink-0">
+                                        <img src="{% static 'assets/images/users/avatar-2.jpg' %}"
+                                             class="rounded-full h-9 w-9" alt=""/>
+                                    </div>
+                                    <div class="flex-grow truncate ms-2">
+                                        <h5 class="text-sm font-semibold mb-1">Cristina Pride <small
+                                                class="font-normal text-gray-500 ms-1">1 day ago</small></h5>
+                                        <small class="noti-item-subtitle text-muted">Hi, How are you? What about our
+                                            next meeting</small>
+                                    </div>
+                                </div>
+                            </div>
+                        </a>
+
+                        <h5 class="text-xs text-gray-500 mb-2">Yesterday</h5>
+
+                        <a href="javascript:void(0);" class="block mb-4">
+                            <div class="card-body">
+                                <div class="flex items-center">
+                                    <div class="flex-shrink-0">
+                                        <div class="flex justify-center items-center h-9 w-9 rounded-full bg-primary text-white">
+                                            <i class="mgc_message_1_line text-lg"></i>
+                                        </div>
+                                    </div>
+                                    <div class="flex-grow truncate ms-2">
+                                        <h5 class="text-sm font-semibold mb-1">Datacorp</h5>
+                                        <small class="noti-item-subtitle text-muted">Caleb Flakelar commented on
+                                            Admin</small>
+                                    </div>
+                                </div>
+                            </div>
+                        </a>
+
+                        <a href="javascript:void(0);" class="block">
+                            <div class="card-body">
+                                <div class="flex items-center">
+                                    <div class="flex-shrink-0">
+                                        <img src="{% static 'assets/images/users/avatar-4.jpg' %}"
+                                             class="rounded-full h-9 w-9" alt=""/>
+                                    </div>
+                                    <div class="flex-grow truncate ms-2">
+                                        <h5 class="text-sm font-semibold mb-1">Karen Robinson</h5>
+                                        <small class="noti-item-subtitle text-muted">Wow ! this admin looks good and
+                                            awesome design</small>
+                                    </div>
+                                </div>
+                            </div>
+                        </a>
                     </div>
-                  </div>
-                </a>
 
-                <a href="javascript:void(0);" class="block mb-4">
-                  <div class="card-body">
-                    <div class="flex items-center">
-                      <div class="flex-shrink-0">
-                        <img src="{% static 'assets/images/users/avatar-2.jpg' %}" class="rounded-full h-9 w-9" alt="" />
-                      </div>
-                      <div class="flex-grow truncate ms-2">
-                        <h5 class="text-sm font-semibold mb-1">Cristina Pride <small class="font-normal text-gray-500 ms-1">1 day ago</small></h5>
-                        <small class="noti-item-subtitle text-muted">Hi, How are you? What about our next meeting</small>
-                      </div>
-                    </div>
-                  </div>
-                </a>
-
-                <h5 class="text-xs text-gray-500 mb-2">Yesterday</h5>
-
-                <a href="javascript:void(0);" class="block mb-4">
-                  <div class="card-body">
-                    <div class="flex items-center">
-                      <div class="flex-shrink-0">
-                        <div class="flex justify-center items-center h-9 w-9 rounded-full bg-primary text-white">
-                          <i class="mgc_message_1_line text-lg"></i>
-                        </div>
-                      </div>
-                      <div class="flex-grow truncate ms-2">
-                        <h5 class="text-sm font-semibold mb-1">Datacorp</h5>
-                        <small class="noti-item-subtitle text-muted">Caleb Flakelar commented on Admin</small>
-                      </div>
-                    </div>
-                  </div>
-                </a>
-
-                <a href="javascript:void(0);" class="block">
-                  <div class="card-body">
-                    <div class="flex items-center">
-                      <div class="flex-shrink-0">
-                        <img src="{% static 'assets/images/users/avatar-4.jpg' %}" class="rounded-full h-9 w-9" alt="" />
-                      </div>
-                      <div class="flex-grow truncate ms-2">
-                        <h5 class="text-sm font-semibold mb-1">Karen Robinson</h5>
-                        <small class="noti-item-subtitle text-muted">Wow ! this admin looks good and awesome design</small>
-                      </div>
-                    </div>
-                  </div>
-                </a>
-              </div>
-
-              <a href="javascript:void(0);" class="p-2 border-t border-dashed border-gray-200 dark:border-gray-700 block text-center text-primary underline font-semibold">View All</a>
+                    <a href="javascript:void(0);"
+                       class="p-2 border-t border-dashed border-gray-200 dark:border-gray-700 block text-center text-primary underline font-semibold">View
+                        All</a>
+                </div>
             </div>
-          </div>
 
-          <!-- Light/Dark Toggle Button -->
+            <!-- Light/Dark Toggle Button -->
             <div class="flex">
-                    <button id="light-dark-mode" type="button" class="nav-link p-2">
-                        <span class="sr-only">Light/Dark Mode</span>
-                        <span class="flex items-center justify-center h-6 w-6">
+                <button id="light-dark-mode" type="button" class="nav-link p-2">
+                    <span class="sr-only">Light/Dark Mode</span>
+                    <span class="flex items-center justify-center h-6 w-6">
                             <i class="mgc_moon_line text-2xl"></i>
                         </span>
-                    </button>
-                </div>
-
-          <!-- Profile Dropdown Button -->
-          <div class="relative">
-            <button data-fc-type="dropdown" data-fc-placement="bottom-end" type="button" class="nav-link"><img src="{% static 'assets/images/users/saraj.jpg' %}" alt="user-image" class="rounded-full h-10" /></button>
-            <div class="fc-dropdown fc-dropdown-open:opacity-100 hidden opacity-0 w-44 z-50 transition-[margin,opacity] duration-300 mt-2 bg-white shadow-lg border rounded-lg p-2 border-gray-200 dark:border-gray-700 dark:bg-gray-800">
-              <a class="flex items-center py-2 px-3 rounded-md text-sm text-gray-800 hover:bg-gray-100 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-gray-300" href="pages-gallery.html">
-                <i class="mgc_pic_2_line me-2"></i>
-                <span>Gallery</span>
-              </a>
-              <a class="flex items-center py-2 px-3 rounded-md text-sm text-gray-800 hover:bg-gray-100 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-gray-300" href="/kanban">
-                <i class="mgc_task_2_line me-2"></i>
-                <span>Kanban</span>
-              </a>
-              <hr class="my-2 -mx-2 border-gray-200 dark:border-gray-700" />
-              <a class="flex items-center py-2 px-3 rounded-md text-sm text-gray-800 hover:bg-gray-100 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-gray-300" href="/logout">
-                <i class="mgc_exit_line me-2"></i>
-                <span>Log Out</span>
-              </a>
+                </button>
             </div>
-          </div>
+
+            <!-- Profile Dropdown Button -->
+            <div class="relative">
+                <button data-fc-type="dropdown" data-fc-placement="bottom-end" type="button" class="nav-link"><img
+                        src="{% static 'assets/images/users/saraj.jpg' %}" alt="user-image" class="rounded-full h-10"/>
+                </button>
+                <div class="fc-dropdown fc-dropdown-open:opacity-100 hidden opacity-0 w-44 z-50 transition-[margin,opacity] duration-300 mt-2 bg-white shadow-lg border rounded-lg p-2 border-gray-200 dark:border-gray-700 dark:bg-gray-800">
+                    <a class="flex items-center py-2 px-3 rounded-md text-sm text-gray-800 hover:bg-gray-100 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-gray-300"
+                       href="pages-gallery.html">
+                        <i class="mgc_pic_2_line me-2"></i>
+                        <span>Gallery</span>
+                    </a>
+                    <a class="flex items-center py-2 px-3 rounded-md text-sm text-gray-800 hover:bg-gray-100 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-gray-300"
+                       href="/kanban">
+                        <i class="mgc_task_2_line me-2"></i>
+                        <span>Kanban</span>
+                    </a>
+                    <hr class="my-2 -mx-2 border-gray-200 dark:border-gray-700"/>
+                    <a class="flex items-center py-2 px-3 rounded-md text-sm text-gray-800 hover:bg-gray-100 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-gray-300"
+                       href="/logout">
+                        <i class="mgc_exit_line me-2"></i>
+                        <span>Log Out</span>
+                    </a>
+                </div>
+            </div>
         </header>
         <!-- Topbar End -->
 
         <!-- Topbar Search Modal -->
         <div>
-          <div id="topbar-search-modal" class="fc-modal hidden w-full h-full fixed top-0 start-0 z-50">
-            <div class="fc-modal-open:opacity-100 fc-modal-open:duration-500 opacity-0 transition-all sm:max-w-lg sm:w-full m-12 sm:mx-auto">
-              <div class="mx-auto max-w-2xl overflow-hidden rounded-xl bg-white shadow-2xl transition-all dark:bg-slate-800">
-                <div class="relative">
-                  <div class="pointer-events-none absolute top-3.5 start-4 text-gray-900 text-opacity-40 dark:text-gray-200">
-                    <i class="mgc_search_line text-xl"></i>
-                  </div>
-                  <input type="search" class="h-12 w-full border-0 bg-transparent ps-11 pe-4 text-gray-900 placeholder-gray-500 dark:placeholder-gray-300 dark:text-gray-200 focus:ring-0 sm:text-sm" placeholder="Search..." />
+            <div id="topbar-search-modal" class="fc-modal hidden w-full h-full fixed top-0 start-0 z-50">
+                <div class="fc-modal-open:opacity-100 fc-modal-open:duration-500 opacity-0 transition-all sm:max-w-lg sm:w-full m-12 sm:mx-auto">
+                    <div class="mx-auto max-w-2xl overflow-hidden rounded-xl bg-white shadow-2xl transition-all dark:bg-slate-800">
+                        <div class="relative">
+                            <div class="pointer-events-none absolute top-3.5 start-4 text-gray-900 text-opacity-40 dark:text-gray-200">
+                                <i class="mgc_search_line text-xl"></i>
+                            </div>
+                            <input type="search"
+                                   class="h-12 w-full border-0 bg-transparent ps-11 pe-4 text-gray-900 placeholder-gray-500 dark:placeholder-gray-300 dark:text-gray-200 focus:ring-0 sm:text-sm"
+                                   placeholder="Search..."/>
+                        </div>
+                    </div>
                 </div>
-              </div>
             </div>
-          </div>
         </div>
 
-          <main class="flex-grow p-6">
+        <main class="flex-grow p-6">
             {% block content %}
-        <!-- Content from child templates will be injected here -->
+                <!-- Content from child templates will be injected here -->
 
 
 
@@ -335,45 +359,48 @@
 
 
 
-        {% endblock %}
-          </main>
+            {% endblock %}
+        </main>
         <!-- Footer Start -->
         <footer class="footer h-16 flex items-center px-6 bg-white shadow dark:bg-gray-800">
-          <div class="flex justify-center w-full gap-4">
-            <div>
-              <script>
-                document.write(new Date().getFullYear())
-              </script>© Saraz- Corporation, SARAZ
+            <div class="flex justify-center w-full gap-4">
+                <div>
+                    <script>
+                        document.write(new Date().getFullYear())
+                    </script>
+                    © Saraz- Corporation, SARAZ
+                </div>
             </div>
-          </div>
         </footer>
         <!-- Footer End -->
-      </div>
-
-      <!-- ============================================================== -->
-      <!-- End Page content -->
-      <!-- ============================================================== -->
     </div>
 
-    <!-- Back to Top Button -->
-    <button data-toggle="back-to-top" class="fixed hidden h-10 w-10 items-center justify-center rounded-full z-10 bottom-20 end-14 p-2.5 bg-primary cursor-pointer shadow-lg text-white"><i class="mgc_arrow_up_line text-lg"></i></button>
+    <!-- ============================================================== -->
+    <!-- End Page content -->
+    <!-- ============================================================== -->
+</div>
 
-    <!-- Plugin Js -->
-    <script src="{% static 'assets/libs/simplebar/simplebar.min.js' %}"></script>
-    <script src="{% static 'assets/libs/feather-icons/feather.min.js' %}"></script>
-    <script src="{% static 'assets/libs/%40frostui/tailwindcss/frostui.js' %}"></script>
+<!-- Back to Top Button -->
+<button data-toggle="back-to-top"
+        class="fixed hidden h-10 w-10 items-center justify-center rounded-full z-10 bottom-20 end-14 p-2.5 bg-primary cursor-pointer shadow-lg text-white">
+    <i class="mgc_arrow_up_line text-lg"></i></button>
 
-    <!-- App Js -->
-    <script src="{% static 'assets/js/app.js' %}"></script>
-    
-    <!-- Dropzone js -->
-    <script src="{% static 'assets/libs/dropzone/min/dropzone.min.js' %}"></script>
-    
-    <!-- Apexcharts js -->
-    <script src="{% static 'assets/libs/apexcharts/apexcharts.min.js' %}"></script>
+<!-- Plugin Js -->
+<script src="{% static 'assets/libs/simplebar/simplebar.min.js' %}"></script>
+<script src="{% static 'assets/libs/feather-icons/feather.min.js' %}"></script>
+<script src="{% static 'assets/libs/%40frostui/tailwindcss/frostui.js' %}"></script>
 
-    <!-- Dashboard Project Page js -->
-    <script src="{% static 'assets/js/pages/dashboard.js' %}"></script>
-  
-  </body>
+<!-- App Js -->
+<script src="{% static 'assets/js/app.js' %}"></script>
+
+<!-- Dropzone js -->
+<script src="{% static 'assets/libs/dropzone/min/dropzone.min.js' %}"></script>
+
+<!-- Apexcharts js -->
+<script src="{% static 'assets/libs/apexcharts/apexcharts.min.js' %}"></script>
+
+<!-- Dashboard Project Page js -->
+<script src="{% static 'assets/js/pages/dashboard.js' %}"></script>
+
+</body>
 </html>

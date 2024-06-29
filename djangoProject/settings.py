@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'saraj.apps.SarajConfig',
     'projects.apps.ProjectsConfig',
+    'kanban.apps.KanbanConfig',
 ]
 
 MIDDLEWARE = [
