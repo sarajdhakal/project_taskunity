@@ -1,13 +1,17 @@
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.models import User
 from django.shortcuts import render, redirect
+from projects.models import Project
 from ..forms import IssueForm, CommentForm
 from ..models.kanban import Issue
 
 
-@login_required(login_url='login')
+# @login_required(login_url='login')
 def kanban(request):
     issues = Issue.objects.all()
+    projects = Project.objects.all()
+    users = User.objects.all()
     forms = {
         'todo': IssueForm(prefix='todo'),
         'new': IssueForm(prefix='new'),
@@ -40,5 +44,7 @@ def kanban(request):
         'review_issues': issues.filter(status='review'),
         'done_issues': issues.filter(status='done'),
         'to_print': Issue.objects.all(),
+        'projects': projects,
+        'users': users,
     }
     return render(request, 'kanban.html', context)

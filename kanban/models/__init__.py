@@ -1,0 +1,1 @@
+from .kanban import Issue

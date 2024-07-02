@@ -14,14 +14,16 @@ Including another URLconf
     1. Import the include() function: from django.urls import include, path
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
-from django.contrib import admin
-from django.urls import path,include
-from . import settings
 from django.conf.urls.static import static
+from django.contrib import admin
+from django.urls import path, include
+
+from . import settings
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
-    path('', include('saraj.urls')),
-    path('', include('projects.urls')),
-    path('', include('kanban.urls'))
-] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+             path('admin/', admin.site.urls),
+             path("ckeditor5/", include('django_ckeditor_5.urls')),
+             path('', include('saraj.urls')),
+             path('', include('projects.urls')),
+             path('', include('kanban.urls'))
+              ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

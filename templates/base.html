@@ -10,11 +10,14 @@
 
     <!-- App favicon -->
     <link rel="shortcut icon" href="{% static 'assets/images/favicon.ico' %} "/>
+    <link href="{% static 'assets/libs/nice-select2/css/nice-select2.css' %} " rel="stylesheet" type="text/css">
+     <link href="{% static 'assets/libs/sweetalert2/sweetalert2.min.css' %} " rel="stylesheet" type="text/css" >
+
 
     <!-- quill css -->
-    <link href="{% static 'assets/libs/quill/quill.core.css'%} " rel="stylesheet" type="text/css">
-    <link href="{% static 'assets/libs/quill/quill.bubble.css'%} " rel="stylesheet" type="text/css">
-    <link href="{% static 'assets/libs/quill/quill.snow.css'%} " rel="stylesheet" type="text/css">
+    <link href="{% static 'assets/libs/quill/quill.core.css' %} " rel="stylesheet" type="text/css">
+    <link href="{% static 'assets/libs/quill/quill.bubble.css' %} " rel="stylesheet" type="text/css">
+    <link href="{% static 'assets/libs/quill/quill.snow.css' %} " rel="stylesheet" type="text/css">
     <!-- Dropzone Plugin Css -->
     <link href="{% static 'assets/libs/dropzone/min/dropzone.min.css' %}" rel="stylesheet" type="text/css">
 
@@ -27,7 +30,7 @@
     <!-- Theme Config Js -->
     <script src="{% static 'assets/js/config.js' %}"></script>
 
-
+{#  <script src="https://cdn.ckeditor.com/4.16.0/standard/ckeditor.js"></script>#}
 </head>
 
 <body>
@@ -401,9 +404,8 @@
 <script src="{% static 'assets/libs/dropzone/min/dropzone.min.js' %}"></script>
 
 <!-- quill js -->
-<script src="{% static 'assets/libs/quill/quill.min.js'%}"></script>
-
-<script src="{% static 'assets/js/pages/form-editor.js'%} "></script>
+<script src="{% static 'assets/libs/quill/quill.min.js' %}"></script>
+<script src="{% static 'assets/js/pages/form-editor.js' %} "></script>
 
 <!-- Apexcharts js -->
 <script src="{% static 'assets/libs/apexcharts/apexcharts.min.js' %}"></script>
@@ -411,5 +413,16 @@
 <!-- Dashboard Project Page js -->
 <script src="{% static 'assets/js/pages/dashboard.js' %}"></script>
 
+
+<script src="{% static 'assets/libs/nice-select2/js/nice-select2.js' %} "></script>
+
+<!-- Choices Demo js -->
+<script src="{% static 'assets/js/pages/form-select.js' %} "></script>
+
+  <!-- Sweet Alerts js -->
+    <script src="{% static 'assets/libs/sweetalert2/sweetalert2.min.js' %}"></script>
+
+    <!-- Sweet alert init js-->
+    <script src="{% static 'assets/js/pages/extended-sweetalert.js' %}"></script>
 </body>
 </html>

@@ -38,11 +38,12 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'ckeditor',
     'saraj.apps.SarajConfig',
     'projects.apps.ProjectsConfig',
     'kanban.apps.KanbanConfig',
 ]
-
+# CK_EDITOR_5_UPLOAD_FILE_VIEW_NAME = "custom_upload_file"
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
