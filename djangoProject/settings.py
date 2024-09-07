@@ -43,7 +43,7 @@ INSTALLED_APPS = [
     'projects.apps.ProjectsConfig',
     'kanban.apps.KanbanConfig',
 ]
-# CK_EDITOR_5_UPLOAD_FILE_VIEW_NAME = "custom_upload_file"
+
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',

@@ -77,7 +77,9 @@ var options = {
     }]
 },
     chart = new ApexCharts(document.querySelector("#line_chart_datalabel"), options),
-    options = (chart.render(), {
+    options = (chart.render(),
+
+    {
         chart: {
             height: 380,
             type: "line",
@@ -150,9 +152,10 @@ var options = {
             borderColor: "#9ca3af20"
         }
     }),
-    options = ((chart = new ApexCharts(document.querySelector("#line_chart_dashed"), options)).render(), {
+    options = ((chart = new ApexCharts(document.querySelector("#line_chart_dashed"), options)).render(),
+    {
         chart: {
-            height: 350,
+            height: 150,
             type: "area",
             toolbar: {
                 show: !1
@@ -166,13 +169,10 @@ var options = {
             width: 3
         },
         series: [{
-            name: "series1",
+            name: "Earning",
             data: [34, 40, 28, 52, 42, 109, 100]
-        }, {
-            name: "series2",
-            data: [32, 60, 34, 46, 34, 52, 41]
         }],
-        colors: ["#556ee6", "#34c38f"],
+        colors: ["#34c38f"],
         xaxis: {
             type: "datetime",
             categories: ["2018-09-19T00:00:00", "2018-09-19T01:30:00", "2018-09-19T02:30:00", "2018-09-19T03:30:00",
@@ -189,6 +189,77 @@ var options = {
         }
     }),
     options = ((chart = new ApexCharts(document.querySelector("#spline_area"), options)).render(), {
+        chart: {
+            height: 150,
+            type: "area",
+            toolbar: {
+                show: !1
+            }
+        },
+        dataLabels: {
+            enabled: !1
+        },
+        stroke: {
+            curve: "smooth",
+            width: 3
+        },
+        series: [{
+            name: "Earning",
+            data: [34, 40, 28, 52, 21, 129, 10]
+        }],
+        colors: ["#b9c4f5"],
+        xaxis: {
+            type: "datetime",
+            categories: ["2018-09-19T00:00:00", "2018-09-19T01:30:00", "2018-09-19T02:30:00", "2018-09-19T03:30:00",
+                "2018-09-19T04:30:00", "2018-09-19T05:30:00", "2018-09-19T06:30:00"
+            ]
+        },
+        grid: {
+            borderColor: "#9ca3af20"
+        },
+        tooltip: {
+            x: {
+                format: "dd/MM/yy HH:mm"
+            }
+        }
+    }),
+    options = ((chart = new ApexCharts(document.querySelector("#spline_area1"), options)).render(),
+    {
+        chart: {
+            height: 150,
+            type: "area",
+            toolbar: {
+                show: !1
+            }
+        },
+        dataLabels: {
+            enabled: !1
+        },
+        stroke: {
+            curve: "smooth",
+            width: 3
+        },
+        series: [{
+            name: "Earning",
+            data: [34, 40, 28, 52, 42, 109, 100]
+        }],
+        colors: ["#34c38f"],
+        xaxis: {
+            type: "datetime",
+            categories: ["2018-09-19T00:00:00", "2018-09-19T01:30:00", "2018-09-19T02:30:00", "2018-09-19T03:30:00",
+                "2018-09-19T04:30:00", "2018-09-19T05:30:00", "2018-09-19T06:30:00"
+            ]
+        },
+        grid: {
+            borderColor: "#9ca3af20"
+        },
+        tooltip: {
+            x: {
+                format: "dd/MM/yy HH:mm"
+            }
+        }
+    }),
+    options = ((chart = new ApexCharts(document.querySelector("#spline_area2"), options)).render(), {
         chart: {
             height: 350,
             type: "bar",
@@ -257,10 +328,69 @@ var options = {
         },
         plotOptions: {
             bar: {
+                horizontal: !1,
+                columnWidth: "45%",
+                endingShape: "rounded"
+            }
+        },
+        dataLabels: {
+            enabled: !1
+        },
+        stroke: {
+            show: !0,
+            width: 2,
+            colors: ["transparent"]
+        },
+        series: [{
+            name: "Net Profit",
+            data: [46, 57, 59, 54, 62, 58, 64, 60, 66]
+        }, {
+            name: "Revenue",
+            data: [74, 83, 102, 97, 86, 106, 93, 114, 94]
+        }],
+        colors: ["#34c38f", "#556ee6"],
+        xaxis: {
+            categories: ["Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct"]
+        },
+        yaxis: {
+            title: {
+                text: "$ (thousands)",
+                style: {
+                    fontWeight: "500"
+                }
+            }
+        },
+        grid: {
+            borderColor: "#9ca3af20"
+        },
+        fill: {
+            opacity: 1
+        },
+        tooltip: {
+            y: {
+                formatter: function (e) {
+                    return "$ " + e + " thousands"
+                }
+            }
+        }
+    }),
+    options = ((chart = new ApexCharts(document.querySelector("#column_chart1"), options)).render(),
+
+    {
+        chart: {
+            height: 350,
+            type: "bar",
+            toolbar: {
+                show: !1
+            }
+        },
+        plotOptions: {
+            bar: {
                 dataLabels: {
                     position: "top"
                 }
             }
+
         },
         dataLabels: {
             enabled: !0,
@@ -347,7 +477,9 @@ var options = {
             }
         }
     }),
-    options = ((chart = new ApexCharts(document.querySelector("#column_chart_datalabel"), options)).render(), {
+    options = ((chart = new ApexCharts(document.querySelector("#column_chart_datalabel"), options)).render(),
+
+    {
         chart: {
             height: 350,
             type: "bar",
@@ -364,19 +496,20 @@ var options = {
             enabled: !1
         },
         series: [{
-            data: [380, 430, 450, 475, 550, 584, 780, 1100, 1220, 1365]
+            data: [380, 430, 450, 780, 1100, 1220, 365]
         }],
-        colors: ["#34c38f"],
+        colors: ["#3457D5"],
         grid: {
             borderColor: "#9ca3af20"
         },
         xaxis: {
-            categories: ["South Korea", "Canada", "United Kingdom", "Netherlands", "Italy", "France", "Japan",
-                "United States", "China", "Germany"
+            categories: ["Sunday", "Monday", "Tuesday ", "Wednesday", "Thrusday", "Friday", "Saturday"
             ]
         }
     }),
-    options = ((chart = new ApexCharts(document.querySelector("#bar_chart"), options)).render(), {
+    options = ((chart = new ApexCharts(document.querySelector("#bar_chart"), options)).render(),
+
+    {
         chart: {
             height: 350,
             type: "line",
@@ -446,7 +579,9 @@ var options = {
             borderColor: "#9ca3af20"
         }
     }),
-    options = ((chart = new ApexCharts(document.querySelector("#mixed_chart"), options)).render(), {
+    options = ((chart = new ApexCharts(document.querySelector("#mixed_chart"), options)).render(),
+
+    {
         chart: {
             height: 370,
             type: "radialBar"
@@ -474,7 +609,9 @@ var options = {
         labels: ["Computer", "Tablet", "Laptop", "Mobile"],
         colors: ["#556ee6", "#34c38f", "#f46a6a", "#f1b44c"]
     }),
-    options = ((chart = new ApexCharts(document.querySelector("#radial_chart"), options)).render(), {
+    options = ((chart = new ApexCharts(document.querySelector("#radial_chart"), options)).render(),
+
+    {
         chart: {
             height: 320,
             type: "pie"
@@ -506,7 +643,9 @@ var options = {
             }
         }]
     }),
-    options = ((chart = new ApexCharts(document.querySelector("#pie_chart"), options)).render(), {
+    options = ((chart = new ApexCharts(document.querySelector("#pie_chart"), options)).render(),
+
+    {
         chart: {
             height: 320,
             type: "donut"

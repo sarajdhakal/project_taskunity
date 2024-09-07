@@ -1,0 +1,351 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %} Sales | Task Unity {% endblock %}
+
+{% block content %}
+
+<!-- Page Title Start -->
+<div class="flex justify-between items-center mb-6">
+    <h4 class="text-slate-900 dark:text-slate-200 text-lg font-medium">Sales</h4>
+
+    <div class="md:flex hidden items-center gap-2.5 text-sm font-semibold">
+        <div class="flex items-center gap-2">
+            <a href="/" class="text-sm font-medium text-slate-700 dark:text-slate-400">Task Unity</a>
+        </div>
+        <div class="flex items-center gap-2">
+            <i class="mgc_right_line text-lg flex-shrink-0 text-slate-400 rtl:rotate-180"></i>
+            <a href="/sales" class="text-sm font-medium text-slate-700 dark:text-slate-400"
+                aria-current="page">Sales</a>
+        </div>
+    </div>
+</div>
+<!-- Page Title End -->
+<div class="row">
+    <div class="grid 2xl:grid-cols-2 grid-cols-1 gap-6">
+        <div class="card">
+            <div class="card-header">
+                <div class="flex justify-between items-center">
+                    <div>
+                        <h4 class="card-title">Active Projects</h4>
+                        <span class="text-sm text-body-color">In last 30 days revenue from subscription.</span>
+                    </div>
+
+                </div>
+            </div>
+            <div class="p-6">
+                <div class="grid 2xl:grid-cols-2 grid-cols-1 gap-6">
+                    <div>
+                        <h2>Total Projects</h2>
+                        <h3 class="mb-2">15,369.59</h3>
+                        <span class="text-[14px] text-primary">
+                            <i class="fa-solid fa-arrow-down"></i>
+                            % 52.36 <small class="text-dark">since last month</small>
+                        </span>
+
+                    </div>
+                    <div>
+                        <h2>Active Projects</h2>
+                        <h3 class="mb-2">15,369.59</h3>
+                        <span class="text-[14px] text-primary">
+                            <i class="fa-solid fa-arrow-down"></i>
+                            % 52.36 <small class="text-dark">since last month</small>
+                        </span>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="card-header">
+                <div class="flex justify-between items-center">
+                    <div>
+                        <h4 class="card-title">Sales Overview</h4>
+                    </div>
+                </div>
+            </div>
+            <div class="p-4">
+                <div class="flex justify-between items-center">
+                    <h4 class="mb-2">$55,5252</h4>
+                    <span class="text-sm text-body-color">500 Followers</span>
+                </div>
+            </div>
+            <div class="p-6">
+                <div id="bar_chart" class="apex-charts" dir="ltr"></div>
+            </div>
+        </div>
+
+
+
+    </div>
+</div>
+<div class="grid lg:grid-cols-3 gap-6 mt-4">
+    <!-- Transactions Table (Larger card with scroll) -->
+
+    <div class="lg:col-span-3">
+        <div class="card"></div>
+
+
+
+    </div>
+
+    <div class="lg:col-span-2">
+        <div class="bg-white shadow-lg rounded-lg p-6 h-96">
+            <div class="mb-4 flex justify-between items-center">
+                <h4 class="text-gray-700 text-lg font-medium">Transaction</h4>
+            </div>
+            <div class="overflow-x-auto">
+                <div class="min-w-full inline-block align-middle">
+                    <div class="overflow-hidden">
+                        <table class="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
+                            <thead>
+                                <tr>
+                                    <th scope="col"
+                                        class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Name
+                                    </th>
+                                    <th scope="col"
+                                        class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Title
+                                    </th>
+                                    <th scope="col"
+                                        class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Age</th>
+                                    <th scope="col"
+                                        class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Email
+                                    </th>
+                                    <th scope="col"
+                                        class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Address
+                                    </th>
+                                    <th scope="col"
+                                        class="px-6 py-3 text-end text-xs font-medium text-gray-500 uppercase">Action
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody class="divide-y divide-gray-200 dark:divide-gray-700">
+                                <tr>
+                                    <td
+                                        class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-800 dark:text-gray-200">
+                                        John Brown</td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-800 dark:text-gray-200">
+                                        Regional Paradigm Technician</td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-800 dark:text-gray-200">
+                                        john@site.com</td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-800 dark:text-gray-200">45
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-800 dark:text-gray-200">New
+                                        York No. 1 Lake Park</td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-end text-sm font-medium">
+                                        <a class="text-primary hover:text-sky-700" href="#">Delete</a>
+                                    </td>
+                                </tr>
+
+                                <tr>
+                                    <td
+                                        class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-800 dark:text-gray-200">
+                                        Jim Green</td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-800 dark:text-gray-200">
+                                        Forward Response Developer</td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-800 dark:text-gray-200">
+                                        jim@site.com</td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-800 dark:text-gray-200">27
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-800 dark:text-gray-200">
+                                        London No. 1 Lake Park</td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-end text-sm font-medium">
+                                        <a class="text-primary hover:text-sky-700" href="#">Delete</a>
+                                    </td>
+                                </tr>
+
+                                <tr>
+                                    <td
+                                        class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-800 dark:text-gray-200">
+                                        Joe Black</td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-800 dark:text-gray-200">
+                                        Product Directives Officer</td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-800 dark:text-gray-200">
+                                        joe@site.com</td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-800 dark:text-gray-200">31
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-800 dark:text-gray-200">
+                                        Sidney No. 1 Lake Park</td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-end text-sm font-medium">
+                                        <a class="text-primary hover:text-sky-700" href="#">Delete</a>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td
+                                        class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-800 dark:text-gray-200">
+                                        Joe Black</td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-800 dark:text-gray-200">
+                                        Product Directives Officer</td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-800 dark:text-gray-200">
+                                        joe@site.com</td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-800 dark:text-gray-200">31
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-800 dark:text-gray-200">
+                                        Sidney No. 1 Lake Park</td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-end text-sm font-medium">
+                                        <a class="text-primary hover:text-sky-700" href="#">Delete</a>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td
+                                        class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-800 dark:text-gray-200">
+                                        Joe Black</td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-800 dark:text-gray-200">
+                                        Product Directives Officer</td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-800 dark:text-gray-200">
+                                        joe@site.com</td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-800 dark:text-gray-200">31
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-800 dark:text-gray-200">
+                                        Sidney No. 1 Lake Park</td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-end text-sm font-medium">
+                                        <a class="text-primary hover:text-sky-700" href="#">Delete</a>
+                                    </td>
+                                </tr>
+
+                            </tbody>
+                        </table>
+                        <div class="py-1 px-4">
+                            <nav class="flex items-center space-x-2">
+                                <a class="text-gray-400 hover:text-primary p-4 inline-flex items-center gap-2 font-medium rounded-md"
+                                    href="#">
+                                    <span aria-hidden="true">«</span>
+                                    <span class="sr-only">Previous</span>
+                                </a>
+                                <a class="w-10 h-10 bg-primary text-white p-4 inline-flex items-center text-sm font-medium rounded-full"
+                                    href="#" aria-current="page">1</a>
+                                <a class="w-10 h-10 text-gray-400 hover:text-primary p-4 inline-flex items-center text-sm font-medium rounded-full"
+                                    href="#">2</a>
+                                <a class="w-10 h-10 text-gray-400 hover:text-primary p-4 inline-flex items-center text-sm font-medium rounded-full"
+                                    href="#">3</a>
+                                <a class="text-gray-400 hover:text-primary p-4 inline-flex items-center gap-2 font-medium rounded-md"
+                                    href="#">
+                                    <span class="sr-only">Next</span>
+                                    <span aria-hidden="true">»</span>
+                                </a>
+                            </nav>
+                        </div>
+
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Recent Activities (Smaller card to fit contents) -->
+    <div class="lg:col-span-1">
+        <div class="card">
+            <div class="card-header">
+                <h4 class="card-title">Recent Activities</h4>
+            </div>
+            <div class="p-6">
+
+
+                <div class="card-body mb-2">
+                    <div class="flex items-center">
+                        <div class="flex-shrink-0">
+                            <div class="flex justify-center items-center h-9 w-9 rounded-full bg text-white bg-primary">
+                                <i class="mgc_message_3_line text-lg"></i>
+                            </div>
+                        </div>
+                        <div class="flex-grow truncate ms-2">
+                            <h5 class="text-sm font-semibold mb-1">Datacorp <small
+                                    class="font-normal text-gray-500 ms-1">1 min ago</small></h5>
+                            <small class="noti-item-subtitle text-muted"> Requested for withdrawl</small>
+                        </div>
+                    </div>
+                </div>
+
+
+
+                <div class="card-body mb-2">
+                    <div class="flex items-center">
+                        <div class="flex-shrink-0">
+                            <div class="flex justify-center items-center h-9 w-9 rounded-full bg-info text-white">
+                                <i class="mgc_user_add_line text-lg"></i>
+                            </div>
+                        </div>
+                        <div class="flex-grow truncate ms-2">
+                            <h5 class="text-sm font-semibold mb-1">Admin <small class="font-normal text-gray-500 ms-1">1
+                                    hr ago</small></h5>
+                            <small class="noti-item-subtitle text-muted">Transfer money</small>
+                        </div>
+                    </div>
+                </div>
+
+
+                <a href="javascript:void(0);" class="block mb-4">
+                    <div class="card-body">
+                        <div class="flex items-center">
+                            <div class="flex-shrink-0">
+                                <img src="assets/images/users/avatar-2.jpg" class="rounded-full h-9 w-9" alt="">
+                            </div>
+                            <div class="flex-grow truncate ms-2">
+                                <h5 class="text-sm font-semibold mb-1">Cristina Pride <small
+                                        class="font-normal text-gray-500 ms-1">1 day ago</small></h5>
+                                <small class="noti-item-subtitle text-muted">Hi, How are you? What about
+                                    our
+                                    next meeting</small>
+                            </div>
+                        </div>
+                    </div>
+                </a>
+
+
+
+                <a href="javascript:void(0);" class="block mb-4">
+                    <div class="card-body">
+                        <div class="flex items-center">
+                            <div class="flex-shrink-0">
+                                <div
+                                    class="flex justify-center items-center h-9 w-9 rounded-full bg-primary text-white">
+                                    <i class="mgc_message_1_line text-lg"></i>
+                                </div>
+                            </div>
+                            <div class="flex-grow truncate ms-2">
+                                <h5 class="text-sm font-semibold mb-1">Datacorp</h5>
+                                <small class="noti-item-subtitle text-muted">Caleb Flakelar commented on
+                                    Admin</small>
+                            </div>
+                        </div>
+                    </div>
+                </a>
+
+                <a href="javascript:void(0);" class="block">
+                    <div class="card-body">
+                        <div class="flex items-center">
+                            <div class="flex-shrink-0">
+                                <img src="assets/images/users/avatar-4.jpg" class="rounded-full h-9 w-9" alt="">
+                            </div>
+                            <div class="flex-grow truncate ms-2">
+                                <h5 class="text-sm font-semibold mb-1">Karen Robinson</h5>
+                                <small class="noti-item-subtitle text-muted">Wow ! this admin looks good
+                                    and
+                                    awesome design</small>
+                            </div>
+                        </div>
+                    </div>
+                </a>
+                <a href="javascript:void(0);" class="block"></a>
+                <div class="card-body">
+                    <div class="flex items-center">
+                        <div class="flex-shrink-0">
+                            <img src="assets/images/users/avatar-4.jpg" class="rounded-full h-9 w-9" alt="">
+                        </div>
+                        <div class="flex-grow truncate ms-2">
+                            <h5 class="text-sm font-semibold mb-1">Karen Robinson</h5>
+                            <small class="noti-item-subtitle text-muted">Wow ! this admin looks good
+                                and
+                                awesome design</small>
+                        </div>
+                    </div>
+                </div>
+                </a>
+
+            </div>
+        </div>
+    </div>
+
+</div>
+
+{% endblock %}

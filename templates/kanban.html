@@ -78,91 +78,136 @@
                                                         </button>
                                                     </div>
 
-                                                      <form action="" method="post" enctype="multipart/form-data">
-        {% csrf_token %}
-        <div class="card">
-            <div class="card-header">
-                <div class="grid grid-cols-1 gap-6 lg:grid-cols-2 ">
-                    <div class="flex justify-between items-center">
-                        <h4 class="card-title">{{ issue.title }}</h4>
-                    </div>
-                    <select id="search-select" class="search-select" name="project" required>
-                        <option>Select a project</option>
-                        {% for project in projects %}
-                            <option value="{{ project.id }}" {% if issue.project.id == project.id %}selected{% endif %}>
-                                {{ project.name }}
-                            </option>
-                        {% endfor %}
-                    </select>
-                </div>
-            </div>
-            <div class="grid lg:grid-cols-3 gap-1 mb-1">
-                <div class="p-6 lg:col-span-2">
-                    <p class="text-sm mb-4 text-slate-700 dark:text-slate-400">{{ issue.description }}</p>
-                    <div style="height: 400px" data-simplebar data-simplebar-primary>
-                        <div class="prose max-w-full text-slate-700 dark:text-slate-400">
-                            <div id="snow-editor" style="height: 400px;">
-                                {{ issue.description }}
-                            </div>
-                        </div>
-                    </div>
-                    <div class="max-w-lg mx-auto">
-                        <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Attachment</label>
-                        <input class="form-select" type="file" name="attachment">
-                        <div class="mt-1 text-sm text-gray-500 dark:text-gray-300" id="user_avatar_help"></div>
-                    </div>
-                </div>
-                <div class="col-span-1">
-                    <div class="p-6 lg:col-span-2">
-                        <div style="height: 400px" data-simplebar data-simplebar-primary>
-                            <div class="prose max-w-full text-slate-700 dark:text-slate-400">
-                                <div class="mb-2">
-                                    <select class="selectize" name="status">
-                                        <option value="new" {% if issue.status == "new" %}selected{% endif %}>New</option>
-                                        <option value="unassigned" {% if issue.status == "unassigned" %}selected{% endif %}>Unassigned</option>
-                                        <option value="todo" {% if issue.status == "todo" %}selected{% endif %}>To Do</option>
-                                        <option value="inprogress" {% if issue.status == "inprogress" %}selected{% endif %}>In Progress</option>
-                                        <option value="done" {% if issue.status == "done" %}selected{% endif %}>Done</option>
-                                    </select>
-                                    <div class="flex flex-col gap-3">
-                                        <p class="m-1">Details</p>
-                                        <div class="grid grid-cols-4 items-center gap-6">
-                                            <label for="inputEmail3" class="text-gray-800 text-sm font-medium inline-block mb-2">Assignee</label>
-                                            <div class="md:col-span-3">
-                                                <input type="text" class="form-input" id="inputEmail3" placeholder="Email" value="{{ issue.user }}">
-                                            </div>
-                                        </div>
-                                        <div class="grid grid-cols-4 items-center gap-6">
-                                            <label for="inputPassword3" class="text-gray-800 text-sm font-medium inline-block mb-2">Labels</label>
-                                            <div class="md:col-span-3">
-                                                <input type="text" class="form-input" id="inputPassword3" value="{{ issue.labels }}" placeholder="Eg: HTML, CSS , JS">
-                                            </div>
-                                        </div>
-                                        <div class="grid grid-cols-4 items-center gap-6">
-                                            <label for="inputPassword5" class="text-gray-800 text-sm font-medium inline-block mb-2">Reporter</label>
-                                            <div class="md:col-span-3">
-                                                <select class="selectize" name="reporters" multiple="multiple">
-                                                    {% for user in users %}
-                                                        <option value="{{ user.id }}" {% if user in issue.assigned_to.all %}selected{% endif %}>{{ user.username }}</option>
-                                                    {% endfor %}
-                                                </select>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <p>Created at {{ issue.date_created }}</p>
-                                    <p>Updated at {{ issue.updated_at }}</p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="flex justify-end items-center gap-4 p-4 border-t dark:border-slate-700">
-                <button class="py-2 px-5 inline-flex justify-center items-center gap-2 rounded dark:text-gray-200 border dark:border-slate-700 font-medium hover:bg-slate-100 hover:dark:bg-slate-700 transition-all" data-fc-dismiss type="button">Close</button>
-                <button class="py-2.5 px-4 inline-flex justify-center items-center gap-2 rounded bg-primary hover:bg-primary-600 text-white" type="submit">Save</button>
-            </div>
-        </div>
-    </form>
+                                                    <form action="" method="post" enctype="multipart/form-data">
+                                                        {% csrf_token %}
+                                                        <div class="card">
+                                                            <div class="card-header">
+                                                                <div class="grid grid-cols-1 gap-6 lg:grid-cols-2 ">
+                                                                    <div class="flex justify-between items-center">
+                                                                        <h4 class="card-title">{{ issue.title }}
+                                                                        {{ issue.id }}
+                                                                        </h4>
+                                                                    </div>
+                                                                    <select id="search-select" class="search-select"
+                                                                            name="project" required>
+                                                                        <option>Select a project</option>
+                                                                        {% for project in projects %}
+                                                                            <option value="{{ project.id }}"
+                                                                                    {% if issue.project.id == project.id %}selected{% endif %}>
+                                                                                {{ project.name }}
+                                                                            </option>
+                                                                        {% endfor %}
+                                                                    </select>
+                                                                </div>
+                                                            </div>
+                                                            <div class="grid lg:grid-cols-3 gap-1 mb-1">
+                                                                <div class="p-6 lg:col-span-2">
+                                                                    <p class="text-sm mb-4 text-slate-700 dark:text-slate-400">{{ issue.description }}</p>
+                                                                    <div style="height: 400px" data-simplebar
+                                                                         data-simplebar-primary>
+                                                                        <div class="prose max-w-full text-slate-700 dark:text-slate-400">
+                                                                            <div id="snow-editor"
+                                                                                 style="height: 400px;">
+                                                                                {{ issue.description }}
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="max-w-lg mx-auto">
+                                                                        <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Attachment</label>
+                                                                        <input class="form-select" type="file"
+                                                                               name="attachment">
+                                                                        <div class="mt-1 text-sm text-gray-500 dark:text-gray-300"
+                                                                             id="user_avatar_help"></div>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-span-1">
+                                                                    <div class="p-6 lg:col-span-2">
+                                                                        <div style="height: 400px" data-simplebar
+                                                                             data-simplebar-primary>
+                                                                            <div class="prose max-w-full text-slate-700 dark:text-slate-400">
+                                                                                <div class="mb-2">
+                                                                                    <select class="selectize"
+                                                                                            name="status">
+                                                                                        <option value="new"
+                                                                                                {% if issue.status == "new" %}selected{% endif %}>
+                                                                                            New
+                                                                                        </option>
+                                                                                        <option value="unassigned"
+                                                                                                {% if issue.status == "unassigned" %}selected{% endif %}>
+                                                                                            Unassigned
+                                                                                        </option>
+                                                                                        <option value="todo"
+                                                                                                {% if issue.status == "todo" %}selected{% endif %}>
+                                                                                            To Do
+                                                                                        </option>
+                                                                                        <option value="inprogress"
+                                                                                                {% if issue.status == "inprogress" %}selected{% endif %}>
+                                                                                            In Progress
+                                                                                        </option>
+                                                                                        <option value="done"
+                                                                                                {% if issue.status == "done" %}selected{% endif %}>
+                                                                                            Done
+                                                                                        </option>
+                                                                                    </select>
+                                                                                    <div class="flex flex-col gap-3">
+                                                                                        <p class="m-1">Details</p>
+                                                                                        <div class="grid grid-cols-4 items-center gap-6">
+                                                                                            <label for="inputEmail3"
+                                                                                                   class="text-gray-800 text-sm font-medium inline-block mb-2">Assignee</label>
+                                                                                            <div class="md:col-span-3">
+                                                                                                <input type="text"
+                                                                                                       class="form-input"
+                                                                                                       id="inputEmail3"
+                                                                                                       placeholder="Email"
+                                                                                                       value="{{ issue.user }}">
+                                                                                            </div>
+                                                                                        </div>
+                                                                                        <div class="grid grid-cols-4 items-center gap-6">
+                                                                                            <label for="inputPassword3"
+                                                                                                   class="text-gray-800 text-sm font-medium inline-block mb-2">Labels</label>
+                                                                                            <div class="md:col-span-3">
+                                                                                                <input type="text"
+                                                                                                       class="form-input"
+                                                                                                       id="inputPassword3"
+                                                                                                       value="{{ issue.labels }}"
+                                                                                                       placeholder="Eg: HTML, CSS , JS">
+                                                                                            </div>
+                                                                                        </div>
+                                                                                        <div class="grid grid-cols-4 items-center gap-6">
+                                                                                            <label for="inputPassword5"
+                                                                                                   class="text-gray-800 text-sm font-medium inline-block mb-2">Reporter</label>
+                                                                                            <div class="md:col-span-3">
+                                                                                                <select class="selectize"
+                                                                                                        name="reporters"
+                                                                                                        multiple="multiple">
+                                                                                                    {% for user in users %}
+                                                                                                        <option value="{{ user.id }}"
+                                                                                                                {% if user in issue.assigned_to.all %}selected{% endif %}>{{ user.username }}</option>
+                                                                                                    {% endfor %}
+                                                                                                </select>
+                                                                                            </div>
+                                                                                        </div>
+                                                                                    </div>
+                                                                                    <p>Created
+                                                                                        at {{ issue.date_created }}</p>
+                                                                                    <p>Updated
+                                                                                        at {{ issue.updated_at }}</p>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="flex justify-end items-center gap-4 p-4 border-t dark:border-slate-700">
+                                                                <button class="py-2 px-5 inline-flex justify-center items-center gap-2 rounded dark:text-gray-200 border dark:border-slate-700 font-medium hover:bg-slate-100 hover:dark:bg-slate-700 transition-all"
+                                                                        data-fc-dismiss type="button">Close
+                                                                </button>
+                                                                <button class="py-2.5 px-4 inline-flex justify-center items-center gap-2 rounded bg-primary hover:bg-primary-600 text-white"
+                                                                        type="submit">Save
+                                                                </button>
+                                                            </div>
+                                                        </div>
+                                                    </form>
 
                                                 </div>
                                             </div>
@@ -675,7 +720,7 @@
             }
         }
     </script>
-{#     <script>#}
-{#        CKEDITOR.replace('id_description');#}
-{#    </script>#}
+    {#     <script>#}
+    {#        CKEDITOR.replace('id_description');#}
+    {#    </script>#}
 {% endblock %}
