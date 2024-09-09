@@ -173,7 +173,8 @@
                       <h4 class="card-title">Monthly Target</h4>
 
                       <div id="monthly-target" class="apex-charts my-8" data-colors="#0acf97,#3073F1"></div>
-                      
+
+      
                       <div class="flex justify-center">
                         <div class="w-1/2 text-center">
                           <h5>Pending</h5>
@@ -229,7 +230,7 @@
                   </div>
                 </div>
                 <div class="px-4 py-2 bg-warning/20 text-warning" role="alert">
-                  <i class="mgc_folder_star_line me-1 text-lg align-baseline"></i> <b>38</b> Total Admin & Client Projects
+                  <i class="mgc_folder_star_line me-1 text-lg align-baseline"></i> <b>{{projects|length}}</b> Total Admin & Client Projects
                 </div>
 
                 <div class="p-6 space-y-3">
@@ -240,7 +241,7 @@
                       </div>
                     </div>
                     <div class="flex-grow">
-                      <h5 class="font-semibold mb-1">Project Discssion</h5>
+                      <h5 class="font-semibold mb-1">Project Discussion</h5>
                       <p class="text-gray-400">6 Person</p>
                     </div>
                     <div>
@@ -259,7 +260,8 @@
                     </div>
                     <div class="flex-grow">
                       <h5 class="fw-semibold my-0">In Progress</h5>
-                      <p>16 Projects</p>
+                      <p>{{in_progress_count|length}} Projects
+                      </p>
                     </div>
                     <div>
                       <button class="text-gray-400" data-fc-type="tooltip" data-fc-placement="top"><i class="mgc_information_line text-xl"></i></button>
@@ -277,7 +279,7 @@
                     </div>
                     <div class="flex-grow">
                       <h5 class="fw-semibold my-0">Completed Projects</h5>
-                      <p>24</p>
+                      <p>{{completed_count}} Projects</p>
                     </div>
                     <div>
                       <button class="text-gray-400" data-fc-type="tooltip" data-fc-placement="top"><i class="mgc_information_line text-xl"></i></button>
@@ -295,7 +297,7 @@
                     </div>
                     <div class="flex-grow">
                       <h5 class="fw-semibold my-0">Delivery Projects</h5>
-                      <p>20</p>
+                      <p>{{delivered_count}} Projects</p>
                     </div>
                     <div>
                       <button class="text-gray-400" data-fc-type="tooltip" data-fc-placement="top"><i class="mgc_information_line text-xl"></i></button>
@@ -308,13 +310,13 @@
               </div>
 
               <div class="card p-6">
-                <h4 class="text-gray-600 dark:text-gray-300 mb-2.5">On Time Completed Rate <span class="px-2 py-0.5 rounded bg-success/25 text-success ms-2"><i class="mgc_arrow_up_line text-sm align-baseline me-1"></i>59%</span></h4>
+                <h4 class="text-gray-600 dark:text-gray-300 mb-2.5">On Time Completed Rate <span class="px-2 py-0.5 rounded bg-success/25 text-success ms-2"><i class="mgc_arrow_up_line text-sm align-baseline me-1"></i>{{completed_rate}}%</span></h4>
                 <div class="flex justify-between items-center mb-2">
                   <h5 class="text-base font-semibold">Completed Projects</h5>
-                  <h5 class="text-gray-600 dark:text-gray-300">65%</h5>
+                  <h5 class="text-gray-600 dark:text-gray-300">{{completed_rate}}%</h5>
                 </div>
                 <div class="flex w-full h-1 bg-gray-200 rounded-full overflow-hidden dark:bg-gray-700">
-                  <div class="flex flex-col justify-center overflow-hidden bg-primary w-1/4" role="progressbar" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+                  <div class="flex flex-col justify-center overflow-hidden bg-primary" style="width: {{completed_rate}}%" role="progressbar" aria-valuenow="" aria-valuemin="0" aria-valuemax="100"></div>
                 </div>
               </div>
             </div>
@@ -332,7 +334,7 @@
                     </div>
                     <div class="flex-grow">
                       <h5 class="mb-1">Active Projects</h5>
-                      <p>85</p>
+                      <p>{{in_progress_count|length}}</p>
                     </div>
                     <div>
                       <button class="text-gray-600 dark:text-gray-400" data-fc-type="dropdown" data-fc-placement="left-start" type="button"><i class="mgc_more_2_fill text-xl"></i></button>
@@ -360,7 +362,7 @@
                     </div>
                     <div class="flex-grow">
                       <h5 class="mb-1">Total Employees</h5>
-                      <p>32</p>
+                      <p>{{total_employees_count}}</p>
                     </div>
                     <div>
                       <button class="text-gray-600 dark:text-gray-400" data-fc-type="dropdown" data-fc-placement="left-start" type="button"><i class="mgc_more_2_fill text-xl"></i></button>
@@ -388,7 +390,7 @@
                     </div>
                     <div class="flex-grow">
                       <h5 class="mb-1">Project Reviews</h5>
-                      <p>40</p>
+                      <p>{{reviews_count}}</p>
                     </div>
                     <div>
                       <button class="text-gray-600 dark:text-gray-400" data-fc-type="dropdown" data-fc-placement="left-start" type="button"><i class="mgc_more_2_fill text-xl"></i></button>
@@ -416,7 +418,7 @@
                     </div>
                     <div class="flex-grow">
                       <h5 class="mb-1">New Projects</h5>
-                      <p>25</p>
+                      <p>{{new_projects_count}}</p>
                     </div>
                     <div>
                       <button class="text-gray-600 dark:text-gray-400" data-fc-type="dropdown" data-fc-placement="left-start" type="button"><i class="mgc_more_2_fill text-xl"></i></button>
@@ -719,3 +721,4 @@
             </div>
           </div> <!-- Grid End -->
 {% endblock %}
+

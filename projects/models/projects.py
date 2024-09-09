@@ -20,7 +20,9 @@ class Project(models.Model):
         "Not started": "Not Started",
         "Completed": "Completed",
         "In Progress": "In Progress",
-    }
+        "Delivered" : "Delivered",
+
+        }
     progress = models.CharField(
         max_length=100,
         choices=Progress,
@@ -31,6 +33,9 @@ class Project(models.Model):
     date_created = models.DateTimeField(auto_now_add=True)
     date_modified = models.DateTimeField(auto_now=True)
     due_date = models.DateField(null=True)
+    extended_date = models.DateField(null=True)
 
     def __str__(self):
         return self.name
+    
+    
