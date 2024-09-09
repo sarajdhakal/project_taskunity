@@ -45,6 +45,6 @@ def kanban(request):
         'done_issues': issues.filter(status='done'),
         'to_print': Issue.objects.all(),
         'projects': projects,
-        'users': users,
+        'user_list': users,
     }
     return render(request, 'kanban.html', context)

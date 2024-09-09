@@ -23,7 +23,7 @@ class Migration(migrations.Migration):
                 ('price', models.IntegerField()),
                 ('date_created', models.DateTimeField(auto_now_add=True)),
                 ('date_modified', models.DateTimeField(auto_now=True)),
-                ('users', models.ManyToManyField(to=settings.AUTH_USER_MODEL)),
+                ('user_list', models.ManyToManyField(to=settings.AUTH_USER_MODEL)),
             ],
         ),
     ]

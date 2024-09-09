@@ -33,9 +33,6 @@
                             <img class="h-12 block dark:hidden" src="{% static 'assets/images/2.png' %}" alt="" />
                             <img class="h-12 hidden dark:block" src="{% static 'assets/images/3.png' %}" alt="" />
                         </a>
-                    {% for message in messages %}
-                        {{ message }}
-                    {% endfor %}
                             
                     
                         {% if form.errors %}
@@ -81,16 +78,6 @@
                                 <button type="submit" class="btn w-full text-white bg-primary">Log In</button>
                             </div>
                         </form>
-
-                        <div class="flex items-center my-6">
-                            <div class="flex-auto mt-px border-t border-dashed border-gray-200 dark:border-slate-700"></div>
-                            <div class="mx-4 text-secondary">Or</div>
-                            <div class="flex-auto mt-px border-t border-dashed border-gray-200 dark:border-slate-700"></div>
-                        </div>
-
-                        <p class="text-gray-500 dark:text-gray-400 text-center">
-                            Don't have an account?<a href="/signup" class="text-primary ms-1"><b>Register</b></a>
-                        </p>
                     </div>
                 </div>
             </div>

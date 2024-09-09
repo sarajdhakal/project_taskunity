@@ -10,4 +10,4 @@ def project_create(request):
     #         form.save()
     #         return redirect('project_list')
     # else:
-    return render(request, 'project_create.html', {'users': users})
+    return render(request, 'project_create.html', {'user_list': users})

@@ -96,6 +96,25 @@
             </a>
           </li>
           <li class="menu-item">
+            <a href="javascript:void(0)" data-fc-type="collapse" class="menu-link">
+              <span class="menu-icon"><i class="mgc_building_2_line"></i></span>
+              <span class="menu-text">Project</span>
+              <span class="menu-arrow"></span>
+            </a>
+
+            <ul class="sub-menu hidden">
+              <li class="menu-item">
+                <a href="/project_list" class="menu-link"><span class="menu-text">List</span></a>
+              </li>
+              <li class="menu-item">
+                <a href="/project_details" class="menu-link"><span class="menu-text">Detail</span></a>
+              </li>
+              <li class="menu-item">
+                <a href="/project_create" class="menu-link"><span class="menu-text">Create</span></a>
+              </li>
+            </ul>
+          </li>
+          <li class="menu-item">
             <a href="/sales" class="menu-link">
               <span class="menu-icon"><i class="mgc_task_2_line"></i></span>
               <span class="menu-text">Sales</span>
@@ -116,21 +135,34 @@
           <li class="menu-item">
             <a href="javascript:void(0)" data-fc-type="collapse" class="menu-link">
               <span class="menu-icon"><i class="mgc_building_2_line"></i></span>
-              <span class="menu-text">Project</span>
+              <span class="menu-text">Employee</span>
               <span class="menu-arrow"></span>
             </a>
-
             <ul class="sub-menu hidden">
               <li class="menu-item">
-                <a href="/project_list" class="menu-link"><span class="menu-text">List</span></a>
+                <a href="/employee_list" class="menu-link"><span class="menu-text">List</span></a>
               </li>
               <li class="menu-item">
-                <a href="/project_details" class="menu-link"><span class="menu-text">Detail</span></a>
-              </li>
-              <li class="menu-item">
-                <a href="/project_create" class="menu-link"><span class="menu-text">Create</span></a>
+                <a href="/employee_create" class="menu-link"><span class="menu-text">Create</span></a>
               </li>
             </ul>
+          </li>
+          <li class="menu-item">
+            <a href="javascript:void(0)" data-fc-type="collapse" class="menu-link">
+              <span class="menu-icon"><i class="mgc_building_2_line"></i></span>
+              <span class="menu-text">User</span>
+              <span class="menu-arrow"></span>
+            </a>
+            <ul class="sub-menu hidden">
+              <li class="menu-item">
+                <a href="/user_list" class="menu-link"><span class="menu-text">List</span></a>
+              </li>
+              
+              <li class="menu-item">
+                <a href="/signup" class="menu-link"><span class="menu-text">Create</span></a>
+              </li>
+            </ul>
+            
           </li>
           <li class="menu-item">
             <a href="javascript:void(0)" data-fc-type="collapse" class="menu-link">
@@ -151,10 +183,7 @@
                 <a href="/logout" class="menu-link"><span class="menu-text">Logout</span></a>
               </li>
               <li class="menu-item">
-                <a href="auth-recoverpw.html" class="menu-link"><span class="menu-text">Recover Password</span></a>
-              </li>
-              <li class="menu-item">
-                <a href="auth-lock-screen.html" class="menu-link"><span class="menu-text">Lock Screen</span></a>
+                <a href="/forgot" class="menu-link"><span class="menu-text">Recover Password</span></a>
               </li>
               {% endif %}
             </ul>
@@ -426,7 +455,6 @@
   <script src="{% static 'assets/js/pages/form-editor.js' %} "></script>
 
 
-
   <!-- Dashboard Project Page js -->
   <script src="{% static 'assets/js/pages/dashboard.js' %}"></script>
 
@@ -440,6 +468,12 @@
 
   <!-- Sweet alert init js -->
   <script src="{% static 'assets/js/pages/extended-sweetalert.js' %}"></script>
+
+   <!-- Fullcalendar Plugin Js -->
+   <script src="{% static 'assets/libs/fullcalendar/index.global.min.js' %}"></script>
+
+   <!-- Calendar Js -->
+   <script src="{% static 'assets/js/pages/apps-calendar.js' %}"></script>
 </body>
 
 </html>

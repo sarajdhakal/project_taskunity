@@ -23,7 +23,7 @@ from . import settings
 urlpatterns = [
              path('admin/', admin.site.urls),
              path("ckeditor5/", include('django_ckeditor_5.urls')),
-             path('', include('crm.urls')),
+             path('', include('user_list.urls')),
              path('', include('company.urls')),
              path('', include('analytics.urls')),
              path('', include('sales.urls')),

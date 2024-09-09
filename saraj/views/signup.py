@@ -13,6 +13,6 @@ def signup(request):
             if form.is_valid():
                 form.save()
                 messages.success(request, f'Account created for {form.cleaned_data["username"]}')
-                return redirect('login')
+                return redirect('signup')
 
     return render(request, 'signup.html', {'form': form})
