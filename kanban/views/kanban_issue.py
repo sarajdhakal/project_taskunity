@@ -15,7 +15,7 @@ def kanban_issue(request, id):
         context = {
             'issue': issue,
             'projects': projects,
-            'user_list': users,
+            'users': users,
         }
         return render(request, 'kanban_issue.html', context)
     except Exception as e:

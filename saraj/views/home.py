@@ -1,6 +1,7 @@
+import json
 from django.shortcuts import render
 from django.contrib.auth.decorators import login_required
-from projects.models import *
+from projects.models import Project
 from projects.models.employee import Employee
 from kanban.models.kanban import *
 
@@ -8,6 +9,12 @@ from kanban.models.kanban import *
 # @login_required(login_url='login')
 def index(request):
     projects = Project.objects.all()
+    completed_count = Project.objects.filter(progress='Completed').count()
+    pending_count = Project.objects.filter(progress__in=['Not started', 'In Progress']).count()
+    project_data = {
+        'completed_count': completed_count,
+        'pending_count': pending_count,
+    }
     in_progress_count = Project.objects.filter(progress='In Progress')
     completed_count = Project.objects.filter(progress='Completed').count()
     delivered_count = Project.objects.filter(progress='Delivered').count()
@@ -30,5 +37,6 @@ def index(request):
                'total_employees_count': total_employees_count,
                'reviews_count': reviews_count,
                'new_projects_count': new_projects_count,
+               'project_data_json': json.dumps(project_data),
                'done_count': done_count}
     return render(request, 'index.html', context)

@@ -173,7 +173,9 @@
                       <h4 class="card-title">Monthly Target</h4>
 
                       <div id="monthly-target" class="apex-charts my-8" data-colors="#0acf97,#3073F1"></div>
-
+                      <script>
+                        const projectData = JSON.parse('{{ project_data_json|escapejs }}');
+                    </script>
       
                       <div class="flex justify-center">
                         <div class="w-1/2 text-center">

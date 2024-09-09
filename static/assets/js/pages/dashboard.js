@@ -1,3 +1,4 @@
+console.log(projectData);
 var colors = ["#3073F1", "#0acf97"],
     dataColors = document.querySelector("#crm-project-statistics").dataset.colors,
     options = {
@@ -64,7 +65,7 @@ var colors = ["#3073F1", "#0acf97"],
         stroke: {
             colors: ["transparent"]
         },
-        series: [82, 37],
+        series: [projectData.completed_count, projectData.pending_count],
         labels: ["Done Projects", "Pending Projects"],
         colors: colors = (dataColors = document.querySelector("#monthly-target").dataset.colors) ? dataColors.split(
             ",") : colors,

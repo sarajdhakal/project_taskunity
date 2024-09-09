@@ -27,8 +27,10 @@
                     </div>
                 </div>
                 <!-- Page Title End -->
-
+                <form action="" method="POST" enctype="multipart/form-data" >
+                    {%  csrf_token %}
                 <div class="grid lg:grid-cols-4 gap-6">
+                  
                     <div class="col-span-1 flex flex-col gap-6">
                         <div class="card p-6">
                             <div class="flex justify-between items-center mb-4">
@@ -37,10 +39,10 @@
                                     <i class="mgc_add_line"></i>
                                 </div>
                             </div>
-                            <form action="#" class="dropzone" id="my-dropzone">
-                                {%  csrf_token %}
+                            <div class="dropzone" id="my-dropzone">
+                             
                             <div class="fallback">
-                                <input name="file" type="file" multiple="multiple">
+                                <input name="image" type="file" multiple="multiple">
                             </div>
                             <div class="dz-message needsclick w-full">
                                 <div class="mb-3">
@@ -49,7 +51,7 @@
 
                                 <h5 class="text-xl text-gray-600 dark:text-gray-200">Drop files here or click to upload.</h5>
                             </div>
-                        </form>
+                        </div>
 
                             <div class="">
                                
@@ -66,23 +68,16 @@
 
                             <div class="flex flex-col gap-3">
                                 <div class="">
-                                    <label for="select-label-catagory" class="mb-2 block">Users</label>
-                                    <select id="select-label-catagory" class="form-select">
-                                        <option selected>Select</option>
+    
+                                    <select id="search-select" name ="team_member"class="search-select" multiple="multiple">
+                                       
                                       {% for user in users %}
-                                  <option>{{ user.username }}</option>
+                                  <option value={{user.id}}>{{ user.username }}</option>
                                   {% endfor %}
                                     </select>
                                 </div>
 
-                                <div class="flex gap-3">
-                                    <div class="flex -space-x-2">
-                                        <img class="inline-block h-8 w-8 rounded-full ring-2 ring-gray-200 dark:ring-gray-700" src="{% static 'assets/images/users/user-9.jpg' %}" alt="Image Description">
-                                        <img class="inline-block h-8 w-8 rounded-full ring-2 ring-gray-200 dark:ring-gray-700" src="{% static 'assets/images/users/user-8.jpg' %}" alt="Image Description">
-                                        <img class="inline-block h-8 w-8 rounded-full ring-2 ring-gray-200 dark:ring-gray-700" src="{% static 'assets/images/users/user-7.jpg' %}" alt="Image Description">
-                                        <img class="inline-block h-8 w-8 rounded-full ring-2 ring-gray-200 dark:ring-gray-700" src="{% static 'assets/images/users/user-6.jpg' %}" alt="Image Description">
-                                    </div>
-                                </div>
+                               
                             </div>
                         </div>
                     </div>
@@ -99,7 +94,7 @@
                             <div class="flex flex-col gap-3">
                                 <div class="">
                                     <label for="project-name" class="mb-2 block">Project Name</label>
-                                    <input type="email" id="project-name" name="name" class="form-input" placeholder="Enter Project Name" aria-describedby="input-helper-text">
+                                    <input type="text" id="project-name" name="name" class="form-input" placeholder="Enter Project Name" aria-describedby="input-helper-text">
                                 </div>
 
                                 <div class="">
@@ -110,41 +105,52 @@
 
 
                                 <div class="grid md:grid-cols-2 gap-3">
-                                      <div class="">
-                                    <label for="product-status" class="mb-2 block">Status <span class="text-red-500">*</span></label>
-                                    <div class="flex gap-x-6">
+                                    <div class="">
+                                     <label for="product-status" class="mb-2 block">Status <span class="text-red-500">*</span></label>
+                                     <div class="flex gap-x-6">
                                         <div class="flex">
-                                            <input type="radio" name="radio-group" class="form-radio" id="private" checked>
+                                            <input type="radio" name="status" class="form-radio" id="private" checked>
                                             <label for="private" class="text-sm text-gray-500 ms-2 dark:text-gray-400">Private</label>
                                         </div>
 
                                         <div class="flex">
-                                            <input type="radio" name="radio-group" class="form-radio" id="team">
+                                            <input type="radio" name="status" class="form-radio" id="team">
                                             <label for="team" class="text-sm text-gray-500 ms-2 dark:text-gray-400">Team</label>
                                         </div>
 
                                         <div class="flex">
-                                            <input type="radio" name="radio-group" class="form-radio" id="public">
+                                            <input type="radio" name="status" class="form-radio" id="public">
                                             <label for="public" class="text-sm text-gray-500 ms-2 dark:text-gray-400">Public</label>
                                         </div>
-                                    </div>
-                                </div>
+                                      </div>
+                                  </div>
 
                                     <div class="">
                                         <label for="due-date" class="mb-2 block">Due Date</label>
-                                        <input type="date" id="due-date" class="form-input"></input>
+                                        <input type="date" name="due_date" id="due-date" class="form-input"></input>
                                     </div>
                                 </div>
-
+                                <div class="grid md:grid-cols-2 gap-3">
                                 <div>
                                     <label for="select-label" class="mb-2 block">Progress</label>
-                                    <select id="select-label" class="form-select">
+                                    <select id="select-label" name="progress" class="selectize">
                                         <option selected>Not Started</option>
                                         <option>Completed</option>
                                         <option>In Progress</option>
                                     </select>
                                 </div>
 
+                                <div>
+                                    <label for="select-label" class="mb-2 block">Category</label>
+                                    <select id="select-label" name="category" class="selectize">
+                                        <option selected>Web Development</option>
+                                        <option>Android App</option>
+                                        <option>Firewall</option>
+                                        <option>IOS app</option>
+                                        
+                                    </select>
+                                </div>
+                            </div>
                                 <div>
                                     <label for="budget" class="mb-2 block">Budget</label>
                                     <input type="number"  name="price" id="budget" class="form-input" placeholder="Enter Project Budget"></input>
@@ -155,15 +161,17 @@
 
                     <div class="lg:col-span-4 mt-5">
                         <div class="flex justify-center gap-3">
-                            <button type="button" class="inline-flex items-center rounded-md border border-transparent bg-red-500 px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-red-500 focus:outline-none">
+                            <button type="reset" class="inline-flex items-center rounded-md border border-transparent bg-red-500 px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-red-500 focus:outline-none">
                                 Cancel
                             </button>
-                            <button type="button" class="inline-flex items-center rounded-md border border-transparent bg-green-500 px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-green-500 focus:outline-none">
+                            <button type="submit" class="inline-flex items-center rounded-md border border-transparent bg-green-500 px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-green-500 focus:outline-none">
                                 Save
                             </button>
                         </div>
                     </div>
+              
                 </div>
+            </form>
     
 
            {% endblock %}
