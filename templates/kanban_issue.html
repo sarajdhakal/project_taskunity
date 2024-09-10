@@ -19,6 +19,8 @@
     </div>
 </div>
 
+<form action="" method="POST" enctype="multipart/form">
+    {% csrf_token %}
 <div class="grid lg:grid-cols-4 gap-6">
     <div class="col-span-1 flex flex-col gap-6">
         <div class="card p-6">
@@ -28,10 +30,9 @@
                     <i class="mgc_add_line"></i>
                 </div>
             </div>
-            <form action="#" class="dropzone" id="my-dropzone">
-                {% csrf_token %}
+            <div  class="dropzone" id="my-dropzone">
                 <div class="fallback">
-                    <input name="file" type="file" multiple="multiple">
+                    <input name="attachment" type="file" multiple="multiple">
                 </div>
                 <div class="dz-message needsclick w-full">
                     <div class="mb-3">
@@ -40,7 +41,7 @@
 
                     <h5 class="text-xl text-gray-600 dark:text-gray-200">Drop files here or click to upload...</h5>
                 </div>
-            </form>
+            </div>
             
             <div class="">
 
@@ -77,18 +78,22 @@
                             {% if issue.status == "done" %}selected{% endif %}>
                         Done
                     </option>
+                    <option value="done"
+                            {% if issue.status == "review" %}selected{% endif %}>
+                        Review
+                    </option>
                 </select>
                 <div class="flex flex-col gap-3 mt-2">
                     <div class="">
                         <label for="select-label-catagory" class="mb-2 block">Labels</label>
-                        <input type="text" name="label" id="label" class="form-input"
-                        placeholder="Eg: HTML, CSS , JS"></input>
+                        <input type="text" name="labels" id="label" class="form-input"
+                        placeholder="Eg: HTML, CSS , JS" value="{{issue.labels}}"></input>
                     </div>
                 </div>
                 <div class="flex flex-col gap-3 mt-2">
                     <div class="">
                         <label for="select-label-catagory" class="mb-2 block">Assignee</label>
-                        <input type="text" name="label" id="label" class="form-input"
+                        <input type="text" name="user" id="label" class="form-input"
                         value="{{issue.user}}" readonly></input>
                     </div>
                 </div>
@@ -96,10 +101,9 @@
                 <div class="flex flex-col gap-3 mt-2">
                     <div class="">
                         <label for="select-label-catagory" class="mb-2 block">Users</label>
-                        <select id="select-label-catagory" class="form-select">
-                            <option selected>Select</option>
-                            {% for user in users %}
-                            <option>{{ user.username }}</option>
+                        <select id="search-select" name="assigned_to" class="search-select">
+                            {% for employees in employees %}
+                            <option value="{{employees.user}}">{{ employees.name }}</option>
                             {% endfor %}
                         </select>
                     </div>
@@ -146,45 +150,45 @@
             </div>
 
             <div class="flex flex-col gap-3">
-                <div class="">
-                    <label for="project-name" class="mb-2 block">Project Name</label>
-                    <select id="search-select" class="search-select" name="project" required>
-                        <option>Select a project</option>
-                        {% for project in projects %}
-                        <option value="{{ project.id }}" {% if issue.project.id == project.id %}selected{% endif %}>
-                            {{ project.name }}
-                        </option>
-                        {% endfor %}
-                    </select>
-                </div>
+
+                <div class="grid md:grid-cols-2 gap-3">
+                    <div>
+                        <label for="issue-title" class="mb-2 block">Issue Title</label>
+                        <input type="text" id="issue-title" name="title" class="form-input" value="{{ issue.title }}" required>
+                    </div>
+
+                        <div>
+                            <label for="project-name" class="mb-2 block">Project Name</label>
+                            <select id="search-select" class="selectize" name="project" required>
+                                <option>Select a project</option>
+                                {% for project in projects %}
+                <option value="{{ project.name }}" {% if issue.project.name == project.name %}selected{% endif %}>
+                    {{ project.name }}
+                </option>
+            {% endfor %}
+                            </select>
+                        </div>
+                </div>               
 
                 <div class="">
                     <label for="project-description" class="mb-2 block">Click here for further details of <a
                             href="/project_details/{{ project.id }}/" class="text-slate-900 dark:text-slate-200">
                             project </a> <span class="text-red-500">*</span></label>
                 </div>
-
-                <label>
-                   Add Description
-                </label>
-                <div id="snow-editor" style="height: 300px;">
-                    <h3><span class="ql-size-large">Hello World!</span></h3>
-                    <p><br></p>
-                    <h3>This is a simple editable area.</h3>
-                    <p><br></p>
-                    <ul>
-                        <li>Select a text to reveal the toolbar.</li>
-                        <li>Edit rich document on-the-fly, so elastic!</li>
-                    </ul>
-                    <p><br></p>
-                    <p>End of simple area</p>
+                <div class="">
+                    <label for="description" class="mb-2 block">Issue Description</label>
+                    <textarea id="description" name="description" class="form-input" >{{ issue.description }}</textarea>
+                </div>
+                <div class="">
+                    <label for="description" class="mb-2 block">Detailed Description</label>
+                    <textarea id="description" name="issue_2description"  rows="10" class="form-input" placeholder="Enter detailed description">{{ issue.issue_2description}}</textarea>
                 </div>
             </div>
         </div>
         
         <div class="card p-6">
             <div class="flex justify-between items-center mb-4">
-                <p class="card-title">Child Issues</p>
+                <p class="card-title">Child Issues(If Any)</p>
                 <div class="inline-flex items-center justify-center rounded-lg bg-slate-100 dark:bg-slate-700 w-9 h-9">
                     <i class="mgc_transfer_line"></i>
                 </div>
@@ -207,17 +211,18 @@
 
     <div class="lg:col-span-4 mb-2">
         <div class="flex justify-center gap-3">
-            <button type="button"
+            <button type="reset"
                 class="inline-flex items-center rounded-md border border-transparent bg-red-500 px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-red-500 focus:outline-none">
                 Cancel
             </button>
-            <button type="button"
+            <button type="submit"
                 class="inline-flex items-center rounded-md border border-transparent bg-green-500 px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-green-500 focus:outline-none">
                 Save
             </button>
         </div>
     </div>
 </div>
+</form>
 
 <div class="card mt-3 p-6">
     <nav class="flex space-x-2 border-b border-gray-200 dark:border-gray-700" aria-label="Tabs" role="tablist">
