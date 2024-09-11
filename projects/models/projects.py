@@ -28,10 +28,10 @@ class Project(models.Model):
         choices=Progress,
         default='Not Started',
     )
-    user = models.ForeignKey(User, on_delete = models.SET_NULL, null = True, blank = True)
+    # user = models.ForeignKey(User, on_delete = models.SET_NULL, null = True, blank = True)
 
-    image = models.ImageField(upload_to='uploadimages/projects/', default=0)
-    # users = models.ManyToManyField(User)
+    image = models.ImageField(upload_to='uploadimages/projects/', default='p1.jpg')
+    users = models.ManyToManyField(User)
     date_created = models.DateTimeField(auto_now_add=True)
     date_modified = models.DateTimeField(auto_now=True)
     due_date = models.DateField(null=True)
