@@ -1,0 +1,179 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}
+  Create Project | Task Unity
+{% endblock %}
+
+{% block content %}
+    
+                <!-- Page Title Start -->
+                <div class="flex justify-between items-center mb-6">
+                    <h4 class="text-slate-900 dark:text-slate-200 text-lg font-medium">Update Project</h4>
+
+                    <div class="md:flex hidden items-center gap-2.5 text-sm font-semibold">
+                        <div class="flex items-center gap-2">
+                            <a href="/" class="text-sm font-medium text-slate-700 dark:text-slate-400">Task Unity</a>
+                        </div>
+
+                        <div class="flex items-center gap-2">
+                            <i class="mgc_right_line text-lg flex-shrink-0 text-slate-400 rtl:rotate-180"></i>
+                            <a href="#" class="text-sm font-medium text-slate-700 dark:text-slate-400">Project</a>
+                        </div>
+
+                        <div class="flex items-center gap-2">
+                            <i class="mgc_right_line text-lg flex-shrink-0 text-slate-400 rtl:rotate-180"></i>
+                            <a href="#" class="text-sm font-medium text-slate-700 dark:text-slate-400" aria-current="page">Create Project</a>
+                        </div>
+                    </div>
+                </div>
+                <!-- Page Title End -->
+                <form action="" method="POST" enctype="multipart/form-data" >
+                    {%  csrf_token %}
+                <div class="grid lg:grid-cols-4 gap-6">
+                  
+                    <div class="col-span-1 flex flex-col gap-6">
+                        <div class="card p-6">
+                            <div class="flex justify-between items-center mb-4">
+                                <h4 class="card-title">Add Avatar Images</h4>
+                                <div class="inline-flex items-center justify-center rounded-lg bg-slate-100 dark:bg-slate-700 w-9 h-9">
+                                    <i class="mgc_add_line"></i>
+                                </div>
+                            </div>
+                            <div class="dropzone" id="my-dropzone">
+                            <div class="dz-message needsclick w-full">
+                                <div class="mb-3">
+                                    <img src = "{{project.image.url}}" style = "height : 100px ">
+                                </div>                               
+                            </div>
+                        </div>
+
+                            <div class="">
+                                <input name="image" type="file" multiple="multiple">
+                            </div>
+                        </div>
+
+                        <div class="card p-6">
+                            <div class="flex justify-between items-center mb-4">
+                                <p class="card-title">Team Members</p>
+                                <div class="inline-flex items-center justify-center rounded-lg bg-slate-100 dark:bg-slate-700 w-9 h-9">
+                                    <i class="mgc_compass_line"></i>
+                                </div>
+                            </div>
+
+                            <div class="flex flex-col gap-3">
+                                <h2>Current Team Members:</h2>
+                                <ul>
+                                    {% for member in team_member %}
+                                        <li>{{ member.username }}</li>
+                                    {% endfor %}
+                                </ul>
+                                <h2>Add or Update Team Members:</h2>
+                                <select id="search-select" name="team_member" class="search-select" multiple="multiple">
+                                    {% for user in users %}
+                                        <option value="{{ user.id }}" {% if user in team_member %}selected{% endif %}>{{ user.username }}</option>
+                                    {% endfor %}
+                                </select>
+                             
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="lg:col-span-3 space-y-6">
+                        <div class="card p-6">
+                            <div class="flex justify-between items-center mb-4">
+                                <p class="card-title">Project Information</p>
+                                <div class="inline-flex items-center justify-center rounded-lg bg-slate-100 dark:bg-slate-700 w-9 h-9">
+                                    <i class="mgc_transfer_line"></i>
+                                </div>
+                            </div>
+
+                            <div class="flex flex-col gap-3">
+                                <div class="">
+                                    <label for="project-name" class="mb-2 block">Project Name</label>
+                                    <input type="text" id="project-name" name="name" value ="{{project.name}}" class="form-input" placeholder="Enter Project Name" aria-describedby="input-helper-text">
+                                </div>
+
+                                <div class="">
+                                    <label for="project-description" class="mb-2 block">Project Description <span class="text-red-500">*</span></label>
+                                    <textarea id="project-description" name="description" placeholder="Enter Project Description" class="form-input" rows="8"> {{project.description}}</textarea>
+                                </div>
+
+
+
+                                <div class="grid md:grid-cols-2 gap-3">
+                                    <div class="">
+                                     <label for="product-status" class="mb-2 block">Status <span class="text-red-500">*</span></label>
+                                    
+                                     <div class="flex gap-x-6">
+                                        <div class="flex">
+                                            <input type="radio" name="status" value="Private" class="form-radio" id="private" {% if project.status == 'Private' %}checked{% endif %}>
+                                            <label for="private" class="text-sm text-gray-500">Private</label>
+                                        </div>
+                                        <div class="flex">
+                                            <input type="radio" name="status" value="Team" class="form-radio" id="team" {% if project.status == 'Team' %}checked{% endif %}>
+                                            <label for="team" class="text-sm text-gray-500">Team</label>
+                                        </div>
+                                        <div class="flex">
+                                            <input type="radio" name="status" value="Public" class="form-radio" id="public" {% if project.status == 'Public' %}checked{% endif %}>
+                                            <label for="public" class="text-sm text-gray-500">Public</label>
+                                        </div>
+                                      </div>
+                                  </div>
+                                  <div class="">
+                                    <label for="due-date" class="mb-2 block">Due Date</label>
+                                        {{project.due_date}}
+                                    </div>
+
+                                    <div class="">
+                                        <label for="due-date" class="mb-2 block">Extended Date</label>
+                                            {{project.extended_date}}
+                                        
+                                        <input type="date" name="extended_date"  value="{{project.extended_date}}"  id="due-date" class="form-input"></input>
+                                    </div>
+                                </div>
+                                <div class="grid md:grid-cols-2 gap-3">
+                                <div>
+                                    <label for="select-label" class="mb-2 block">Progress</label>
+                                    
+                                    <select id="select-label" name="progress" class="selectize">
+                                        <option value="Not Started" {% if project.progress == 'Not Started' %}selected{% endif %}>Not Started</option>
+                                        <option value="Completed" {% if project.progress == 'Completed' %}selected{% endif %}>Completed</option>
+                                        <option value="In Progress" {% if project.progress == 'In Progress' %}selected{% endif %}>In Progress</option>
+                                    </select>
+                                </div>
+
+                                <div>
+                                    <label for="select-label" class="mb-2 block">Category</label>
+                            
+                                    <select id="select-label" name="category" class="selectize">
+                                        <option value="Web Development" {% if project.category == 'Web Development' %}selected{% endif %}>Web Development</option>
+                                        <option value="Android App" {% if project.category == 'Android App' %}selected{% endif %}>Android App</option>
+                                        <option value="Firewall" {% if project.category == 'Firewall' %}selected{% endif %}>Firewall</option>
+                                        <option value="IOS App" {% if project.category == 'IOS App' %}selected{% endif %}>IOS App</option>
+                                    </select>
+                                </div>
+                            </div>
+                                <div>
+                                    <label for="budget" class="mb-2 block">Budget</label>
+                                    <input type="number"  name="price" value ="{{project.price}}" id="budget" class="form-input" placeholder="Enter Project Budget"></input>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="lg:col-span-4 mt-5">
+                        <div class="flex justify-center gap-3">
+                            <button type="reset" class="inline-flex items-center rounded-md border border-transparent bg-red-500 px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-red-500 focus:outline-none">
+                                Cancel
+                            </button>
+                            <button type="submit" class="inline-flex items-center rounded-md border border-transparent bg-green-500 px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-green-500 focus:outline-none">
+                                Update
+                            </button>
+                        </div>
+                    </div>
+              
+                </div>
+            </form>
+    
+
+           {% endblock %}
