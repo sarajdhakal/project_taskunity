@@ -11,7 +11,6 @@
           <!-- Page Title Start -->
           <div class="flex justify-between items-center mb-6">
             <h4 class="text-slate-900 dark:text-slate-200 text-lg font-medium">Project Details</h4>
-            <a href = "/delete_project/{{project.id}}/" class="text-sm font-medium text-slate-700 dark:text-slate-400">Delete</a>
 
             <div class="md:flex hidden items-center gap-2.5 text-sm font-semibold">
               <div class="flex items-center gap-2">
@@ -34,9 +33,22 @@
           <div class="grid lg:grid-cols-3 gap-6">
             <div class="lg:col-span-3">
               <div class="card">
-                <div class="card-header">
-                  <h6 class="card-title">Project Overview | {{ project.name }}</h6>
-                </div>
+                <div class="flex flex-wrap justify-between items-center gap-2 p-2">
+                  <h6 class="card-title">Project Overview | {{ project.name }}</h6>                 
+                  <div class="flex flex-wrap gap-2">
+                    <a href = "/update_project/{{project.id}}/">
+
+                      <button type="button" class="btn bg-dark/25 text-sm font-medium text-slate-900 dark:text-slate-200/70 hover:text-white hover:bg-dark/90"> <i class="mgc_edit_line me-3"></i> Update</button>
+
+                    </a>                    <a href = "/delete_project/{{project.id}}/">
+
+                      <button type="button"  class="btn bg-danger/25 text-danger hover:bg-danger hover:text-white"> <i class="mgc_delete_line me-3"></i> Delete</button>
+
+                    </a>
+                  </div>
+              </div>
+              <hr></hr>
+                
 
                 <div class="p-6">
                   <div class="grid lg:grid-cols-4 gap-6">
@@ -44,7 +56,7 @@
                     <div class="flex items-center gap-5">
                       <i data-feather="grid" class="h-10 w-10"></i>
                       <div class="">
-                        <h4 class="text-lg text-gray-700 dark:text-gray-300 font-medium">210</h4>
+                        <h4 class="text-lg text-gray-700 dark:text-gray-300 font-medium">{{ total_tasks }}</h4>
                         <span class="text-sm">Total Tasks</span>
                       </div>
                     </div>
@@ -53,7 +65,7 @@
                     <div class="flex items-center gap-5">
                       <i data-feather="check-square" class="h-10 w-10"></i>
                       <div class="">
-                        <h4 class="text-lg text-gray-700 dark:text-gray-300 font-medium">121</h4>
+                        <h4 class="text-lg text-gray-700 dark:text-gray-300 font-medium">{{ completed_tasks }}</h4>
                         <span class="text-sm">Total Tasks Completed</span>
                       </div>
                     </div>
@@ -62,7 +74,7 @@
                     <div class="flex items-center gap-5">
                       <i data-feather="users" class="h-10 w-10"></i>
                       <div class="">
-                        <h4 class="text-lg text-gray-700 dark:text-gray-300 font-medium">12</h4>
+                        <h4 class="text-lg text-gray-700 dark:text-gray-300 font-medium">5</h4>
                         <span class="text-sm">Total Team Size</span>
                       </div>
                     </div>
@@ -70,7 +82,7 @@
                     <div class="flex items-center gap-5">
                       <i data-feather="clock" class="h-10 w-10"></i>
                       <div class="">
-                        <h4 class="text-lg text-gray-700 dark:text-gray-300 font-medium">2500</h4>
+                        <h4 class="text-lg text-gray-700 dark:text-gray-300 font-medium">{{ total_hours_spent|floatformat:2 }}</h4>
                         <span class="text-sm">Total Hours Spent</span>
                       </div>
                     </div>

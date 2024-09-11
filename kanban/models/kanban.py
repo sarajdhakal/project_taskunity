@@ -22,8 +22,10 @@ class Issue(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     project = models.ForeignKey(Project, on_delete=models.CASCADE, null=True, blank=True)
     assigned_to = models.ForeignKey(Employee, on_delete=models.CASCADE, null=True, blank=True)
-    attachment = models.FileField(upload_to='attachments/issue_attachments', null=True, blank=True, default=None)
+    attachments = models.JSONField(default=list, blank=True)  # Stores multiple file paths
     labels = models.CharField(max_length=500, default='', blank=True)
     issue_2description = RichTextField(null=True, blank=True, default='')
+    due_date = models.DateField(null=True, blank=True)
+
     def __str__(self):
         return self.title

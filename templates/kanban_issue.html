@@ -1,5 +1,6 @@
 {% extends 'base.html' %}
 {% load static %}
+{% load custom_filters %}
 {% block title %}   Kanban Issue | Task Unity {% endblock %}
 
 {% block content %}
@@ -19,33 +20,33 @@
     </div>
 </div>
 
-<form action="" method="POST" enctype="multipart/form">
+
+{% if messages %}
+  <ul class="messages">
+    {% for message in messages %}
+    <div class="bg-red-500 text-sm text-white rounded-md p-4 inline-block" role="alert">
+         {{ message }}
+    </div>
+    {% endfor %}
+  </ul>
+{% endif %}
+<form action="" method="POST" enctype="multipart/form-data">
     {% csrf_token %}
 <div class="grid lg:grid-cols-4 gap-6">
     <div class="col-span-1 flex flex-col gap-6">
         <div class="card p-6">
             <div class="flex justify-between items-center mb-4">
-                <h4 class="card-title">Add Attachment </h4>
+                <h4 class="card-title">Add New Attachment </h4>
                 <div class="inline-flex items-center justify-center rounded-lg bg-slate-100 dark:bg-slate-700 w-9 h-9">
                     <i class="mgc_add_line"></i>
                 </div>
             </div>
-            <div  class="dropzone" id="my-dropzone">
-                <div class="fallback">
-                    <input name="attachment" type="file" multiple="multiple">
-                </div>
-                <div class="dz-message needsclick w-full">
-                    <div class="mb-3">
-                        <i class="mgc_upload_3_line text-4xl text-gray-300 dark:text-gray-200"></i>
-                    </div>
-
-                    <h5 class="text-xl text-gray-600 dark:text-gray-200">Drop files here or click to upload...</h5>
-                </div>
-            </div>
             
-            <div class="">
-
-            </div>
+                <div class="fallback">
+                    <input name="attachment" type="file" multiple>
+                </div>
+                
+            
         </div>
 
         <div class="card p-6">
@@ -58,10 +59,12 @@
             <div class="mb-2">
                 <select class="selectize"
                         name="status">
+
                     <option value="new"
                             {% if issue.status == "new" %}selected{% endif %}>
                         New
                     </option>
+
                     <option value="unassigned"
                             {% if issue.status == "unassigned" %}selected{% endif %}>
                         Unassigned
@@ -90,22 +93,17 @@
                         placeholder="Eg: HTML, CSS , JS" value="{{issue.labels}}"></input>
                     </div>
                 </div>
-                <div class="flex flex-col gap-3 mt-2">
-                    <div class="">
-                        <label for="select-label-catagory" class="mb-2 block">Assignee</label>
-                        <input type="text" name="user" id="label" class="form-input"
-                        value="{{issue.user}}" readonly></input>
-                    </div>
-                </div>
+               
                 
                 <div class="flex flex-col gap-3 mt-2">
                     <div class="">
-                        <label for="select-label-catagory" class="mb-2 block">Users</label>
-                        <select id="search-select" name="assigned_to" class="search-select">
-                            {% for employees in employees %}
-                            <option value="{{employees.user}}">{{ employees.name }}</option>
-                            {% endfor %}
-                        </select>
+                        <label for="select-label-catagory" class="mb-2 block">Team Members</label>
+                            <select id="search-select" class="search-select" name="assigned_to">
+                                <option value="">None</option>
+                                {% for employee in employees %}
+                                    <option value="{{ employee.id }}" {% if issue.assigned_to and issue.assigned_to.id == employee.id %}selected{% endif %}>{{ employee.name }}</option>
+                                {% endfor %}
+                            </select>
                     </div>
     
                     <div class="flex gap-3">
@@ -159,22 +157,86 @@
 
                         <div>
                             <label for="project-name" class="mb-2 block">Project Name</label>
+                           
+                            {% if issue.project %}
+                            <input type="text" id="issue-title" name="project" class="form-input" value="{{ issue.project.name }}" readonly>
+                            {%else %}
                             <select id="search-select" class="selectize" name="project" required>
                                 <option>Select a project</option>
                                 {% for project in projects %}
-                <option value="{{ project.name }}" {% if issue.project.name == project.name %}selected{% endif %}>
-                    {{ project.name }}
-                </option>
-            {% endfor %}
+                                <option value="{{ project.name }}" {% if issue.project.name == project.name %}selected{% endif %}>
+                                    {{ project.name }}
+                                </option>
+                                 {% endfor %}
                             </select>
+                            {%endif%}
+
                         </div>
                 </div>               
 
+                {%if issue.project %}
                 <div class="">
-                    <label for="project-description" class="mb-2 block">Click here for further details of <a
-                            href="/project_details/{{ project.id }}/" class="text-slate-900 dark:text-slate-200">
-                            project </a> <span class="text-red-500">*</span></label>
+                    <label for="project-description" class="mb-2 block">Click here for further details of project<a
+                            href="/project_details/{{ issue.project.id }}/" class="text-slate-900 dark:text-slate-200">
+                            <span class="text-primary">{{issue.project.name}}</span> </a> </label>
                 </div>
+                {% endif %}
+
+                <div class="grid grid-cols-2 gap-6">
+                    <div class="">
+                      <div class="">
+                        <p class="mb-3 text-sm uppercase font-medium">
+                          <i class="uil-calender text-red-500 text-base"></i> Assignee
+                        </p>
+                        <h5 class="text-base text-gray-700 dark:text-gray-300 font-medium">{{ issue.user }}</h5>
+                      </div>
+                    </div>
+                    <div class="">
+                      <p class="mb-3 text-sm uppercase font-medium">
+                        <i class="uil-calendar-slash text-red-500 text-base"></i> Due Date
+                      </p>
+
+
+                      {%if issue.due_date%}
+                      <h5 class="text-base text-gray-700 dark:text-gray-300 font-medium">{{ issue.due_date }}</h5>
+                      <input type="date" name="due_date" value="{{issue.due_date|date:'Y-m-d'}}"  hidden></input>
+                      {%else%}
+                      <input type="date" name="due_date" id="due-date" value="{{issue.due_date|date:'Y-m-d'}}" class="form-input"></input>
+                      {%endif%}
+
+                    </div>
+                    
+
+                    
+                  </div>
+
+
+                {% if issue.attachments %}
+                <div class="">
+                    <h6 class="text-gray-800 font-medium mb-3">Attached Files</h6>
+
+                    <div class="grid md:grid-cols-4 gap-3">
+                    {% for attachment in issue.attachments %}               
+                      <div class="p-2 border border-gray-200 dark:border-gray-700 rounded mb-2">
+                        <div class="flex items-center">
+                          <div class="h-9 w-9 rounded flex justify-center items-center text-primary bg-primary/20 me-3">
+                            <i class="mgc_file_new_line text-xl"></i>
+                          </div>
+                          <div class="">
+                            <a href="{{ attachment }}" download class="text-sm font-medium">{{ attachment|basename }}</a>
+                          </div>
+                          <div>
+                            <a href="{{ attachment }}" download class="p-2"><i class="mgc_download_line text-xl"></i></a>
+                          </div>
+                        </div>
+                      </div>
+                    {% endfor %}
+                     
+                    </div>
+                </div>
+                {% endif %}
+                
+
                 <div class="">
                     <label for="description" class="mb-2 block">Issue Description</label>
                     <textarea id="description" name="description" class="form-input" >{{ issue.description }}</textarea>
@@ -211,9 +273,10 @@
 
     <div class="lg:col-span-4 mb-2">
         <div class="flex justify-center gap-3">
-            <button type="reset"
-                class="inline-flex items-center rounded-md border border-transparent bg-red-500 px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-red-500 focus:outline-none">
+            <button type="reset">
+                <a href="/kanban"  class="inline-flex items-center rounded-md border border-transparent bg-red-500 px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-red-500 focus:outline-none">
                 Cancel
+                </a>
             </button>
             <button type="submit"
                 class="inline-flex items-center rounded-md border border-transparent bg-green-500 px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-green-500 focus:outline-none">

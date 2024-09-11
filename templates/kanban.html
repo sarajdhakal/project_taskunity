@@ -15,10 +15,7 @@
                     <a href="/" class="text-sm font-medium text-slate-700 dark:text-slate-400">Task Unity</a>
                 </div>
 
-                <div class="flex items-center gap-2">
-                    <i class="mgc_right_line text-lg flex-shrink-0 text-slate-400 rtl:rotate-180"></i>
-                    <a href="/" class="text-sm font-medium text-slate-700 dark:text-slate-400">Apps</a>
-                </div>
+              
 
                 <div class="flex items-center gap-2">
                     <i class="mgc_right_line text-lg flex-shrink-0 text-slate-400 rtl:rotate-180"></i>
@@ -27,7 +24,9 @@
             </div>
         </div>
         {% for message in messages %}
-            {{ message }}
+        <div class="bg-green-500 text-sm text-white rounded-md p-4 inline" role="alert">
+            {{message}}
+        </div>
         {% endfor %}
 
         <!-- Page Title End -->
@@ -35,87 +34,172 @@
         <div class="grid h-full w-full">
             <div class="overflow-hidden text-gray-700 dark:text-slate-400">
                 <div class="flex overflow-x-auto custom-scroll gap-6 pb-4">
+                    {% if new_issues|length > 0 %}
+                    {% if  request.user.is_superuser %}
                     <div class="flex flex-col flex-shrink-0 w-72 border rounded-md overflow-hidden border-gray-200 dark:border-gray-700">
                         <div class="flex items-center flex-shrink-0 h-10 p-4 bg-white dark:bg-slate-800">
-                            <span class="block text-sm font-semibold uppercase">In progress ({{ inprogress_issues|length }})</span>
+                            <span class="block text-sm font-semibold uppercase">New ({{ new_issues|length }})</span>
                         </div>
                         <div class="flex flex-col gap-4 overflow-auto p-4 h-[calc(100vh-300px)] kanban-board custom-scroll"
-                             id="kanbanborad-two">
-                            {% for issue in inprogress_issues %}
+                             id="kanbanborad-six">
+                            {% for issue in new_issues %}
                                 <div class="card p-4 cursor-pointer">
                                     <div class="flex justify-between items-center">
-                                        <h4 class="flex justify-between items-center h-6 px-3 text-xs font-semibold text-danger bg-danger/25 rounded-full">
-                                            {{ issue.title }}</h4>
+                                        <h4 class="flex justify-between items-center h-6 px-3 text-xs font-semibold text-pink-500 bg-pink-500/25 rounded-full">{{ issue.title }}</h4>
+
                                         <div class="text-xs">{{ issue.date_created }}</div>
                                     </div>
+
                                     <h4 class="mt-3 text-sm">{{ issue.description }}</h4>
                                     <div class="flex items-center w-full mt-3 text-xs font-medium text-gray-400">
                                         <div class="flex items-center">
                                             <i class="mgc_chat_3_line text-base"></i>
-                                            <span class="ms-1 leading-none">12</span>
+                                            <span class="ms-1 leading-none">14</span>
                                         </div>
                                         <div class="flex items-center ms-4">
                                             <i class="mgc_attachment_line rotate-45 text-base"></i>
-                                            <span class="ms-1 leading-none">12</span>
+                                            <span class="ms-1 leading-none">5</span>
                                         </div>
                                         <div class="flex items-center ms-4">
                                             <i class="mgc_user_5_line text-base"></i>
                                             <span class="ms-1 leading-none">12</span>
                                         </div>
-
                                         <div class="flex items-center ms-4 gap-2">
                                             <a href="/kanban_issue/{{ issue.id }}/" class="text-slate-900 dark:text-slate-200">
                                                 <span class="inline-flex items-center gap-1.5 py-1.5 px-3 rounded-md text-xs font-medium bg-primary/25 text-sky-800">Details</span>
                                             </a>
                                         </div>
-                                       
+                                        
                                     </div>
                                 </div>
                             {% empty %}
-                                <!-- Handle case where there are no issues -->
                                 <p>No issues found for this status.</p>
-
                             {% endfor %}
+
                             <div id="app" class="w-full max-w-xs relative">
                                 <!-- Button -->
-                                <button id="createButtonInProgress" onclick="showForm('InProgress')"
+                                <button id="createButtonNew" onclick="showForm('New')"
                                         class="btn border-secondary text-secondary hover:bg-secondary hover:text-white">
                                     Create an Issue
                                 </button>
 
                                 <!-- Form (hidden by default) -->
-                                <form id="issueFormInProgress"
+                                <form id="issueFormNew"
+                                      class="hidden bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4 absolute top-0 left-0 w-full"
+                                      method="post">
+                                    {% csrf_token %}
+                                    <div class="mb-4">
+                                        <label class="block text-gray-700 text-sm font-bold mb-2" for="id_title_new">
+                                            Issue Title
+                                        </label>
+                                        {{ forms.new.title }}
+                                    </div>
+                                    <div class="mb-6">
+                                        <label class="block text-gray-700 text-sm font-bold mb-2"
+                                               for="id_description_new">
+                                            Issue Description
+                                        </label>
+                                        {{ forms.new.description }}
+                                    </div>
+                                    <div class="flex items-center justify-between">
+                                        <button class="btn bg-success/25 text-success hover:bg-success hover:text-white"
+                                                type="submit">
+                                            Submit
+                                        </button>
+                                        <button type="button" onclick="hideForm('New')">Cancel</button>
+                                    </div>
+                                </form>
+                            </div>
+                            
+                        </div>
+                    </div>
+                    {%endif%}
+                    {% endif %}
+
+                    {% if unassigned_issues|length > 0 %}
+                    <div class="flex flex-col flex-shrink-0 w-72 border rounded-md overflow-hidden border-gray-200 dark:border-gray-700">
+                        <div class="flex items-center flex-shrink-0 h-10 p-4 bg-white dark:bg-slate-800">
+                            <span class="block text-sm font-semibold uppercase">Unassigned ({{ unassigned_issues|length }})</span>
+                        </div>
+                        <div class="flex flex-col gap-4 overflow-auto p-4 h-[calc(100vh-300px)] kanban-board custom-scroll"
+                             id="kanbanborad-five">
+                            {% for issue in unassigned_issues %}
+                                <div class="card p-4 cursor-pointer">
+                                    <div class="flex justify-between items-center">
+                                        <h4 class="flex justify-between items-center h-6 px-3 text-xs font-semibold text-success bg-success/25 rounded-full">
+                                            {{ issue.title }}</h4>
+
+                                        <div class="text-xs">{{ issue.date_created }}</div>
+                                    </div>
+
+                                    <h4 class="mt-3 text-sm">{{ issue.description }}</h4>
+                                    <div class="flex items-center w-full mt-3 text-xs font-medium text-gray-400">
+                                        <div class="flex items-center">
+                                            <i class="mgc_chat_3_line text-base"></i>
+                                            <span class="ms-1 leading-none">14</span>
+                                        </div>
+                                        <div class="flex items-center ms-4">
+                                            <i class="mgc_attachment_line rotate-45 text-base"></i>
+                                            <span class="ms-1 leading-none">5</span>
+                                        </div>
+                                        <div class="flex items-center ms-4">
+                                            <i class="mgc_user_5_line text-base"></i>
+                                            <span class="ms-1 leading-none">12</span>
+                                        </div>
+                                        <div class="flex items-center ms-4 gap-2">
+                                            <a href="/kanban_issue/{{ issue.id }}/" class="text-slate-900 dark:text-slate-200">
+                                                <span class="inline-flex items-center gap-1.5 py-1.5 px-3 rounded-md text-xs font-medium bg-primary/25 text-sky-800">Details</span>
+                                            </a>
+                                        </div>
+                                        
+                                    </div>
+                                </div>
+                            {% empty %}
+                                <p>No issues found for this status.</p>
+                            {% endfor %}
+                            <div id="app" class="w-full max-w-xs relative">
+                                <!-- Button -->
+                                <button id="createButtonUnassigned" onclick="showForm('Unassigned')"
+                                        class="btn border-secondary text-secondary hover:bg-secondary hover:text-white">
+                                    Create an Issue
+                                </button>
+
+                                <!-- Form (hidden by default) -->
+                                <form id="issueFormUnassigned"
                                       class="hidden bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4 absolute top-0 left-0 w-full"
                                       method="post">
                                     {% csrf_token %}
                                     <div class="mb-4">
                                         <label class="block text-gray-700 text-sm font-bold mb-2"
-                                               for="id_title_inprogress">
+                                               for="id_title_unassigned">
                                             Issue Title
                                         </label>
-                                        {{ forms.inprogress.title }}
+                                        {{ forms.unassigned.title }}
                                     </div>
                                     <div class="mb-6">
                                         <label class="block text-gray-700 text-sm font-bold mb-2"
-                                               for="id_description_inprogress">
+                                               for="id_description_unassigned">
                                             Issue Description
                                         </label>
-                                        {{ forms.inprogress.description }}
+                                        {{ forms.unassigned.description }}
                                     </div>
-                                    <div class="flex items-center justify-between mb-4">
+                                    <div class="flex items-center justify-between">
                                         <button class="btn bg-success/25 text-success hover:bg-success hover:text-white"
                                                 type="submit">
                                             Submit
                                         </button>
-                                        <button type="button" onclick="hideForm('InProgress')">Cancel</button>
+                                        <button type="button" onclick="hideForm('Unassigned')">Cancel</button>
                                     </div>
                                 </form>
                             </div>
 
-
                         </div>
+                    
                     </div>
+                    {% endif %}
 
+                    {% if todo_issues|length > 0 %}
+                        
                     <div class="flex flex-col flex-shrink-0 w-72 border rounded-md overflow-hidden border-gray-200 dark:border-gray-700">
                         <div class="flex items-center flex-shrink-0 h-10 p-4 bg-white dark:bg-slate-800">
                             <span class="block text-sm font-semibold uppercase">Todo ({{ todo_issues|length }})</span>
@@ -200,7 +284,89 @@
 
                         </div>
                     </div>
+                       
+                    {% endif %}
 
+                    {% if inprogress_issues|length > 0 %}
+                    
+                    <div class="flex flex-col flex-shrink-0 w-72 border rounded-md overflow-hidden border-gray-200 dark:border-gray-700">
+                        <div class="flex items-center flex-shrink-0 h-10 p-4 bg-white dark:bg-slate-800">
+                            <span class="block text-sm font-semibold uppercase">In progress ({{ inprogress_issues|length }})</span>
+                        </div>
+                        <div class="flex flex-col gap-4 overflow-auto p-4 h-[calc(100vh-300px)] kanban-board custom-scroll"
+                             id="kanbanborad-two">
+                            {% for issue in inprogress_issues %}
+                                <div class="card p-4 cursor-pointer">
+                                    <div class="flex justify-between items-center">
+                                        <h4 class="flex justify-between items-center h-6 px-3 text-xs font-semibold text-danger bg-danger/25 rounded-full">
+                                            {{ issue.title }}</h4>
+                                        <div class="text-xs">{{ issue.date_created }}</div>
+                                    </div>
+                                    <h4 class="mt-3 text-sm">{{ issue.description }}</h4>
+                                    <div class="flex items-center w-full mt-3 text-xs font-medium text-gray-400">
+                                        <div class="flex items-center">
+                                            <i class="mgc_chat_3_line text-base"></i>
+                                            <span class="ms-1 leading-none">12</span>
+                                        </div>
+                                        <div class="flex items-center ms-4">
+                                            <i class="mgc_attachment_line rotate-45 text-base"></i>
+                                            <span class="ms-1 leading-none">12</span>
+                                        </div>
+                                        <div class="flex items-center ms-4">
+                                            <i class="mgc_user_5_line text-base"></i>
+                                            <span class="ms-1 leading-none">12</span>
+                                        </div>
+
+                                        <div class="flex items-center ms-4 gap-2">
+                                            <a href="/kanban_issue/{{ issue.id }}/" class="text-slate-900 dark:text-slate-200">
+                                                <span class="inline-flex items-center gap-1.5 py-1.5 px-3 rounded-md text-xs font-medium bg-primary/25 text-sky-800">Details</span>
+                                            </a>
+                                        </div>
+                                       
+                                    </div>
+                                </div>
+                           {% endfor %}
+                            <div id="app" class="w-full max-w-xs relative">
+                                <!-- Button -->
+                                <button id="createButtonInProgress" onclick="showForm('InProgress')"
+                                        class="btn border-secondary text-secondary hover:bg-secondary hover:text-white">
+                                    Create an Issue
+                                </button>
+
+                                <!-- Form (hidden by default) -->
+                                <form id="issueFormInProgress"
+                                      class="hidden bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4 absolute top-0 left-0 w-full"
+                                      method="post">
+                                    {% csrf_token %}
+                                    <div class="mb-4">
+                                        <label class="block text-gray-700 text-sm font-bold mb-2"
+                                               for="id_title_inprogress">
+                                            Issue Title
+                                        </label>
+                                        {{ forms.inprogress.title }}
+                                    </div>
+                                    <div class="mb-6">
+                                        <label class="block text-gray-700 text-sm font-bold mb-2"
+                                               for="id_description_inprogress">
+                                            Issue Description
+                                        </label>
+                                        {{ forms.inprogress.description }}
+                                    </div>
+                                    <div class="flex items-center justify-between mb-4">
+                                        <button class="btn bg-success/25 text-success hover:bg-success hover:text-white"
+                                                type="submit">
+                                            Submit
+                                        </button>
+                                        <button type="button" onclick="hideForm('InProgress')">Cancel</button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    {% endif %}
+
+                    {% if review_issues|length > 0 %} 
                     <div class="flex flex-col flex-shrink-0 w-72 border rounded-md overflow-hidden border-gray-200 dark:border-gray-700">
                         <div class="flex items-center flex-shrink-0 h-10 p-4 bg-white dark:bg-slate-800">
                             <span class="block text-sm font-semibold uppercase">Review ({{ review_issues|length }})</span>
@@ -281,7 +447,10 @@
 
                         </div>
                     </div>
+                  
+                    {% endif %}
 
+                    {% if done_issues|length > 0 %}
                     <div class="flex flex-col flex-shrink-0 w-72 border rounded-md overflow-hidden border-gray-200 dark:border-gray-700">
                         <div class="flex items-center flex-shrink-0 h-10 p-4 bg-white dark:bg-slate-800">
                             <span class="block text-sm font-semibold uppercase">Done ({{ done_issues|length }})</span>
@@ -361,161 +530,13 @@
 
                         </div>
                     </div>
+                    {% endif %}
 
-                    <div class="flex flex-col flex-shrink-0 w-72 border rounded-md overflow-hidden border-gray-200 dark:border-gray-700">
-                        <div class="flex items-center flex-shrink-0 h-10 p-4 bg-white dark:bg-slate-800">
-                            <span class="block text-sm font-semibold uppercase">Unassigned ({{ unassigned_issues|length }})</span>
-                        </div>
-                        <div class="flex flex-col gap-4 overflow-auto p-4 h-[calc(100vh-300px)] kanban-board custom-scroll"
-                             id="kanbanborad-five">
-                            {% for issue in unassigned_issues %}
-                                <div class="card p-4 cursor-pointer">
-                                    <div class="flex justify-between items-center">
-                                        <h4 class="flex justify-between items-center h-6 px-3 text-xs font-semibold text-success bg-success/25 rounded-full">
-                                            {{ issue.title }}</h4>
 
-                                        <div class="text-xs">{{ issue.date_created }}</div>
-                                    </div>
+                  
 
-                                    <h4 class="mt-3 text-sm">{{ issue.description }}</h4>
-                                    <div class="flex items-center w-full mt-3 text-xs font-medium text-gray-400">
-                                        <div class="flex items-center">
-                                            <i class="mgc_chat_3_line text-base"></i>
-                                            <span class="ms-1 leading-none">14</span>
-                                        </div>
-                                        <div class="flex items-center ms-4">
-                                            <i class="mgc_attachment_line rotate-45 text-base"></i>
-                                            <span class="ms-1 leading-none">5</span>
-                                        </div>
-                                        <div class="flex items-center ms-4">
-                                            <i class="mgc_user_5_line text-base"></i>
-                                            <span class="ms-1 leading-none">12</span>
-                                        </div>
-                                        <div class="flex items-center ms-4 gap-2">
-                                            <a href="/kanban_issue/{{ issue.id }}/" class="text-slate-900 dark:text-slate-200">
-                                                <span class="inline-flex items-center gap-1.5 py-1.5 px-3 rounded-md text-xs font-medium bg-primary/25 text-sky-800">Details</span>
-                                            </a>
-                                        </div>
-                                        
-                                    </div>
-                                </div>
-                            {% empty %}
-                                <p>No issues found for this status.</p>
-                            {% endfor %}
-                            <div id="app" class="w-full max-w-xs relative">
-                                <!-- Button -->
-                                <button id="createButtonUnassigned" onclick="showForm('Unassigned')"
-                                        class="btn border-secondary text-secondary hover:bg-secondary hover:text-white">
-                                    Create an Issue
-                                </button>
 
-                                <!-- Form (hidden by default) -->
-                                <form id="issueFormUnassigned"
-                                      class="hidden bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4 absolute top-0 left-0 w-full"
-                                      method="post">
-                                    {% csrf_token %}
-                                    <div class="mb-4">
-                                        <label class="block text-gray-700 text-sm font-bold mb-2"
-                                               for="id_title_unassigned">
-                                            Issue Title
-                                        </label>
-                                        {{ forms.unassigned.title }}
-                                    </div>
-                                    <div class="mb-6">
-                                        <label class="block text-gray-700 text-sm font-bold mb-2"
-                                               for="id_description_unassigned">
-                                            Issue Description
-                                        </label>
-                                        {{ forms.unassigned.description }}
-                                    </div>
-                                    <div class="flex items-center justify-between">
-                                        <button class="btn bg-success/25 text-success hover:bg-success hover:text-white"
-                                                type="submit">
-                                            Submit
-                                        </button>
-                                        <button type="button" onclick="hideForm('Unassigned')">Cancel</button>
-                                    </div>
-                                </form>
-                            </div>
-
-                        </div>
-                    </div>
-
-                    <div class="flex flex-col flex-shrink-0 w-72 border rounded-md overflow-hidden border-gray-200 dark:border-gray-700">
-                        <div class="flex items-center flex-shrink-0 h-10 p-4 bg-white dark:bg-slate-800">
-                            <span class="block text-sm font-semibold uppercase">New ({{ new_issues|length }})</span>
-                        </div>
-                        <div class="flex flex-col gap-4 overflow-auto p-4 h-[calc(100vh-300px)] kanban-board custom-scroll"
-                             id="kanbanborad-six">
-                            {% for issue in new_issues %}
-                                <div class="card p-4 cursor-pointer">
-                                    <div class="flex justify-between items-center">
-                                        <h4 class="flex justify-between items-center h-6 px-3 text-xs font-semibold text-pink-500 bg-pink-500/25 rounded-full">{{ issue.title }}</h4>
-
-                                        <div class="text-xs">{{ issue.date_created }}</div>
-                                    </div>
-
-                                    <h4 class="mt-3 text-sm">{{ issue.description }}</h4>
-                                    <div class="flex items-center w-full mt-3 text-xs font-medium text-gray-400">
-                                        <div class="flex items-center">
-                                            <i class="mgc_chat_3_line text-base"></i>
-                                            <span class="ms-1 leading-none">14</span>
-                                        </div>
-                                        <div class="flex items-center ms-4">
-                                            <i class="mgc_attachment_line rotate-45 text-base"></i>
-                                            <span class="ms-1 leading-none">5</span>
-                                        </div>
-                                        <div class="flex items-center ms-4">
-                                            <i class="mgc_user_5_line text-base"></i>
-                                            <span class="ms-1 leading-none">12</span>
-                                        </div>
-                                        <div class="flex items-center ms-4 gap-2">
-                                            <a href="/kanban_issue/{{ issue.id }}/" class="text-slate-900 dark:text-slate-200">
-                                                <span class="inline-flex items-center gap-1.5 py-1.5 px-3 rounded-md text-xs font-medium bg-primary/25 text-sky-800">Details</span>
-                                            </a>
-                                        </div>
-                                        
-                                    </div>
-                                </div>
-                            {% empty %}
-                                <p>No issues found for this status.</p>
-                            {% endfor %}
-                            <div id="app" class="w-full max-w-xs relative">
-                                <!-- Button -->
-                                <button id="createButtonNew" onclick="showForm('New')"
-                                        class="btn border-secondary text-secondary hover:bg-secondary hover:text-white">
-                                    Create an Issue
-                                </button>
-
-                                <!-- Form (hidden by default) -->
-                                <form id="issueFormNew"
-                                      class="hidden bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4 absolute top-0 left-0 w-full"
-                                      method="post">
-                                    {% csrf_token %}
-                                    <div class="mb-4">
-                                        <label class="block text-gray-700 text-sm font-bold mb-2" for="id_title_new">
-                                            Issue Title
-                                        </label>
-                                        {{ forms.new.title }}
-                                    </div>
-                                    <div class="mb-6">
-                                        <label class="block text-gray-700 text-sm font-bold mb-2"
-                                               for="id_description_new">
-                                            Issue Description
-                                        </label>
-                                        {{ forms.new.description }}
-                                    </div>
-                                    <div class="flex items-center justify-between">
-                                        <button class="btn bg-success/25 text-success hover:bg-success hover:text-white"
-                                                type="submit">
-                                            Submit
-                                        </button>
-                                        <button type="button" onclick="hideForm('New')">Cancel</button>
-                                    </div>
-                                </form>
-                            </div>
-                        </div>
-                    </div>
+                   
 
                 </div>
             </div>

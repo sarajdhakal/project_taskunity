@@ -42,6 +42,12 @@ INSTALLED_APPS = [
     'saraj.apps.SarajConfig',
     'projects.apps.ProjectsConfig',
     'kanban.apps.KanbanConfig',
+    'company.apps.CompanyConfig',
+    'chats.apps.ChatsConfig',
+    'sales.apps.SalesConfig',
+    'analytics.apps.AnalyticsConfig',
+
+
 ]
 
 MIDDLEWARE = [

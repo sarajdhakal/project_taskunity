@@ -3,7 +3,6 @@ from django.contrib.auth.models import User
 from ..forms import ProjectForm
 from django.contrib.auth.decorators import login_required
 from projects.models import Project
-
 # @login_required(login_url='login')
 def project_create(request):
     users = User.objects.all()
@@ -17,9 +16,8 @@ def project_create(request):
         progress = request.POST.get('progress')
         price = request.POST.get('price')
         category = request.POST.get('category')
-        team_member_ids = request.POST.getlist('team_member')  
+        team_member_ids = request.POST.getlist('team_member')
 
-       
         project = Project.objects.create(
             name=name,
             description=description,
@@ -30,8 +28,7 @@ def project_create(request):
             price=price,
             category=category,
         )
-        
-       
+
         team_member = User.objects.filter(id__in=team_member_ids)
         project.team_member.set(team_member)  
         return redirect('/project_create')
