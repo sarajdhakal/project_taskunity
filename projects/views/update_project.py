@@ -23,6 +23,7 @@ def update_project(request,id):
 
             if extended_date:
                 project.extended_date = extended_date
+
             project.name = name
             project.description = description
             project.status = status

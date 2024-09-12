@@ -4,6 +4,7 @@ from projects.models import Project
 from projects.models.employee import Employee
 from ckeditor.fields import RichTextField
 
+
 class Issue(models.Model):
     STATUS_CHOICES = [
         ('todo', 'To Do'),
@@ -21,7 +22,7 @@ class Issue(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     project = models.ForeignKey(Project, on_delete=models.CASCADE, null=True, blank=True)
-    assigned_to = models.ForeignKey(Employee, on_delete=models.CASCADE, null=True, blank=True)
+    assigned_to = models.ManyToManyField(Employee, blank=True)
     attachments = models.JSONField(default=list, blank=True)  # Stores multiple file paths
     labels = models.CharField(max_length=500, default='', blank=True)
     issue_2description = RichTextField(null=True, blank=True, default='')
@@ -29,3 +30,12 @@ class Issue(models.Model):
 
     def __str__(self):
         return self.title
+
+
+class Comment(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    issue = models.ForeignKey(Issue, on_delete=models.CASCADE)
+    comment = models.TextField()
+
+    def __str__(self):
+        return self.comment

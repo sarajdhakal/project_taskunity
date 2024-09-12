@@ -1,0 +1,262 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %} Chats | Task Unity {% endblock %}
+
+{% block content %}
+
+<div class="flex justify-between items-center mb-6">
+    <h4 class="text-slate-900 dark:text-slate-200 text-lg font-medium">Chats</h4>
+
+    <div class="md:flex hidden items-center gap-2.5 text-sm font-semibold">
+        <div class="flex items-center gap-2">
+            <a href="/" class="text-sm font-medium text-slate-700 dark:text-slate-400">Task Unity</a>
+        </div>
+        <div class="flex items-center gap-2">
+            <i class="mgc_right_line text-lg flex-shrink-0 text-slate-400 rtl:rotate-180"></i>
+            <a href="/user_list" class="text-sm font-medium text-slate-700 dark:text-slate-400" aria-current="page">Chats</a>
+        </div>
+    </div>
+</div>
+
+<div class="grid lg:grid-cols-3 gap-6">
+    <div class="col-span-1">
+        <div class="card">
+            <div class="card-header">
+                <h6 class="card-title">Chat Inbox</h6>
+            </div>
+            
+            <div class="flex justify-center m-2 gap-2">
+                <a href="/chats" class="btn rounded-full bg-info/25 text-info hover:bg-info hover:text-white">
+                    <i class="mgc_add_line me-3"> </i> New Chat
+                </a>
+            </div>
+
+
+    <div class="table overflow-hidden w-full">
+                <div class="p-4 h-80" data-simplebar>
+                        {% for i in rooms %}
+                            {% if request.user.username == i.user1 or request.user in i.friends.all %}
+                                <a href="{{i.slug}}" class="block mb-4">
+                                    <div class="card-body">
+                                        <div class="flex items-center">
+                                            <div class="flex-shrink-0">
+                                                <img src="{% static 'assets/images/users/saraj.jpg' %}" class="rounded-full h-9 w-9" alt="">
+                                            </div>
+                                            <div class="flex-grow truncate ms-2">
+                                                <h5 class="text-sm font-semibold mb-1">{{ i.name }} 
+                                                </h5>
+                                                <small class="noti-item-subtitle text-muted">Members: {% for friend in i.friends.all %}
+                                                    {{request.user}},{{ friend.username }}
+                                                    {% if not forloop.last %}, {% endif %}
+                                                {% endfor %}</small>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </a>
+                            {% endif %}
+                         {% endfor %}
+                 </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="lg:col-span-2">
+        <div class="card">
+            <div class="card-header">
+                <div class="flex justify-between items-center">
+                    <div class="flex items-center gap-3">
+                        <div class="relative h-10 w-10 inline-flex">
+                            <img src="{% static 'assets/images/users/saraj.jpg' %}" alt="image" class="rounded-full">
+                            <div class="absolute end-0 h-3 w-3 rounded-full border border-white bg-success"></div>
+                        </div>
+                        <h4 class="text-lg font-semibold text-gray-800 dark:text-gray-300">{{room_Desc.name}}</h4>
+                    </div>
+                    <div class="flex items-center gap-2">
+                        <a href="/coming_soon">
+                        <button class="w-10 h-10 rounded-full inline-flex items-center justify-center bg-primary/25 hover:bg-primary hover:text-white" title="Audio Call">
+                            <i class="mgc_phone_line text-2xl "></i>
+                        </button>
+                    </a>
+                    <a href="/coming_soon">
+                        <button class="w-10 h-10 rounded-full inline-flex items-center justify-center bg-success/25 hover:bg-success hover:text-white" title="Video Call">
+                            <i class="mgc_camcorder_line text-2xl "></i>
+                        </button>
+                    </a>
+                        <button class="w-10 h-10 rounded-full inline-flex items-center justify-center bg-success/25 hover:bg-secondary hover:text-white" title="More" data-fc-type="dropdown">
+                            <i class="mgc_menu_line text-2xl"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="p-6">
+                <div class="flex flex-col">
+                    <div class="overflow-x-auto">
+                        <div class="inline-block min-w-full align-middle">
+                            <div class="overflow-hidden">
+            
+                                <div class="flex flex-col gap-1 overflow-auto p-2 h-[calc(100vh-300px)] custom-scroll" id="id_chat_item_container" style="font-size: 20px">
+                                    {% for i in messages %}
+                                    <div class="flex  {% if i.user.username == request.user.username %}justify-end{% else %}justify-start{% endif %}">
+                                            {% if i.user.username == request.user.username %}
+                                            <div class="bg-primary text-sm text-white rounded-md p-2" role="alert">
+                                                {% if i.user.username != request.user.username %}
+                                                <p class="font-bold">{{i.user.username}}</p>
+                                                {% endif %}
+                                                <p>{{i.content}}</p>
+                                            </div>
+                                            {% else %}
+                                        <div class="bg-danger/25 text-danger text-sm rounded-md p-2"  role="alert">
+                                        {% if i.user.username != request.user.username %}
+                                        <span class="font-bold">{{i.user.username}}</span> 
+                                            {% endif %}
+                                            : {{i.content}}
+                                          </div>
+                                          {%endif%}
+                                           
+                                    </div>
+                                    {% endfor %}
+                                </div>
+            
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="flex items-center space-x-2 mt-4">
+                    <input type="text" id="id_message_send_input" class="flex-grow border rounded-lg" placeholder="Type your message here..." />
+                    <button type="submit" id="id_message_send_button" class="btn bg-primary/25 text-primary hover:bg-primary hover:text-white"><i class="mgc_send_line text-base me-4"></i> Send</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+{{slug|json_script:"room_slug"}}
+{{room_name|json_script:"room_name"}}
+<script>
+    const styles = {
+        chatContainer: {
+            display: 'flex',
+            flexDirection: 'column',
+            gap: '1rem',
+            overflowY: 'auto',
+            padding: '1rem',
+            height: 'calc(100vh - 300px)',
+            fontSize: '20px',
+        },
+        messageBubble: {
+            maxWidth: '20rem',
+            wordBreak: 'break-word',
+            padding: '0.75rem',
+            borderRadius: '0.5rem',
+            fontSize: '0.875rem',
+        },
+        sentMessage: {
+            backgroundColor: '#3B82F6', // bg-blue-500
+            color: 'white',
+        },
+        receivedMessage: {
+            backgroundColor: '#E5E7EB', // bg-gray-200
+            color: 'black',
+        },
+        username: {
+            fontWeight: 'bold',
+        },
+        chatMessageDiv: {
+            display: 'flex',
+        },
+        justifyEnd: {
+            justifyContent: 'flex-end',
+        },
+        justifyStart: {
+            justifyContent: 'flex-start',
+        },
+    };
+
+    const roomSlug = JSON.parse(document.getElementById('room_slug').textContent);
+    const roomName = JSON.parse(document.getElementById('room_name').textContent);
+
+    const chatSocket = new WebSocket("ws://" + window.location.host + "/ws/" + roomSlug + "/");
+
+    chatSocket.onopen = function (e) {
+        console.log("The connection was setup successfully!");
+    };
+
+    chatSocket.onclose = function (e) {
+        console.log("Something unexpected happened!");
+    };
+
+    document.querySelector("#id_message_send_input").focus();
+    document.querySelector("#id_message_send_input").onkeyup = function (e) {
+        if (e.keyCode === 13) {
+            document.querySelector("#id_message_send_button").click();
+        }
+    };
+
+    document.querySelector("#id_message_send_button").onclick = function (e) {
+        var messageInput = document.querySelector("#id_message_send_input").value;
+        chatSocket.send(JSON.stringify({
+            message: messageInput,
+            username: "{{request.user.username}}",
+            room_name: roomName
+        }));
+    };
+
+    function scrollToBottom() {
+        var chatContainer = document.querySelector("#id_chat_item_container");
+        chatContainer.scrollTop = chatContainer.scrollHeight;
+    }
+
+    window.onload = function () {
+        scrollToBottom();
+    };
+
+    chatSocket.onmessage = function (e) {
+        const data = JSON.parse(e.data);
+
+        var div = document.createElement("div");
+        Object.assign(div.style, styles.chatMessageDiv);
+
+        if (data.username === "{{request.user.username}}") {
+            Object.assign(div.style, styles.justifyEnd);
+        } else {
+            Object.assign(div.style, styles.justifyStart);
+        }
+
+        var messageBubble = document.createElement("div");
+        Object.assign(messageBubble.style, styles.messageBubble);
+
+        if (data.username === "{{request.user.username}}") {
+            Object.assign(messageBubble.style, styles.sentMessage);
+        } else {
+            Object.assign(messageBubble.style, styles.receivedMessage);
+        }
+
+        if (data.username !== "{{request.user.username}}") {
+            var usernameElement = document.createElement("p");
+            Object.assign(usernameElement.style, styles.username);
+            usernameElement.textContent = data.username;
+            messageBubble.appendChild(usernameElement);
+        }
+
+        var messageContent = document.createElement("p");
+        messageContent.textContent = data.message;
+        messageBubble.appendChild(messageContent);
+
+        div.appendChild(messageBubble);
+
+        document.querySelector("#id_chat_item_container").appendChild(div);
+
+        document.querySelector("#id_message_send_input").value = "";
+
+        scrollToBottom();
+    };
+</script>
+
+
+
+
+
+{% endblock %}
