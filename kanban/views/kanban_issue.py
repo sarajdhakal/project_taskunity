@@ -131,7 +131,6 @@ def kanban_issue(request, id):
                     issue=issue,
                     comment=comment
                 )
-                messages.success(request, 'Comment Placed Successfully!')
                 return render(request, 'kanban_issue.html', context)
 
         return render(request, 'kanban_issue.html', context)

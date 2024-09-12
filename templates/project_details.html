@@ -11,6 +11,15 @@
           <!-- Page Title Start -->
           <div class="flex justify-between items-center mb-6">
             <h4 class="text-slate-900 dark:text-slate-200 text-lg font-medium">Project Details</h4>
+            {% if messages %}
+            <ul class="messages">
+              {% for message in messages %}
+              <div class="bg-green-500 text-sm text-white rounded-md p-4 inline-block" role="alert">
+                   {{ message }}
+              </div>
+              {% endfor %}
+            </ul>
+          {% endif %}
 
             <div class="md:flex hidden items-center gap-2.5 text-sm font-semibold">
               <div class="flex items-center gap-2">
