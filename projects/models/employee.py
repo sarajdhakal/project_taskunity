@@ -8,5 +8,7 @@ class Employee(models.Model):
     department = models.CharField(max_length=100)
     age = models.IntegerField()
     email = models.EmailField()
+    salary = models.IntegerField()
+    image = models.ImageField(upload_to = 'uploadedimages/users', default='1.png')
     def __str__(self):
         return self.name
