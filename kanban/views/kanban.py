@@ -7,7 +7,8 @@ from ..forms import IssueForm, CommentForm
 from ..models.kanban import Issue
 from projects.models.employee import Employee
 
-# @login_required(login_url='login')
+
+@login_required(login_url='login')
 def kanban(request):
     logged_in_user = request.user
 

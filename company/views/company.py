@@ -4,12 +4,14 @@ from django.shortcuts import render
 from django.contrib.auth.decorators import login_required
 
 
-#@login_required(login_url='login')
+@login_required(login_url='login')
 def company(request):
     all_events = Events.objects.all()
     context = {'all_events': all_events}
     return render(request, 'company.html', context)
 
+
+@login_required(login_url='login')
 def all_events(request):
     all_events = Events.objects.all()
     out = []

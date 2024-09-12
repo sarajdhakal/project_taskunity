@@ -6,7 +6,7 @@ from projects.models.employee import Employee
 from kanban.models.kanban import *
 
 
-# @login_required(login_url='login')
+@login_required(login_url='login')
 def index(request):
     projects = Project.objects.all()
     completed_count = Project.objects.filter(progress='Completed').count()

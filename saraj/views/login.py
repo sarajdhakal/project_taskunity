@@ -4,6 +4,7 @@ from ..forms import UserLoginForm
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 
+
 def user_login(request):
     if request.user.is_authenticated:
         return redirect('index')

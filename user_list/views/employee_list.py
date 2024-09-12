@@ -4,7 +4,7 @@ from django.shortcuts import render
 from projects.models.employee import Employee
 
 
-# @login_required(login_url='login')
+@login_required(login_url='login')
 def employee_list(request):
     users = User.objects.all()
     employee = Employee.objects.all()

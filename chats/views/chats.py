@@ -4,7 +4,7 @@ from django.contrib import messages
 from chats.models import Room, Message, User
 
 
-# @login_required(login_url='login')
+@login_required(login_url='login')
 def rooms(request):
     rooms = Room.objects.all()
     users = User.objects.all()
@@ -34,6 +34,8 @@ def rooms(request):
 
     return render(request, 'chats.html', context)
 
+
+@login_required(login_url='login')
 def room(request, slug):
     rooms = Room.objects.all()
     room_name = Room.objects.get(slug=slug).name

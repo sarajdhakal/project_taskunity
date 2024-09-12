@@ -5,7 +5,10 @@ from projects.models.employee import Employee
 from ..models.kanban import Issue, Comment
 from django.core.files.storage import default_storage
 from django.contrib import messages
+from django.contrib.auth.decorators import login_required
 
+
+@login_required(login_url='login')
 def kanban_issue(request, id):
     try:
         issue = get_object_or_404(Issue, id=id)

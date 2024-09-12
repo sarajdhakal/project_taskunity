@@ -4,7 +4,8 @@ from django.contrib.auth.decorators import login_required
 from projects.models import Project
 from django.contrib import messages
 
-# @login_required(login_url="/login/")
+
+@login_required(login_url='login')
 def update_project(request, id):
     try:
         project = Project.objects.get(id=id)

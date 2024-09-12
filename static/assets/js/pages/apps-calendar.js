@@ -23,15 +23,15 @@ class Calendar {
 
     // Function to fetch all events from the server
     fetchAllEvents() {
-        return fetch('/all_events/')  // Your Django view that returns the events as JSON
+        return fetch('/all_events/')
             .then(response => response.json())
             .then(data => {
-                // Transform the fetched events to FullCalendar's format
+
                 return data.map(event => ({
                     title: event.name,
-                    start: event.date + 'T' + event.start_time,  // Combine date and time
+                    start: event.date + 'T' + event.start_time,
                     end: event.date + 'T' + event.end_time,
-                    className: 'bg-primary',  // You can adjust the class based on the event
+                    className: 'bg-primary',
                 }));
             })
             .catch(error => {
