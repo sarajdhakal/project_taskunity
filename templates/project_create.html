@@ -48,13 +48,25 @@
                     <div class="col-span-1 flex flex-col gap-6">
                         <div class="card p-6">
                             <div class="flex justify-between items-center mb-4">
-                                <h4 class="card-title">Add Attachment for Project</h4>
+                                <h4 class="card-title">Add Image of Project<small>  (If any) </small></h4>
                                 <div class="inline-flex items-center justify-center rounded-lg bg-slate-100 dark:bg-slate-700 w-9 h-9">
                                     <i class="mgc_add_line"></i>
                                 </div>
                             </div>
                             <div class="fallback">
-                                <input name="image" type="file" multiple="multiple">
+                                <input name="image" type="file" >
+                            </div>
+                        </div>
+
+                        <div class="card p-6">
+                            <div class="flex justify-between items-center mb-4">
+                                <h4 class="card-title">Add Attachment for Project<small>  (Multiple Attachment Accepted) </small></h4> 
+                                <div class="inline-flex items-center justify-center rounded-lg bg-slate-100 dark:bg-slate-700 w-9 h-9">
+                                    <i class="mgc_add_line"></i>
+                                </div>
+                            </div>
+                            <div class="fallback">
+                                <input name="attachment" type="file" multiple>
                             </div>
                         </div>
 

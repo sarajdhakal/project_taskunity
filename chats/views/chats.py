@@ -1,4 +1,4 @@
-from django.shortcuts import render,redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from chats.models import Room, Message, User
@@ -9,14 +9,11 @@ def rooms(request):
     rooms = Room.objects.all()
     users = User.objects.all()
     context = {'rooms': rooms, 'users': users}
+
     if request.method == "POST":
         name = request.POST.get('name')
         friends_ids = request.POST.getlist('friends')
         user1 = request.user
-
-        if not name:
-            messages.error(request, 'Chat Room name is required.')
-            return render(request, 'chats.html', context)
 
         if not name:
             messages.error(request, 'Chat Room name is required.')
@@ -38,13 +35,14 @@ def rooms(request):
 @login_required(login_url='login')
 def room(request, slug):
     rooms = Room.objects.all()
-    room_name = Room.objects.get(slug=slug).name
-    messages = Message.objects.filter(room=Room.objects.get(slug=slug))
-    room_Desc = Room.objects.get(slug=slug)
-    context = {'slug': slug,
-               'rooms': rooms,
-               'room_name': room_name,
-               'messages': messages,
-               'room_Desc': room_Desc
-               }
+    room = get_object_or_404(Room, slug=slug)
+    messages_in_room = Message.objects.filter(room=room)
+
+    context = {
+        'slug': slug,
+        'rooms': rooms,
+        'room_name': room.name,
+        'messages': messages_in_room,
+        'room_Desc': room
+    }
     return render(request, "chat.html", context)

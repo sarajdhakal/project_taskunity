@@ -37,6 +37,7 @@ class Project(models.Model):
     due_date = models.DateField(null=True)
     extended_date = models.DateField(null=True)
     team_member = models.ManyToManyField(User,related_name='projects')
+    attachments = models.JSONField(default=list, blank=True)
 
     def __str__(self):
         return self.name

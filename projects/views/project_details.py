@@ -12,7 +12,6 @@ def project_details(request, id):
     try:
         project = Project.objects.get(id=id)
         team_members = project.team_member.all()
-
         issues = Issue.objects.filter(project=project)
         total_tasks = issues.count()
         completed_tasks = issues.filter(status='done').count()

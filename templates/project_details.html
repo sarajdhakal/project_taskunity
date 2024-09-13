@@ -1,6 +1,7 @@
 
 {% extends 'base.html' %}
 {% load static %}
+{% load custom_filters %}
 {% block title %}
   Project-Details | Task Unity
 {% endblock %}
@@ -160,56 +161,31 @@
                         <h5 class="text-base text-gray-700 dark:text-gray-300 font-medium">Saraj Dhakal</h5>
                       </div>
                     </div>
-
-                    <div class="mt-6">
-                      <h6 class="text-sm text-gray-800 font-medium mb-3">Assigned To</h6>
-                
-                      <ul>
-                          {% for member in team_member %}
-                              <li>{{ member.username }}</li>
-                          {% endfor %}
-                      </ul>
-                      <div class="flex flex-wrap -space-x-2">
-                        <a href="javascript: void(0);"><img class="inline-block h-10 w-10 rounded-full border-2 border-white dark:border-gray-800" src="{% static 'assets/images/users/avatar-2.jpg' %}" alt="Image Description" /></a>
-                        <a href="javascript: void(0);"><img class="inline-block h-10 w-10 rounded-full border-2 border-white dark:border-gray-800" src="{% static 'assets/images/users/avatar-3.jpg' %}" alt="Image Description" /></a>
-                        <a href="javascript: void(0);"><img class="inline-block h-10 w-10 rounded-full border-2 border-white dark:border-gray-800" src="{% static 'assets/images/users/avatar-9.jpg' %}" alt="Image Description" /></a>
-                        <a href="javascript: void(0);"><img class="inline-block h-10 w-10 rounded-full border-2 border-white dark:border-gray-800" src="{% static 'assets/images/users/avatar-10.jpg' %}" alt="Image Description" /></a>
-                      </div>
-                    </div>
-
+                    {% if project.attachments %}
                     <div class="mt-6">
                       <h6 class="text-gray-800 font-medium mb-3">Attached Files</h6>
-
                       <div class="grid md:grid-cols-4 gap-3">
+                        {% for attachment in project.attachments %}
                         <div class="p-2 border border-gray-200 dark:border-gray-700 rounded mb-2">
                           <div class="flex items-center">
                             <div class="h-9 w-9 rounded flex justify-center items-center text-primary bg-primary/20 me-3">
                               <i class="mgc_file_new_line text-xl"></i>
                             </div>
                             <div class="">
-                              <a href="#" class="text-sm font-medium">Landing 1.psd</a>
+                            <a href="{{ attachment }}" download class="text-sm font-medium">{{ attachment|basename }}</a>
                             </div>
                             <div>
-                              <a href="#" class="p-2"><i class="mgc_download_line text-xl"></i></a>
+                              <a href="{{ attachment }}" download class="p-2"><i class="mgc_download_line text-xl"></i></a>
                             </div>
                           </div>
                         </div>
-
-                        <div class="p-2 border border-gray-200 dark:border-gray-700 rounded mb-2">
-                          <div class="flex items-center">
-                            <div class="h-9 w-9 rounded flex justify-center items-center text-primary bg-primary/20 me-3">
-                              <i class="mgc_file_new_line text-xl"></i>
-                            </div>
-                            <div class="">
-                              <a href="#" class="text-sm font-medium">Landing 2.psd</a>
-                            </div>
-                            <div>
-                              <a href="#" class="p-2"><i class="mgc_download_line text-xl"></i></a>
-                            </div>
-                          </div>
-                        </div>
+                        {% endfor %}
+                       
                       </div>
                     </div>
+                    {% endif %}
+
+                    
                   </div>
                 </div>
               </div>
@@ -218,7 +194,7 @@
             <div class="col-span-1">
               <div class="card">
                 <div class="card-header">
-                  <h6 class="card-title">Project Activities</h6>
+                  <h6 class="card-title">Projects Assigned To</h6>
                 </div>
                 <div class="table overflow-hidden w-full">
                   <div class="divide-y divide-gray-300 dark:divide-gray-700 overflow-auto w-full max-w-full">
