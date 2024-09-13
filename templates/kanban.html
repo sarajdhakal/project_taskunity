@@ -23,11 +23,19 @@
                 </div>
             </div>
         </div>
+        {% if messages %}
         {% for message in messages %}
-        <div class="bg-green-500 text-sm text-white rounded-md p-4 inline" role="alert">
-            {{message}}
-        </div>
+            {% if message.tags == 'error' %}
+            <div class="bg-red-500 text-sm text-white rounded-md mb-2 p-3 inline-block" role="alert">
+                {{ message }}
+            </div>
+            {% else %}
+            <div class="bg-green-500 text-sm text-white rounded-md mb-2 p-3 inline-block" role="alert">
+                {{ message }}
+            </div>
+            {% endif %}
         {% endfor %}
+        {% endif %}
 
         <!-- Page Title End -->
 

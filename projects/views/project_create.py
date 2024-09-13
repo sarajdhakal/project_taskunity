@@ -21,7 +21,6 @@ def project_create(request):
         category = request.POST.get('category')
         team_member_ids = request.POST.getlist('team_member')
 
-        
         if name =="":
             messages.error(request, 'Name cannot be empty.')
             
@@ -42,7 +41,7 @@ def project_create(request):
 
         
         elif price =="":
-            messages.error(request, 'Price cannot be empty.')
+            messages.error(request, 'Budget cannot be empty.')
 
         else:
             project = Project.objects.create(
@@ -59,8 +58,7 @@ def project_create(request):
       
             team_member = User.objects.filter(id__in=team_member_ids)
             project.team_member.set(team_member)
-
             messages.success(request, 'Project created successfully!')
-            return redirect('/project_create')
+            return redirect('project_list')
 
     return render(request, 'project_create.html', {'users': users})

@@ -10,19 +10,6 @@
                 <div class="flex justify-between items-center mb-6">
                     <h4 class="text-slate-900 dark:text-slate-200 text-lg font-medium">Create Project</h4>
                    
-                    {% if messages %}
-                    {% for message in messages %}
-                        {% if message.tags == 'error' %}
-                        <div class="bg-red-500 text-sm text-white rounded-md p-4 inline-block" role="alert">
-                            {{ message }}
-                        </div>
-                        {% else %}
-                        <div class="bg-green-500 text-sm text-white rounded-md p-4 inline-block" role="alert">
-                            {{ message }}
-                        </div>
-                        {% endif %}
-                    {% endfor %}
-                {% endif %}
                     <div class="md:flex hidden items-center gap-2.5 text-sm font-semibold">
                         <div class="flex items-center gap-2">
                             <a href="/" class="text-sm font-medium text-slate-700 dark:text-slate-400">Task Unity</a>
@@ -39,6 +26,20 @@
                         </div>
                     </div>
                 </div>
+
+                {% if messages %}
+                {% for message in messages %}
+                    {% if message.tags == 'error' %}
+                    <div class="bg-red-500 text-sm text-white rounded-md mb-2 p-3 inline-block" role="alert">
+                        {{ message }}
+                    </div>
+                    {% else %}
+                    <div class="bg-green-500 text-sm text-white rounded-md mb-2 p-3 inline-block" role="alert">
+                        {{ message }}
+                    </div>
+                    {% endif %}
+                {% endfor %}
+                {% endif %}
                 <!-- Page Title End -->
                 <form action="" method="POST" enctype="multipart/form-data" >
                     {%  csrf_token %}

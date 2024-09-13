@@ -70,15 +70,20 @@
     </div>
 </div>
 
+            {% if messages %}
+            {% for message in messages %}
+                {% if message.tags == 'error' %}
+                <div class="bg-red-500 text-sm text-white rounded-md mb-2 p-3 inline-block" role="alert">
+                    {{ message }}
+                </div>
+                {% else %}
+                <div class="bg-green-500 text-sm text-white rounded-md mb-2 p-3 inline-block" role="alert">
+                    {{ message }}
+                </div>
+                {% endif %}
+            {% endfor %}
+            {% endif %}
 
-{% if messages %}
-    {% for message in messages %}
-    <div class="bg-red-500 text-sm text-white rounded-md p-4 inline-block" role="alert">
-         {{ message }}
-    </div>
-    {% endfor %}
-  
-{% endif %}
 <form action="" method="POST" id="main_form" enctype="multipart/form-data">
     {% csrf_token %}
     <input type="hidden" name="update_main_issue" value="true">
@@ -300,14 +305,21 @@
     <div class="lg:col-span-4 mb-2">
         <div class="flex justify-center gap-3">
             <button type="reset">
-                <a href="/kanban"  class="inline-flex items-center rounded-md border border-transparent bg-red-500 px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-red-500 focus:outline-none">
-                Cancel
+                <a href="/kanban"  class="btn bg-primary/25 text-primary hover:bg-primary hover:text-white">
+                    <i class="mgc_close_line text-base me-4"></i>
+                    Cancel
                 </a>
             </button>
             <button type="submit"
-                class="inline-flex items-center rounded-md border border-transparent bg-green-500 px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-green-500 focus:outline-none">
+                class="btn border-success text-success hover:bg-success hover:text-white"> <i class="mgc_send_line me-3"></i>
                 Save
-            </button>
+            </button> 
+            {% if request.user.is_superuser or request.user == issue.user %}
+            <a href = "/delete_kanban/{{issue.id}}/">
+
+                <button type="button"  class="btn bg-danger/25 text-danger hover:bg-danger hover:text-white"> <i class="mgc_delete_2_line me-3"></i> Delete</button>
+            </a>
+            {% endif %}
         </div>
     </div>
 </div>
@@ -361,6 +373,8 @@
                     class="inline-flex items-center rounded-md border border-transparent bg-green-500 px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-green-500 focus:outline-none">
                     Submit
                 </button>
+                
+                
             </div>
         </div>
     </form>

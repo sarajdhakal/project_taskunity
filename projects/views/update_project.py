@@ -11,7 +11,11 @@ def update_project(request, id):
         project = Project.objects.get(id=id)
         team_member = project.team_member.all()
         users = User.objects.all()
-
+        context = {
+            'project': project,
+            'team_member': team_member,
+            'users': users
+        }
         if request.method == "POST":
             name = request.POST.get('name')
             description = request.POST.get('description')
@@ -26,16 +30,28 @@ def update_project(request, id):
             
             if name=="":
                 messages.error(request, 'Name cannot be empty.')
+                return render(request, 'update_project.html', context)
+
             elif description =="":
                 messages.error(request, 'Description cannot be empty.')
+                return render(request, 'update_project.html', context)
+
             elif status == "":
                 messages.error(request, 'Status cannot be empty.')
+                return render(request, 'update_project.html', context)
+
             elif progress =="":
                 messages.error(request, 'Progress cannot be empty.')
+                return render(request, 'update_project.html', context)
+
             elif category =="":
                 messages.error(request, 'Category cannot be empty.')
+                return render(request, 'update_project.html', context)
+
             elif price =="":
                 messages.error(request, 'Price cannot be empty.')
+                return render(request, 'update_project.html', context)
+
             else:
                 
                 if extended_date:
@@ -57,12 +73,6 @@ def update_project(request, id):
 
                 messages.success(request, 'Project updated successfully!')
                 return redirect(f'/project_details/{project.id}/')
-
-        context = {
-            'project': project,
-            'team_member': team_member,
-            'users': users
-        }
 
         return render(request, 'update_project.html', context)
 
