@@ -48,27 +48,13 @@
                     <div class="col-span-1 flex flex-col gap-6">
                         <div class="card p-6">
                             <div class="flex justify-between items-center mb-4">
-                                <h4 class="card-title">Add Avatar Images</h4>
+                                <h4 class="card-title">Add Attachment for Project</h4>
                                 <div class="inline-flex items-center justify-center rounded-lg bg-slate-100 dark:bg-slate-700 w-9 h-9">
                                     <i class="mgc_add_line"></i>
                                 </div>
                             </div>
-                            <div class="dropzone" id="my-dropzone">
-                             
                             <div class="fallback">
                                 <input name="image" type="file" multiple="multiple">
-                            </div>
-                            <div class="dz-message needsclick w-full">
-                                <div class="mb-3">
-                                    <i class="mgc_upload_3_line text-4xl text-gray-300 dark:text-gray-200"></i>
-                                </div>
-
-                                <h5 class="text-xl text-gray-600 dark:text-gray-200">Drop files here or click to upload.</h5>
-                            </div>
-                        </div>
-
-                            <div class="">
-                               
                             </div>
                         </div>
 
@@ -82,9 +68,7 @@
 
                             <div class="flex flex-col gap-3">
                                 <div class="">
-    
-                                    <select id="search-select" name ="team_member"class="search-select" multiple="multiple">
-                                       
+                                    <select id="search-select" name ="team_member"class="search-select" multiple="multiple"> 
                                       {% for user in users %}
                                   <option value={{user.id}}>{{ user.username }}</option>
                                   {% endfor %}
@@ -149,8 +133,8 @@
                                     <label for="select-label" class="mb-2 block">Progress</label>
                                     <select id="select-label" name="progress" class="selectize">
                                         <option selected>Not Started</option>
-                                        <option>Completed</option>
                                         <option>In Progress</option>
+                                        <option>Completed</option>
                                     </select>
                                 </div>
 
@@ -158,10 +142,9 @@
                                     <label for="select-label" class="mb-2 block">Category</label>
                                     <select id="select-label" name="category" class="selectize">
                                         <option selected>Web Development</option>
-                                        <option>Android App</option>
+                                        <option>Android/IOS App</option>
                                         <option>Firewall</option>
-                                        <option>IOS app</option>
-                                        
+                                        <option>Game Development</option>
                                     </select>
                                 </div>
                             </div>

@@ -11,13 +11,11 @@ from projects.models.employee import Employee
 @login_required(login_url='login')
 def kanban(request):
     logged_in_user = request.user
-
     try:
         employee = Employee.objects.get(user=logged_in_user)
-        is_project_manager = employee.position == 'Project Manager'  # Assuming 'role' field exists
+        is_project_manager = employee.position == 'Project Manager'
     except Employee.DoesNotExist:
         is_project_manager = False
-
     if logged_in_user.is_superuser or is_project_manager:
         issues = Issue.objects.all()
     else:

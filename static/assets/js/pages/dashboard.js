@@ -92,7 +92,7 @@ var colors = ["#3073F1", "#0acf97"],
         colors: colors = (dataColors = document.querySelector("#project-overview-chart").dataset.colors) ? dataColors
             .split(",") : colors,
         series: [85, 70, 80, 65],
-        labels: ["Product Design", "Web Development", "Illustration Design", "UI/UX Design"],
+        labels: ["Web Development", "Android/IOS Design", "FireWall", "Game Development"],
         plotOptions: {
             radialBar: {
                 track: {

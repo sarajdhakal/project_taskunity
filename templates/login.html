@@ -36,14 +36,12 @@
                             
                     
                         {% if form.errors %}
-                            <div class="bg-red-100 text-red-700 p-2 rounded">
-                                <ul>
-                                     {{ form.errors }}
-                                </ul>
-                            </div>
-                        {% endif %}
+                        <div class="bg-red-500 text-sm text-white rounded-md mb-2 p-3 inline-block" role="alert">
+                            Please enter a valid username or password.
+                        </div>
+                    {% endif %}
 
-                        <form action=" " method="POST">
+                        <form action="" method="POST">
                             {% csrf_token %}
                             <div class="mb-4">
                                 <label class="block text-sm font-medium text-gray-600 dark:text-gray-200 mb-2" for="LoggingEmailAddress">Username</label>

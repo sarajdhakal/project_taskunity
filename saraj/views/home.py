@@ -8,6 +8,13 @@ from kanban.models.kanban import *
 
 @login_required(login_url='login')
 def index(request):
+    logged_in_user = request.user
+    try:
+        employee = Employee.objects.get(user=logged_in_user)
+        is_project_manager = employee.position == 'Project Manager'
+    except Employee.DoesNotExist:
+        is_project_manager = False
+
     projects = Project.objects.all()
     completed_count = Project.objects.filter(progress='Completed').count()
     pending_count = Project.objects.filter(progress__in=['Not started', 'In Progress']).count()
@@ -38,5 +45,7 @@ def index(request):
                'reviews_count': reviews_count,
                'new_projects_count': new_projects_count,
                'project_data_json': json.dumps(project_data),
-               'done_count': done_count}
+               'done_count': done_count,
+               'is_project_manager': is_project_manager,
+               }
     return render(request, 'index.html', context)

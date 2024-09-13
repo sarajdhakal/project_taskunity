@@ -106,25 +106,26 @@
               <li class="menu-item">
                 <a href="/project_list" class="menu-link"><span class="menu-text">List</span></a>
               </li>
-             
+             {% if request.user.is_superuser%}
               <li class="menu-item">
                 <a href="/project_create" class="menu-link"><span class="menu-text">Create</span></a>
               </li>
+              {% endif %}
             </ul>
           </li>
-          <li class="menu-item">
+          {% comment %} <li class="menu-item">
             <a href="/sales" class="menu-link">
               <span class="menu-icon"><i class="mgc_chart_line_line"></i></span>
               <span class="menu-text">Sales</span>
             </a>
           </li>
-         
           <li class="menu-item">
             <a href="/analytics" class="menu-link">
               <span class="menu-icon"><i class="mgc_chart_bar_line"></i></span>
               <span class="menu-text">Analytics</span>
             </a>
-          </li>
+          </li> {% endcomment %}
+          {% if request.user.is_superuser or is_project_manager %}
           <li class="menu-item">
             <a href="javascript:void(0)" data-fc-type="collapse" class="menu-link">
               <span class="menu-icon"><i class="mgc_user_3_line"></i></span>
@@ -140,15 +141,15 @@
                 <a href="/signup" class="menu-link"><span class="menu-text">Create</span></a>
               </li>
             </ul>
-            
           </li>
+         
           <li class="menu-item">
             <a href="/employee_list" class="menu-link">
               <span class="menu-icon"><i class="mgc_user_4_line"></i></span>
               <span class="menu-text">Employee</span>
             </a>
           </li>
-        
+          {% endif %}
           <li class="menu-item">
             <a href="javascript:void(0)" data-fc-type="collapse" class="menu-link">
               <span class="menu-icon"><i class="mgc_settings_5_line"></i></span>
@@ -172,14 +173,12 @@
               </li>
               {% endif %}
             </ul>
-          </li>
-
-        
+          </li>        
         </ul>
       </div>
     </div>
 
-    <!-- Sidenav Menu End -->
+  
 
     <!-- ============================================================== -->
     <!-- Start Page Content here -->

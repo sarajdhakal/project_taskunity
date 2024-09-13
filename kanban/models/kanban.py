@@ -23,7 +23,7 @@ class Issue(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     project = models.ForeignKey(Project, on_delete=models.CASCADE, null=True, blank=True)
     assigned_to = models.ManyToManyField(Employee, blank=True)
-    attachments = models.JSONField(default=list, blank=True)  # Stores multiple file paths
+    attachments = models.JSONField(default=list, blank=True)
     labels = models.CharField(max_length=500, default='', blank=True)
     issue_2description = RichTextField(null=True, blank=True, default='')
     due_date = models.DateField(null=True, blank=True)
