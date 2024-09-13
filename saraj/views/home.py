@@ -18,6 +18,11 @@ def index(request):
     projects = Project.objects.all()
     completed_count = Project.objects.filter(progress='Completed').count()
     pending_count = Project.objects.filter(progress__in=['Not started', 'In Progress']).count()
+    web_development = Project.objects.filter(category='Web Development').count()
+    android = Project.objects.filter(category='Android/IOS App').count()
+    game = Project.objects.filter(category='Game Development').count()
+    firewall = Project.objects.filter(category='Firewall').count()
+
     project_data = {
         'completed_count': completed_count,
         'pending_count': pending_count,
@@ -47,5 +52,9 @@ def index(request):
                'project_data_json': json.dumps(project_data),
                'done_count': done_count,
                'is_project_manager': is_project_manager,
+               'web_development': web_development,
+               'android': android,
+               'game': game,
+               'firewall': firewall,
                }
     return render(request, 'index.html', context)
