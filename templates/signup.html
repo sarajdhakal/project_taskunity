@@ -31,9 +31,19 @@
         <img class="h-12 hidden dark:block" src="{% static 'assets/images/3.png' %}" alt="" />
     </a>
 
-     {% for message in messages %}
-          {{ message }}
-        {% endfor %}
+    {% if messages %}
+    {% for message in messages %}
+        {% if message.tags == 'error' %}
+        <div class="bg-red-500 text-sm text-white rounded-md mb-2 p-3 inline-block" role="alert">
+            {{ message }}
+        </div>
+        {% else %}
+        <div class="bg-green-500 text-sm text-white rounded-md mb-2 p-3 inline-block" role="alert">
+            {{ message }}
+        </div>
+        {% endif %}
+    {% endfor %}
+{% endif %}
 
 
       <form action="" method="POST">

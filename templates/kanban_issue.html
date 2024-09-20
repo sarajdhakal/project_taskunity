@@ -7,7 +7,7 @@
 
 <div class="flex justify-between items-center mb-6">
     <h4 class="text-slate-900 dark:text-slate-200 text-lg font-medium">Kanban Issue</h4>
-
+    {%if request.user.is_superuser or request.user == issue.user or user_is_assigned  %}
   {% if issue.project%}
     <div class="flex gap-2">
         <button class="btn bg-primary text-white" data-fc-behavior="static" data-fc-type="modal" type="button">
@@ -57,7 +57,7 @@
         </div>
     </div>
 {%endif%}
-
+{%endif%}
     <div class="md:flex hidden items-center gap-2.5 text-sm font-semibold">
         <div class="flex items-center gap-2">
             <a href="/" class="text-sm font-medium text-slate-700 dark:text-slate-400">Task Unity</a>
@@ -112,35 +112,45 @@
                 </div>
             </div>
             <div class="mb-2">
-                <select class="selectize"
-                        name="status">
+                <select class="selectize" name="status">
 
-                    <option value="new"
-                            {% if issue.status == "new" %}selected{% endif %}>
-                        New
-                    </option>
-
-                    <option value="unassigned"
-                            {% if issue.status == "unassigned" %}selected{% endif %}>
-                        Unassigned
-                    </option>
-                    <option value="todo"
-                            {% if issue.status == "todo" %}selected{% endif %}>
-                        To Do
-                    </option>
-                    <option value="inprogress"
-                            {% if issue.status == "inprogress" %}selected{% endif %}>
-                        In Progress
-                    </option>
-                    <option value="done"
-                            {% if issue.status == "done" %}selected{% endif %}>
-                        Done
-                    </option>
-                    <option value="done"
-                            {% if issue.status == "review" %}selected{% endif %}>
-                        Review
-                    </option>
+                    {% if issue.status == "new" %}
+                        <!-- If status is "new", show all options -->
+                        <option value="new" {% if issue.status == "new" %}selected{% endif %}>New</option>
+                        <option value="unassigned" {% if issue.status == "unassigned" %}selected{% endif %}>Unassigned</option>
+                        <option value="todo" {% if issue.status == "todo" %}selected{% endif %}>To Do</option>
+                        <option value="inprogress" {% if issue.status == "inprogress" %}selected{% endif %}>In Progress</option>
+                        <option value="review" {% if issue.status == "review" %}selected{% endif %}>Review</option>
+                        <option value="done" {% if issue.status == "done" %}selected{% endif %}>Done</option>
+                    {% elif issue.status == "unassigned" %}
+                        <!-- If status is "unassigned", show all except "new" -->
+                        <option value="unassigned" {% if issue.status == "unassigned" %}selected{% endif %}>Unassigned</option>
+                        <option value="todo" {% if issue.status == "todo" %}selected{% endif %}>To Do</option>
+                        <option value="inprogress" {% if issue.status == "inprogress" %}selected{% endif %}>In Progress</option>
+                        <option value="review" {% if issue.status == "review" %}selected{% endif %}>Review</option>
+                        <option value="done" {% if issue.status == "done" %}selected{% endif %}>Done</option>
+                    {% elif issue.status == "todo" %}
+                        <!-- If status is "todo", show all except "new" and "unassigned" -->
+                        <option value="todo" {% if issue.status == "todo" %}selected{% endif %}>To Do</option>
+                        <option value="inprogress" {% if issue.status == "inprogress" %}selected{% endif %}>In Progress</option>
+                        <option value="review" {% if issue.status == "review" %}selected{% endif %}>Review</option>
+                        <option value="done" {% if issue.status == "done" %}selected{% endif %}>Done</option>
+                    {% elif issue.status == "inprogress" %}
+                        <!-- If status is "inprogress", allow all except "new", "unassigned", and "todo" -->
+                        <option value="inprogress" {% if issue.status == "inprogress" %}selected{% endif %}>In Progress</option>
+                        <option value="review" {% if issue.status == "review" %}selected{% endif %}>Review</option>
+                        <option value="done" {% if issue.status == "done" %}selected{% endif %}>Done</option>
+                    {% elif issue.status == "review" %}
+                        <!-- If status is "review", allow "review" and "done" -->
+                        <option value="review" {% if issue.status == "review" %}selected{% endif %}>Review</option>
+                        <option value="done" {% if issue.status == "done" %}selected{% endif %}>Done</option>
+                    {% elif issue.status == "done" %}
+                        <!-- If status is "done", only show "done" -->
+                        <option value="done" {% if issue.status == "done" %}selected{% endif %}>Done</option>
+                    {% endif %}
+                
                 </select>
+                
                 <div class="flex flex-col gap-3 mt-2">
                     <div class="">
                         <label for="select-label-catagory" class="mb-2 block">Labels</label>
@@ -153,26 +163,32 @@
                 <div class="flex flex-col gap-3 mt-2">
                     <div class="">
                         <label for="select-label-catagory" class="mb-2 block">Team Members</label>
-                            <select id="search-select" class="search-select" name="assigned_to" multiple>
-                                <option value="">None</option>
-                                {% for employee in employees %}
-                                    <option value="{{ employee.id }}" {% if issue.assigned_to and issue.assigned_to.id == employee.id %}selected{% endif %}>{{ employee.name }}</option>
-                                {% endfor %}
-                            </select>
+                        {% if request.user.is_superuser or request.user.employee.position == 'Project Manager' %}
+                        <!-- Show the dropdown for superusers or project managers -->
+                        <select id="search-select" class="search-select" name="assigned_to" multiple>
+                            <option value="">None</option>
+                            {% for employee in employees %}
+                                <option value="{{ employee.id }}" 
+                                    {% if issue.assigned_to and issue.assigned_to.id == employee.id %} 
+                                        selected 
+                                    {% endif %}>
+                                    {{ employee.name }}
+                                </option>
+                            {% endfor %}
+                        </select>
+                    {% else %}
+                        <!-- Display the team member names without the ability to change them -->
+                        <ul>
+                            {% for employee in issue.assigned_to.all %}
+                                <li>{{ employee.name }}</li>
+                            {% endfor %}
+                        </ul>
+                    {% endif %}
+                    
+                    
                     </div>
     
-                    <div class="flex gap-3">
-                        <div class="flex -space-x-2">
-                            <img class="inline-block h-8 w-8 rounded-full ring-2 ring-gray-200 dark:ring-gray-700"
-                                src="{% static 'assets/images/users/user-9.jpg' %}" alt="Image Description">
-                            <img class="inline-block h-8 w-8 rounded-full ring-2 ring-gray-200 dark:ring-gray-700"
-                                src="{% static 'assets/images/users/user-8.jpg' %}" alt="Image Description">
-                            <img class="inline-block h-8 w-8 rounded-full ring-2 ring-gray-200 dark:ring-gray-700"
-                                src="{% static 'assets/images/users/user-7.jpg' %}" alt="Image Description">
-                            <img class="inline-block h-8 w-8 rounded-full ring-2 ring-gray-200 dark:ring-gray-700"
-                                src="{% static 'assets/images/users/user-6.jpg' %}" alt="Image Description">
-                        </div>
-                    </div>
+                    
                 </div>
 
 
@@ -302,6 +318,8 @@
         </div>
     </div>
     
+    {%if request.user.is_superuser or request.user == issue.user or user_is_assigned  %}
+    
     <div class="lg:col-span-4 mb-2">
         <div class="flex justify-center gap-3">
             <button type="reset">
@@ -322,6 +340,7 @@
             {% endif %}
         </div>
     </div>
+    {%endif%}
 </div>
 </form>
 
@@ -333,20 +352,21 @@
     </nav>
     <div class="mt-3">
         <div id="card-type-tab-1" role="tabpanel" aria-labelledby="card-type-tab-item-1">
+            {% for comment in comments %}
             <div class="flex items-center gap-4">
+               
                 <!-- Profile Image -->
                 <div class="relative h-10 w-10 inline-flex">
-                    <img src="{% static 'assets/images/users/saraj.jpg' %}" alt="image" class="rounded-full">
+                   
                 </div>
-                <div>
-                    
-                    <ul>
-                        {% for comment in comments %}
-                            <li>{{ comment.user.username }}: {{ comment.comment }} </li>
-                        {% endfor %}
-                    </ul>
+                <div>                      
+                            {{ comment.user.username }}: {{ comment.comment }} 
+                       
+                   
                 </div>
+              
             </div>
+            {% endfor %}
             <div class="flex items-center mt-4 gap-4">
                 <!-- Profile Image -->
                 <div class="relative h-10 w-10 inline-flex">

@@ -194,11 +194,11 @@
         </button>
 
         <!-- Topbar Brand Logo -->
-        <a href="index.html" class="logo-box">
+        <a href="/" class="logo-box">
           <!-- Light Brand Logo -->
           <div class="logo-light">
-            <img src="{% static 'assets/images/TaskUnity.jpg' %}" class="logo-lg h-6" alt="Light logo" />
-            <img src="{% static 'assets/images/TU.jpg' %}" class="logo-sm" alt="Small logo" />
+            <img src="{% static 'assets/images/TaskUnity.png' %}" class="logo-lg h-6" alt="Light logo" />
+            <img src="{% static 'assets/images/TU.png' %}" class="logo-sm" alt="Small logo" />
           </div>
 
           <!-- Dark Brand Logo -->
@@ -332,11 +332,11 @@
               src="{% static 'assets/images/users/saraj.jpg' %}" alt="user-image" class="rounded-full h-10" /></button>
           <div
             class="fc-dropdown fc-dropdown-open:opacity-100 hidden opacity-0 w-44 z-50 transition-[margin,opacity] duration-300 mt-2 bg-white shadow-lg border rounded-lg p-2 border-gray-200 dark:border-gray-700 dark:bg-gray-800">
-            <a class="flex items-center py-2 px-3 rounded-md text-sm text-gray-800 hover:bg-gray-100 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-gray-300"
+            {% comment %} <a class="flex items-center py-2 px-3 rounded-md text-sm text-gray-800 hover:bg-gray-100 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-gray-300"
               href="/profile">
               <i class="mgc_user_4_fill me-2"></i>
               <span>Profile</span>
-            </a>
+            </a> {% endcomment %}
             <a class="flex items-center py-2 px-3 rounded-md text-sm text-gray-800 hover:bg-gray-100 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-gray-300"
               href="/kanban">
               <i class="mgc_task_2_line me-2"></i>

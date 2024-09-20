@@ -11,7 +11,9 @@ from django.contrib.auth.decorators import login_required
 @login_required(login_url='login')
 def kanban_issue(request, id):
     try:
+
         issue = get_object_or_404(Issue, id=id)
+        user_is_assigned = request.user in issue.assigned_to.all()
         projects = Project.objects.all()
         users = User.objects.all()
         employees = Employee.objects.all()
@@ -23,6 +25,7 @@ def kanban_issue(request, id):
             'users': users,
             'employees': employees,
             'comments': comments,
+            'user_is_assigned': user_is_assigned,
         }
 
         if request.method == 'POST':

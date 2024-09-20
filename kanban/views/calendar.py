@@ -9,6 +9,7 @@ from django.utils import timezone
 @login_required(login_url='login')
 def calendar(request):
     today = timezone.now().date()
+    print(today)
     all_events = Events.objects.all()
     today_events = Events.objects.filter(date=today)
     users = User.objects.all()

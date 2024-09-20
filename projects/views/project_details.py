@@ -13,6 +13,7 @@ def project_details(request, id):
         project = Project.objects.get(id=id)
         team_members = project.team_member.all()
         issues = Issue.objects.filter(project=project)
+        labels = [issue.labels for issue in issues]
         total_tasks = issues.count()
         completed_tasks = issues.filter(status='done').count()
         total_hours_spent = timedelta()
@@ -20,8 +21,8 @@ def project_details(request, id):
         user_employee_images = {}
         for user in team_members:
             try:
-                employee = user.employee  # Access the related Employee instance
-                user_employee_images[user] = employee.image.url  # Store image URL
+                employee = user.employee
+                user_employee_images[user] = employee.image.url
             except Employee.DoesNotExist:
                     user_employee_images[user] = None  
 
@@ -42,8 +43,8 @@ def project_details(request, id):
             'completed_tasks': completed_tasks,
             'total_hours_spent': total_hours_spent_in_hours,
             'team_member': team_members,
-            'user_employee_images': user_employee_images
-
+            'user_employee_images': user_employee_images,
+            'labels':labels
         }
 
         return render(request, 'project_details.html', context)

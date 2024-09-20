@@ -1,5 +1,6 @@
 {% extends 'base.html' %}
 {% load static %}
+{% load custom_filters %}
 {% block title %}
   Project-List | Task Unity
 {% endblock %}
@@ -73,11 +74,11 @@
             <p class="text-gray-500 text-sm mb-9">{{ project.description }}</p>
 
             <div class="flex -space-x-2">
-              <a href="javascript: void(0);"><img class="inline-block h-12 w-12 rounded-full border-2 border-white dark:border-gray-700" src="{% static 'assets/images/users/avatar-2.jpg' %}" alt="Image Description" /></a>
-              <a href="javascript: void(0);"><img class="inline-block h-12 w-12 rounded-full border-2 border-white dark:border-gray-700" src="{% static 'assets/images/users/avatar-3.jpg' %}" alt="Image Description" /></a>
+              <a href="javascript: void(0);"><img class="inline-block h-12 w-12 rounded-full border-2 border-white dark:border-gray-700" src="{% static 'assets/images/users/saraj.jpg' %}" alt="Image Description" /></a>
+              <a href="javascript: void(0);"><img class="inline-block h-12 w-12 rounded-full border-2 border-white dark:border-gray-700" src="{% static 'assets/images/users/saraj.jpg' %}" alt="Image Description" /></a>
               <a href="javascript: void(0);">
                 <div class="relative inline-flex">
-                  <button class="inline-flex items-center justify-center h-12 w-12 rounded-full bg-gray-200 border-2 border-white font-medium text-gray-700 shadow-sm align-middle dark:bg-gray-700 dark:text-gray-200 dark:border-gray-600 transition-all text-sm"><span class="font-medium leading-none">2+</span></button>
+                  <button class="inline-flex items-center justify-center h-12 w-12 rounded-full bg-gray-200 border-2 border-white font-medium text-gray-700 shadow-sm align-middle dark:bg-gray-700 dark:text-gray-200 dark:border-gray-600 transition-all text-sm"><span class="font-medium leading-none"> {{ project.team_member.all|length|add:"-2" }}+</span></button>
                 </div>
               </a>
             </div>
@@ -93,20 +94,50 @@
 
                 <a href="#" class="text-sm">
                   <i class="mgc_align_justify_line text-lg me-2"></i>
-                  <span class="align-text-bottom">56</span>
+                  <span class="align-text-bottom">{{total_project_tasks}}</span>
                 </a>
 
-                <a href="#" class="text-sm">
-                  <i class="mgc_comment_line text-lg me-2"></i>
-                  <span class="align-text-bottom">224</span>
-                </a>
+               
               </div>
+
+              {% if project.progress == 'Completed' or project.progress == 'Delivered' %}
               <div class="flex items-center gap-2">
-                <div class="w-full bg-gray-200 rounded-full h-1.5 dark:bg-gray-700">
-                  <div class="bg-success h-1.5 rounded-full dark:bg-success w-2/3"></div>
-                </div>
-                <span>66%</span>
+                <div class="flex w-full h-1.5 bg-gray-200 rounded-full overflow-hidden dark:bg-gray-700 ">
+                  
+                  <div class="flex flex-col justify-center overflow-hidden bg-success" role="progressbar"
+                  
+                
+                  style="width: 100%" aria-valuenow="100"
+                  
+                           aria-valuemin="0" aria-valuemax="100"></div>
               </div>
+                <span>100%</span>  
+              </div>
+              {%elif project.progress == 'Not Started'  %}
+              <div class="flex items-center gap-2">
+                <div class="flex w-full h-1.5 bg-gray-200 rounded-full overflow-hidden dark:bg-gray-700 ">
+                  
+                  <div class="flex flex-col justify-center overflow-hidden bg-success" role="progressbar"
+                  
+                
+                  style="width: 0%" aria-valuenow="100"
+                  
+                           aria-valuemin="0" aria-valuemax="100"></div>
+              </div>
+                <span>0%</span>  
+              </div>
+              
+              {% elif project.progress == 'In Progress'  %}
+              <div class="flex items-center gap-2">
+                
+              
+              <span>Project In Progress</span>  
+                   
+              
+              </div>
+              {%endif%}
+              
+
             </div>
           </div>
         </div>

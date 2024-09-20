@@ -12,6 +12,7 @@ class Employee(models.Model):
     salary = models.IntegerField()
     image = models.ImageField(upload_to = 'uploadedimages/users', default='1.png')
     expertise = models.CharField(max_length=100, default='')
+    experience = models.CharField(max_length=100, default='')
 
     def __str__(self):
         return self.name
